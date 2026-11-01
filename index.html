@@ -778,7 +778,7 @@ function projOpen(id,title){
   P.className="proj";requestAnimationFrame(()=>{P.classList.add("on");projLayout()});document.body.style.overflow="hidden";$("#pstop").focus();
   clatter(true);grainLoop();
   const go=()=>{P.classList.add("rolling");P.classList.remove("counting");
-    $("#film").innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${esc(title)} trailer"></iframe>`;
+    $("#film").innerHTML=`<iframe src="https://www.youtube.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&playsinline=1&enablejsapi=0" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen title="${esc(title)} trailer"></iframe>`;
     setTimeout(()=>clatter(false),900)};
   PJ.t.push(setTimeout(()=>{P.classList.add("lit");projLayout()},reduce?0:700));
   if(reduce){go();return}
