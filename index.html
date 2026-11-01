@@ -407,6 +407,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .prog{height:6px;background:rgba(36,27,22,.1);border-radius:3px;overflow:hidden}
 .prog i{display:block;height:100%;width:0;background:var(--c);border-right:2px solid var(--ink)}
 .spot{border:0;width:100%;height:352px;border-radius:12px;display:block}
+.spot-wrap{min-height:352px;border-radius:12px;background:rgba(36,27,22,.06)}
+.spot-wrap iframe{border-radius:12px;display:block}
 .tracks{margin:0;padding:0;list-style:none;counter-reset:t}
 .tracks li{counter-increment:t;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;padding:5px 0;border-top:1px dashed rgba(36,27,22,.25);font-size:14.5px;align-items:baseline}
 .tracks li::before{content:counter(t,decimal-leading-zero);font-family:var(--type);font-size:12px;color:var(--muted)}
@@ -870,6 +872,14 @@ function rStrat(el){
   det();
 }
 
+/* Spotify iFrame API: lets the vinyl buttons drive the real player */
+let SPOT_API=null;
+function spotApi(){if(SPOT_API)return SPOT_API;
+  SPOT_API=new Promise((res,rej)=>{window.onSpotifyIframeApiReady=api=>res(api);
+    const sc=document.createElement("script");sc.src="https://open.spotify.com/embed/iframe-api/v1";sc.async=true;sc.onerror=rej;document.head.appendChild(sc);
+    setTimeout(()=>rej(new Error("timeout")),8000)});
+  SPOT_API.catch(()=>{});return SPOT_API}
+function spotFallback(ph){ph.outerHTML=`<iframe class="spot" src="https://open.spotify.com/embed/playlist/${encodeURIComponent(ph.dataset.sp)}?utm_source=generator" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="${ph.dataset.name} on Spotify"></iframe>`}
 function rTapes(el){
   const arm='<svg class="arm" viewBox="0 0 120 150" aria-hidden="true"><circle cx="94" cy="20" r="15" fill="var(--glass)" stroke="#241B16" stroke-width="3"/><circle cx="94" cy="20" r="5" fill="#241B16"/><path d="M94 20 L72 118 L56 132" fill="none" stroke="#241B16" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M94 20 L72 118 L56 132" fill="none" stroke="#B9AFA0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="40" y="124" width="22" height="14" rx="3" transform="rotate(-40 51 131)" fill="var(--tomato)" stroke="#241B16" stroke-width="2.5"/></svg>';
   el.innerHTML=`<div class="tapes">${PLAYLISTS.map((p,i)=>`<article class="tape" style="--c:${p.c}">
@@ -877,15 +887,32 @@ function rTapes(el){
     <div class="vhs" aria-hidden="true"><b>◀◀ REW</b></div>
     <div class="tape-ctl"><button class="btn ghost rew" aria-label="Rewind">◀◀</button><button class="btn play" aria-pressed="false">▶ Play</button>${p.spotify?"":`<button class="btn ghost nxt" aria-label="Next track">▶▶</button>`}<span class="mood">${esc(p.mood)}</span></div>${p.spotify?"":`<div class="prog"><i></i></div>`}
     ${p.spotify?"":`<ol class="tracks">${p.tracks.map(t=>`<li><span>${esc(t[0])} <span class="ar">· ${esc(t[1])}</span></span><span class="tm">${t[2]}</span></li>`).join("")}</ol>`}
-    ${p.spotify?`<iframe class="spot" loading="lazy" src="https://open.spotify.com/embed/playlist/${encodeURIComponent(p.spotify)}?utm_source=generator" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="${esc(p.name)} on Spotify"></iframe>`:""}</article>`).join("")}</div>`;
+    ${p.spotify?`<div class="spot-wrap"><div class="spot" data-sp="${esc(p.spotify)}" data-name="${esc(p.name)}"></div></div>`:""}</article>`).join("")}</div>`;
   const tapes=[...el.querySelectorAll(".tape")];
   const S=new Map();
-  function halt(t){const st=S.get(t);if(!st)return;clearInterval(st.timer);st.timer=null;t.classList.remove("playing","rewinding");const b=t.querySelector(".play");b.textContent="▶ Play";b.setAttribute("aria-pressed","false")}
+  function halt(t){const st=S.get(t);if(!st)return;if(st.ctrl&&t.classList.contains("playing")){try{st.ctrl.pause()}catch(e){}}st.want=false;clearInterval(st.timer);st.timer=null;t.classList.remove("playing","rewinding");const b=t.querySelector(".play");b.textContent="▶ Play";b.setAttribute("aria-pressed","false")}
   function stopAll(except){tapes.forEach(t=>{if(t!==except)halt(t)})}
   tapeTimer=()=>tapes.forEach(halt);
   tapes.forEach(t=>{
     const btn=t.querySelector(".play"),lis=[...t.querySelectorAll(".tracks li")],bar=t.querySelector(".prog i");
-    const st={k:0,tick:0,timer:null};S.set(t,st);
+    const st={k:0,tick:0,timer:null,ctrl:null,want:false};S.set(t,st);
+    const ph=t.querySelector(".spot[data-sp]");
+    const look=on=>{t.classList.toggle("playing",on);btn.textContent=on?"❚❚ Pause":"▶ Play";btn.setAttribute("aria-pressed",on)};
+    if(ph){
+      spotApi().then(api=>{if(!ph.isConnected)return;
+        api.createController(ph,{uri:"spotify:playlist:"+ph.dataset.sp,width:"100%",height:352},c=>{st.ctrl=c;
+          c.addListener("playback_update",e=>{const d=e.data||{};if(t.classList.contains("rewinding"))return;
+            const on=!d.isPaused&&!d.isBuffering?true:d.isBuffering?st.want:false;if(on)stopAll(t);look(on)});
+          if(st.want)c.resume()})})
+      .catch(()=>{if(ph.isConnected)spotFallback(ph)});
+      btn.onclick=()=>{
+        if(!st.ctrl){/* player still loading: spin now, start when ready */st.want=!st.want;look(st.want);return}
+        if(t.classList.contains("playing")){st.want=false;st.ctrl.pause();look(false)}else{stopAll(t);st.want=true;st.ctrl.resume();look(true)}};
+      t.querySelector(".rew").onclick=()=>{
+        if(t.classList.contains("rewinding"))return;stopAll(t);t.classList.remove("playing");t.classList.add("rewinding");
+        st.ctrl&&st.ctrl.pause();
+        setTimeout(()=>{t.classList.remove("rewinding");st.want=true;if(st.ctrl){st.ctrl.seek(0);st.ctrl.resume()}look(true)},reduce?0:1200)};
+      return}
     const paint=()=>{if(!lis.length)return;lis.forEach((l,j)=>l.classList.toggle("now",j===st.k));bar.style.width=((st.k+(st.tick%30)/30)/lis.length*100)+"%"};
     const play=()=>{stopAll(t);t.classList.remove("rewinding");t.classList.add("playing");btn.textContent="❚❚ Pause";btn.setAttribute("aria-pressed","true");paint();
       clearInterval(st.timer);st.timer=setInterval(()=>{st.tick++;if(st.tick%30===0){st.k=(st.k+1)%lis.length}paint()},100)};
