@@ -374,7 +374,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .deck{position:relative;aspect-ratio:1.75;max-width:100%}
 .sleeve{position:absolute;left:0;top:0;height:100%;aspect-ratio:1;background:var(--c);border:2px solid var(--ink);z-index:2;display:flex;flex-direction:column;justify-content:space-between;padding:12px;box-shadow:4px 4px 0 rgba(36,27,22,.2);
   background-image:repeating-linear-gradient(-45deg,transparent 0 14px,rgba(255,253,246,.18) 14px 16px)}
-.sleeve b{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.6vw,28px);line-height:1;color:var(--white);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
+.sleeve b{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.2vw,24px);overflow-wrap:anywhere;line-height:1;color:var(--white);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px 0 var(--ink)}
 .sleeve .lp{font-family:var(--type);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:var(--white);border:1.5px solid var(--ink);padding:2px 6px;align-self:flex-start}
 .vinyl{position:absolute;top:4%;height:92%;aspect-ratio:1;left:14%;z-index:1;transition:left .6s cubic-bezier(.3,1.4,.5,1)}
 .tape.playing .vinyl{left:40%}
@@ -385,7 +385,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
     #1b1410;
   box-shadow:3px 4px 0 rgba(36,27,22,.25)}
 .disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 30deg,rgba(255,255,255,.16) 45deg,transparent 60deg 200deg,rgba(255,255,255,.1) 215deg,transparent 230deg)}
-.disc .lab{position:absolute;inset:33%;border-radius:50%;background:var(--c);border:1.5px solid var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--hand);font-weight:700;font-size:13px;line-height:1;color:var(--ink);padding:6px}
+.disc .lab{position:absolute;inset:33%;overflow:hidden;font-size:11px!important;border-radius:50%;background:var(--c);border:1.5px solid var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--hand);font-weight:700;font-size:13px;line-height:1;color:var(--ink);padding:6px}
 .disc .lab::after{content:"";position:absolute;width:9%;aspect-ratio:1;border-radius:50%;background:var(--paper);border:1px solid var(--ink)}
 .tape.playing .disc{animation:spin 1.8s linear infinite}
 .tape.rewinding .disc{animation:spinback .22s linear infinite}
@@ -406,7 +406,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .btn.ghost{background:var(--white);color:var(--ink)}
 .prog{height:6px;background:rgba(36,27,22,.1);border-radius:3px;overflow:hidden}
 .prog i{display:block;height:100%;width:0;background:var(--c);border-right:2px solid var(--ink)}
-.spot{border:0;width:100%;height:152px;border-radius:12px;display:block}
+.spot{border:0;width:100%;height:352px;border-radius:12px;display:block}
 .tracks{margin:0;padding:0;list-style:none;counter-reset:t}
 .tracks li{counter-increment:t;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;padding:5px 0;border-top:1px dashed rgba(36,27,22,.25);font-size:14.5px;align-items:baseline}
 .tracks li::before{content:counter(t,decimal-leading-zero);font-family:var(--type);font-size:12px;color:var(--muted)}
@@ -521,7 +521,7 @@ const STATIONS=[
   {f:91.5, id:"newsletters",name:"Newsletters",     short:"Inbox",   c:"var(--sky)",     blurb:"The inboxes I actually open. Filter by beat, or let the dial pick one for you."},
   {f:94.7, id:"books",      name:"Book Recs",       short:"Books",   c:"var(--mint)",    blurb:"Pull a spine off the shelf. Each one comes with who it's for and who should skip it."},
   {f:99.3, id:"strategy",   name:"Content Strategy",short:"Strategy",c:"var(--lilac)",   blurb:"How the whole machine runs: the four steps, the weekly rhythm, and the rules I keep."},
-  {f:102.9,id:"playlists",  name:"Playlists",       short:"Vinyl",   c:"var(--pink)",    blurb:"Records for specific hours of the week. Drop the needle, or rewind and run it back."},
+  {f:102.9,id:"playlists",  name:"Playlists",       short:"Vinyl",   c:"var(--pink)",    blurb:"My actual Spotify playlists, pressed to vinyl. Drop the needle, then hit play on the player to listen."},
   {f:106.5,id:"writing",    name:"Writing",         short:"Writing", c:"var(--tangerine)",blurb:"Essays and longer notes. Open one to read the first few paragraphs."}
 ];
 const PALETTE=["var(--tomato)","var(--sky)","var(--sun)","var(--mint)","var(--pink)","var(--lilac)","var(--tangerine)"];
@@ -598,9 +598,10 @@ const STRATEGY={
 };
 
 const PLAYLISTS=[
-  {name:"Deep Work, 2am",c:"var(--sky)",spotify:"",mood:"Ambient and minimal. For when the house is asleep and the draft finally moves.",tracks:[["Says","Nils Frahm","8:19"],["Emerald Rush","Jon Hopkins","6:04"],["Kerala","Bonobo","4:00"],["Awake","Tycho","4:43"],["Xtal","Aphex Twin","4:54"],["An Ending (Ascent)","Brian Eno","4:26"]]},
-  {name:"Sunday Signal",c:"var(--pink)",spotify:"",mood:"What's playing while I put the digest together. Warm, groovy, a bit nostalgic.",tracks:[["Maria También","Khruangbin","3:13"],["Never Come Back","Caribou","5:21"],["Baby","Four Tet","5:08"],["Delilah (pull me out of this)","Fred again..","4:28"],["Get Lucky","Daft Punk","6:09"]]},
-  {name:"Edit Mode",c:"var(--sun)",spotify:"",mood:"High tempo for cutting drafts in half. No lyrics to fight with.",tracks:[["LesAlpx","Floating Points","5:42"],["Archangel","Burial","3:58"],["Opus","Eric Prydz","9:03"],["Glue","Bicep","4:29"],["Windowlicker","Aphex Twin","6:07"]]}
+  {name:"nov faves 💫",c:"var(--sun)",spotify:"1FsmUtLiG7CN4HJE4x3Z3F",mood:"What's on repeat this month. Updated as I go, so check back.",tracks:[]},
+  {name:"when houses were affordable",c:"var(--tangerine)",spotify:"41lY0eu1ID7GJzODbIrCZG",mood:"Songs from back when a starter home didn't need three incomes. Sun-faded and a little wistful.",tracks:[]},
+  {name:"old school hh",c:"var(--mint)",spotify:"5BAP5dhPrY9qmB65CXQmoN",mood:"Boom bap, breaks and the golden era. Nod your head accordingly.",tracks:[]},
+  {name:"my wife left me and took the dog",c:"var(--sky)",spotify:"2zRyNUeG1BFXRh95qVHSY4",mood:"For dramatic sulking. The title says it all.",tracks:[]}
 ];
 
 const WRITING=[
@@ -872,11 +873,11 @@ function rStrat(el){
 function rTapes(el){
   const arm='<svg class="arm" viewBox="0 0 120 150" aria-hidden="true"><circle cx="94" cy="20" r="15" fill="var(--glass)" stroke="#241B16" stroke-width="3"/><circle cx="94" cy="20" r="5" fill="#241B16"/><path d="M94 20 L72 118 L56 132" fill="none" stroke="#241B16" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M94 20 L72 118 L56 132" fill="none" stroke="#B9AFA0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="40" y="124" width="22" height="14" rx="3" transform="rotate(-40 51 131)" fill="var(--tomato)" stroke="#241B16" stroke-width="2.5"/></svg>';
   el.innerHTML=`<div class="tapes">${PLAYLISTS.map((p,i)=>`<article class="tape" style="--c:${p.c}">
-    <div class="deck"><div class="vinyl"><div class="disc"><div class="lab">${esc(p.name)}</div></div></div><div class="sleeve"><b>${esc(p.name)}</b><span class="lp">LP · ${p.tracks.length} tracks</span>${sticker(["holo","yin","glow"][i%3],"width:40px;right:-14px;top:-12px;--r:16deg")}</div>${arm}</div>
+    <div class="deck"><div class="vinyl"><div class="disc"><div class="lab">${esc(p.name)}</div></div></div><div class="sleeve"><b>${esc(p.name)}</b><span class="lp">${p.spotify?"LP · on Spotify":`LP · ${p.tracks.length} tracks`}</span>${sticker(["holo","yin","glow"][i%3],"width:40px;right:-14px;top:-12px;--r:16deg")}</div>${arm}</div>
     <div class="vhs" aria-hidden="true"><b>◀◀ REW</b></div>
-    <div class="tape-ctl"><button class="btn ghost rew" aria-label="Rewind">◀◀</button><button class="btn play" aria-pressed="false">▶ Play</button><button class="btn ghost nxt" aria-label="Next track">▶▶</button><span class="mood">${esc(p.mood)}</span></div><div class="prog"><i></i></div>
-    <ol class="tracks">${p.tracks.map(t=>`<li><span>${esc(t[0])} <span class="ar">· ${esc(t[1])}</span></span><span class="tm">${t[2]}</span></li>`).join("")}</ol>
-    ${p.spotify?`<iframe class="spot" loading="lazy" src="https://open.spotify.com/embed/playlist/${encodeURIComponent(p.spotify)}?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="${esc(p.name)} on Spotify"></iframe>`:""}</article>`).join("")}</div>`;
+    <div class="tape-ctl"><button class="btn ghost rew" aria-label="Rewind">◀◀</button><button class="btn play" aria-pressed="false">▶ Play</button>${p.spotify?"":`<button class="btn ghost nxt" aria-label="Next track">▶▶</button>`}<span class="mood">${esc(p.mood)}</span></div>${p.spotify?"":`<div class="prog"><i></i></div>`}
+    ${p.spotify?"":`<ol class="tracks">${p.tracks.map(t=>`<li><span>${esc(t[0])} <span class="ar">· ${esc(t[1])}</span></span><span class="tm">${t[2]}</span></li>`).join("")}</ol>`}
+    ${p.spotify?`<iframe class="spot" loading="lazy" src="https://open.spotify.com/embed/playlist/${encodeURIComponent(p.spotify)}?utm_source=generator" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="${esc(p.name)} on Spotify"></iframe>`:""}</article>`).join("")}</div>`;
   const tapes=[...el.querySelectorAll(".tape")];
   const S=new Map();
   function halt(t){const st=S.get(t);if(!st)return;clearInterval(st.timer);st.timer=null;t.classList.remove("playing","rewinding");const b=t.querySelector(".play");b.textContent="▶ Play";b.setAttribute("aria-pressed","false")}
@@ -885,16 +886,16 @@ function rTapes(el){
   tapes.forEach(t=>{
     const btn=t.querySelector(".play"),lis=[...t.querySelectorAll(".tracks li")],bar=t.querySelector(".prog i");
     const st={k:0,tick:0,timer:null};S.set(t,st);
-    const paint=()=>{lis.forEach((l,j)=>l.classList.toggle("now",j===st.k));bar.style.width=((st.k+(st.tick%30)/30)/lis.length*100)+"%"};
+    const paint=()=>{if(!lis.length)return;lis.forEach((l,j)=>l.classList.toggle("now",j===st.k));bar.style.width=((st.k+(st.tick%30)/30)/lis.length*100)+"%"};
     const play=()=>{stopAll(t);t.classList.remove("rewinding");t.classList.add("playing");btn.textContent="❚❚ Pause";btn.setAttribute("aria-pressed","true");paint();
       clearInterval(st.timer);st.timer=setInterval(()=>{st.tick++;if(st.tick%30===0){st.k=(st.k+1)%lis.length}paint()},100)};
     btn.onclick=()=>{if(t.classList.contains("playing")){halt(t);return}play()};
-    t.querySelector(".nxt").onclick=()=>{st.k=(st.k+1)%lis.length;st.tick=0;play()};
+    const nx=t.querySelector(".nxt");if(nx)nx.onclick=()=>{st.k=(st.k+1)%lis.length;st.tick=0;play()};
     t.querySelector(".rew").onclick=()=>{
       if(t.classList.contains("rewinding"))return;
       stopAll(t);clearInterval(st.timer);t.classList.remove("playing");t.classList.add("rewinding");
       if(reduce){st.k=0;st.tick=0;play();return}
-      let pos=st.k*30+(st.tick%30);const step=Math.max(4,Math.ceil(pos/16));
+      let pos=lis.length?st.k*30+(st.tick%30):24;const step=Math.max(4,Math.ceil(pos/16));
       st.timer=setInterval(()=>{pos=Math.max(0,pos-step);st.k=Math.floor(pos/30);st.tick=pos%30;paint();
         if(pos===0){clearInterval(st.timer);setTimeout(play,250)}},70);
     };
