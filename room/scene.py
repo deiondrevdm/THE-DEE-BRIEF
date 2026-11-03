@@ -111,6 +111,8 @@ import random as _r
 _rr=_r.Random(5)
 win.append('<clipPath id="wClip"><rect x="0" y="0" width="360" height="250"/></clipPath><g clip-path="url(#wClip)"><g id="wRain" style="display:none">'
   + "".join(f'<path class="rainl" d="M{_rr.uniform(0,360):.0f} -30 l-6 26" style="animation-delay:{-_rr.uniform(0,.7):.2f}s;animation-duration:{_rr.uniform(.45,.75):.2f}s"/>' for _ in range(46))
+  + "".join(f'<g class="bead" style="animation-delay:{-_rr.uniform(0,9):.1f}s;animation-duration:{_rr.uniform(6,11):.1f}s"><circle cx="{_rr.uniform(10,350):.0f}" cy="{_rr.uniform(10,200):.0f}" r="{_rr.uniform(2.2,4.2):.1f}" fill="#DCEBFF" fill-opacity=".55" stroke="#FFFFFF" stroke-opacity=".8" stroke-width="1"/></g>' for _ in range(26))
+  + "".join(f'<path class="trick" d="M{x} 0 q-2 30 1 60 t-1 60" stroke="#E6F0FF" stroke-opacity=".55" stroke-width="2.2" fill="none" stroke-linecap="round" style="animation-delay:{-_rr.uniform(0,6):.1f}s"/>' for x in (60, 140, 230, 300))
   + '</g><g id="wSnow" style="display:none">'
   + "".join(f'<circle class="snowf" cx="{_rr.uniform(0,360):.0f}" cy="-10" r="{_rr.uniform(1.6,3.4):.1f}" style="animation-delay:{-_rr.uniform(0,7):.2f}s;animation-duration:{_rr.uniform(5,9):.1f}s"/>' for _ in range(40))
   + '</g></g>')
@@ -125,9 +127,15 @@ def curtain():
     s = rect(0, 0, 58, 420, C["lilT"])
     s += f'<path d="M14 8 V412 M30 8 V412 M44 8 V412" stroke="{C["lilS"]}" stroke-width="3"/>'
     return s
-window_svg += g(mX(0, 704, 534), curtain()) + g(mX(0, 286, 534), curtain())
+window_svg += g(mX(0, 704, 534), '<g class="curt cl">' + curtain() + '</g>') + g(mX(0, 286, 534), '<g class="curt cr">' + curtain() + '</g>')
 window_svg += g(mX(0, 712, 540), f'<rect x="0" y="-5" width="500" height="10" rx="5" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="0" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="500" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>')
+sash = (f'<g class="sash"><path d="M180 0 L320 -34 L320 222 L180 250Z" fill="#CFE3FF" fill-opacity=".35" stroke="#FFFDF6" stroke-width="10" stroke-linejoin="round"/>'
+        f'<path d="M180 0 L320 -34 L320 222 L180 250Z" fill="none" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/><path d="M250 -17 V236" stroke="#FFFDF6" stroke-width="6"/><path d="M250 -17 V236" stroke="{INK}" stroke-width="1.5"/>'
+        f'<path d="M196 30 l30 -8 M196 50 l50 -13" stroke="#ffffffaa" stroke-width="5" stroke-linecap="round"/></g>')
+latch = (f'<g id="latch" class="hot" data-toggle="latch"><rect x="170" y="112" width="20" height="26" rx="4" fill="#FFE27A" stroke="{INK}" stroke-width="2.4"/>'
+         f'<path class="lever" d="M180 125 h16" stroke="{INK}" stroke-width="5" stroke-linecap="round"/><path class="lever" d="M180 125 h16" stroke="#FFE27A" stroke-width="2.5" stroke-linecap="round"/><circle cx="180" cy="125" r="3" fill="{INK}"/></g>')
 add(f'<g class="hot" data-toggle="win">{window_svg}</g>')
+add(g(mX(0, 640, 490), sash + latch))
 
 # ashtray on the windowsill, joint resting in it, smoke drifting up
 ash_x, ash_y = P(14, 616, 238)
@@ -264,7 +272,7 @@ for top, bot in comps:
         w = R.randint(10, 20); h = (bot - top) - R.randint(6, 30); c = pick(PAL)
         lean = x > 210 and R.random() < .7
         b = rect(x, bot - h, w, h, c, 2) + (f'<rect x="{x+2}" y="{bot-h+7}" width="{w-4}" height="3" fill="#ffffff66"/><rect x="{x+2}" y="{bot-14}" width="{w-4}" height="3" fill="#ffffff66"/>' if R.random() < .6 else "")
-        face.append(f'<g transform="rotate(-10 {x+w} {bot})">{b}</g>' if lean else b)
+        face.append(f'<g transform="rotate(-10 {x+w} {bot})">{b}</g>' if lean else f'<g class="spine">{b}</g>')
         x += w + 1
         if lean: break
 bs.append(g(mY(80, 30, 470), "".join(face)))
@@ -283,6 +291,11 @@ wcan = (f'<g class="wcan"><g transform="translate(58 -92)"><g class="wtilt">'
         + '</g>')
 bs.append('<g id="plant" class="hot" data-toggle="plant">' + g(at(80, 36, 470), plant + wcan) + '</g>')
 add(f'<g class="hot" data-go="books">{"".join(bs)}</g>')
+_ex, _ey = P(140, 44, 470)
+add(f'<g id="eight" class="hot" data-toggle="eight" transform="translate({f(_ex)} {f(_ey)})"><g class="eightb">'
+    f'<ellipse cx="0" cy="1" rx="13" ry="4" fill="#1F1B3A" opacity=".25"/><circle cx="0" cy="-13" r="14" fill="#1F1B3A" stroke="{INK}" stroke-width="2.5"/>'
+    f'<circle cx="-2" cy="-16" r="6" fill="#FFFDF6"/><text x="-2" y="-13.4" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="7.5" fill="#1F1B3A">8</text>'
+    f'<path d="M-9 -20 q3 -5 8 -6" stroke="#ffffff" stroke-opacity=".5" stroke-width="2" fill="none" stroke-linecap="round"/></g></g>')
 
 
 # ---------- lived-in bits: stickers, tote bag, hoodie, leaning sleeves ----------
@@ -356,9 +369,9 @@ for k, (tx, ty) in enumerate(tips):
     d += f"Q{tx*0.55:.0f} {ty-6} {tx} {ty} Q{tx*0.5:.0f} {ty+4} {tx*0.38:.0f} {vy+2} "
 d += f"L-10 {H+6}Z"
 inner = d.replace("Q", "Q").replace("M-10 -4", "M-10 4")
-sk = (f'<path d="M58 -14 v14 M{L-58} -14 v14" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
-      f'<circle cx="58" cy="-16" r="4.5" fill="#9C97AA" stroke="{INK}" stroke-width="2"/><circle cx="{L-58}" cy="-16" r="4.5" fill="#9C97AA" stroke="{INK}" stroke-width="2"/>'
-      f'<clipPath id="deckClip"><path d="{deck}"/></clipPath><path d="{deck}" fill="#1F1B3A"/>'
+sk_hooks = (f'<path d="M58 -14 v14 M{L-58} -14 v14" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
+      f'<circle cx="58" cy="-16" r="4.5" fill="#9C97AA" stroke="{INK}" stroke-width="2"/><circle cx="{L-58}" cy="-16" r="4.5" fill="#9C97AA" stroke="{INK}" stroke-width="2"/>')
+sk = (f'<clipPath id="deckClip"><path d="{deck}"/></clipPath><path d="{deck}" fill="#1F1B3A"/>'
       f'<g clip-path="url(#deckClip)"><path d="{d}" fill="#F2543D"/>'
       f'<path d="{d}" transform="translate(-14 0) scale(.82 1)" fill="#FF9F1C"/><path d="{d}" transform="translate(-20 0) scale(.6 1)" fill="#F8D65A"/></g>'
       f'<path d="{deck}" fill="none" stroke="{INK}" stroke-width="3"/>')
@@ -370,7 +383,7 @@ for tx in (70, L - 70):
     for wy in (-6, H + 6):
         sk += (f'<rect x="{tx-13}" y="{wy-8}" width="26" height="16" rx="7" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5"/>'
                f'<rect x="{tx-6}" y="{wy-4}" width="12" height="8" rx="3" fill="#FF6FAE" stroke="{INK}" stroke-width="1.4"/>')
-add(g(mY(2, 676, 462), sk))
+add('<g id="skate" class="hot" data-toggle="skate">' + g(mY(2, 676, 462), sk_hooks + '<g class="skb">' + sk + '</g>') + '</g>')
 
 lean = (f'<g transform="rotate(-9 0 58)">' + rect(0, 0, 58, 58, C["pink"], 2.6) + f'<circle cx="29" cy="29" r="16" fill="#FFE27A" stroke="{INK}" stroke-width="2"/><circle cx="29" cy="29" r="4" fill="{INK}"/></g>'
         + f'<g transform="translate(30 6) rotate(-4 0 58)">' + rect(0, 0, 58, 58, "#2A2440", 2.6) + f'<path d="M0 36 H58" stroke="{C["yellow"]}" stroke-width="7"/><path d="M0 46 H58" stroke="{C["coral"]}" stroke-width="4"/></g>')
@@ -493,6 +506,15 @@ tv += cbed
 add(f'<g class="hot" data-go="screen">{tv}</g>')
 
 
+# ---------- cat food bowl ----------
+_bwx, _bwy = P(330, 300, 0)
+add(f'<g id="bowl" class="hot" data-toggle="bowl" transform="translate({f(_bwx)} {f(_bwy)})">'
+    f'<ellipse cx="0" cy="2" rx="26" ry="9" fill="#1F1B3A" opacity=".2"/>'
+    f'<path d="M-22 -8 L-17 3 Q0 10 17 3 L22 -8Z" fill="#FF6FAE" stroke="{INK}" stroke-width="2.6" stroke-linejoin="round"/>'
+    f'<ellipse cx="0" cy="-8" rx="22" ry="7" fill="#FFB3D6" stroke="{INK}" stroke-width="2.6"/>'
+    f'<g class="kib">' + "".join(f'<circle cx="{x}" cy="{y}" r="2.4" fill="#A86A3C" stroke="{INK}" stroke-width=".9"/>' for x, y in [(-9,-9),(-3,-7),(4,-9),(10,-8),(-6,-11),(1,-12),(7,-11)]) + '</g>'
+    f'<text x="-2" y="0" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="6" fill="#1F1B3A">MEOW</text></g>')
+
 # ---------- rug + floor clutter ----------
 # rug: hot pink + cobalt blue chevrons with a zigzag border
 PINK, COB = "#FF2E93", "#1F4FD8"
@@ -571,7 +593,7 @@ fq = "".join(f'<rect x="{i*41}" y="0" width="41" height="66" fill="{"#1F1B3A" if
 bed += g(mY(468, 668, 110.5), fq)
 sq = "".join(f'<rect x="{j*53.5}" y="0" width="53.5" height="66" fill="{"#1F1B3A" if (6+j)%2 else "#FFFBF2"}"/>' for j in range(6)) + f'<g stroke="#8E87A3" stroke-width="2" stroke-dasharray="5 4">' + "".join(f'<path d="M{j*53.5} 0 V66"/>' for j in range(1, 6)) + '</g>' + rect(0, 0, 321, 66, "none")
 bed += g(mX(955, 468, 110.5), sq)
-add(bed)
+add('<g id="bedG">' + bed + '</g>')
 
 # seasonal props (shown by the page on the right dates)
 _tx, _ty = P(300, 160, 0)
@@ -687,6 +709,8 @@ hand = (f'<circle cx="0" cy="0" r="6.5" fill="{SK}" stroke="{INK}" stroke-width=
         '<g class="smoke" transform="translate(22 -13)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/></g>')
 G += (f'<g transform="translate(30 -140)"><animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite" keyTimes="{KT}" values="{";".join(HANDS)}"/>{hand}</g>')
 # exhale
+G += (f'<g class="facebook"><path d="M-22 -150 L4 -166 L30 -150 L30 -140 L4 -154 L-22 -140Z" fill="#3A3A42" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+      f'<path d="M-18 -146 L4 -159 L26 -146" stroke="#FFFBF2" stroke-width="2" fill="none"/></g>')
 G += '<g class="exhale2" transform="translate(16 -142)"><circle cx="0" cy="0" r="5"/><circle cx="6" cy="-9" r="7"/><circle cx="14" cy="-20" r="9"/></g>'
 G += '</g>'
 add(G)
@@ -793,11 +817,22 @@ add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#1B14
 add(f'<g style="pointer-events:none"><circle id="lampGlow" class="glow" cx="{f(gx)}" cy="{f(gy)}" r="320" fill="url(#warm)"/>'
     f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>'
     + g(mX(0, 250, 528), '<text class="neon" x="10" y="40" opacity=".4" style="mix-blend-mode:screen">dee\'s room</text>') + '</g>')
+_dx = 1010
+add(f'<g id="disco" class="hot" data-toggle="disco"><g class="dball"><path d="M{_dx} -40 V56" stroke="{INK}" stroke-width="2"/>'
+    f'<g class="spinball" transform="translate({_dx} 78)"><circle r="22" fill="#C9D3E6" stroke="{INK}" stroke-width="2.6"/>'
+    + "".join(f'<path d="M-22 {y} H22" stroke="#8C97AE" stroke-width="1"/>' for y in (-14, -7, 0, 7, 14))
+    + f'<g class="facets">' + "".join(f'<path d="M{x} -21 Q{x*1.6:.0f} 0 {x} 21" stroke="#8C97AE" stroke-width="1" fill="none"/>' for x in (-14, -7, 0, 7, 14)) + '</g>'
+    + f'<circle cx="-8" cy="-8" r="5" fill="#FFFFFF" opacity=".75"/></g></g>'
+    f'<g class="dcord"><path d="M{_dx+34} -10 V34" stroke="{INK}" stroke-width="1.6"/><circle cx="{_dx+34}" cy="38" r="5" fill="#FF6FAE" stroke="{INK}" stroke-width="1.8"/></g></g>')
+add('<g id="sparkles" style="pointer-events:none">' + "".join(f'<circle cx="{R.uniform(60,1560):.0f}" cy="{R.uniform(40,700):.0f}" r="{R.uniform(2,4.5):.1f}" fill="#FFFFFF" style="animation-delay:{-R.uniform(0,2):.2f}s"/>' for _ in range(70)) + '</g>')
 add('<g class="motes" style="pointer-events:none">' + "".join(f'<circle cx="{f(gx+R.uniform(-120,120))}" cy="{f(gy+R.uniform(-90,110))}" r="{R.uniform(1,2.2):.1f}" fill="#FFF6D8" style="animation-delay:{-R.uniform(0,14):.1f}s;animation-duration:{R.uniform(10,18):.1f}s"/>' for _ in range(18)) + '</g>')
+add('<mask id="torchM" maskUnits="userSpaceOnUse" x="-50" y="-50" width="1700" height="1100"><rect x="-50" y="-50" width="1700" height="1100" fill="#fff"/><circle id="torchC" cx="800" cy="520" r="170" fill="url(#torchG)"/></mask>'
+    '<rect id="torch" x="-50" y="-50" width="1700" height="1100" fill="#06041A" opacity=".86" mask="url(#torchM)" style="display:none;pointer-events:none"/>')
 add('<g id="fx" style="pointer-events:none"></g>')
 
 DEFS = f'''<defs>
 <pattern id="wp" width="70" height="70" patternUnits="userSpaceOnUse"><path d="M14 10 l2 5 5 .5 -4 3.5 1.2 5 -4.2 -2.7 -4.2 2.7 1.2 -5 -4 -3.5 5 -.5Z" fill="#FFFFFF" opacity=".13"/><path d="M42 44 q5 -6 10 0 t10 0" stroke="#1B2A6B" stroke-width="2.2" fill="none" opacity=".12" stroke-linecap="round"/><circle cx="52" cy="16" r="2.2" fill="#FFFFFF" opacity=".14"/><circle cx="20" cy="54" r="1.6" fill="#1B2A6B" opacity=".12"/></pattern>
+<radialGradient id="torchG"><stop offset="0" stop-color="#000"/><stop offset=".55" stop-color="#000"/><stop offset="1" stop-color="#fff"/></radialGradient>
 <filter id="softsh" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
 <filter id="bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <pattern id="cane" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#F7D9A8"/><circle cx="7" cy="7" r="4" fill="none" stroke="#C99A5E" stroke-width="1.6"/><path d="M0 0 L14 14 M14 0 L0 14" stroke="#DDB27A" stroke-width="1"/></pattern>
