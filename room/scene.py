@@ -336,10 +336,11 @@ bed += g(mY(20, 656, 240), rect(22, 18, 264, 120, "url(#cane)", 2.5))
 bed += box(660, 20, 0, 300, 450, 70, C["woodT"], C["woodF"], C["woodS"])
 bed += box(668, 22, 70, 286, 444, 40, C["cream"], "#EFE2C8", "#DCCCAE")
 def pillow(x0, col, line):
-    t = mZ(110, x0, 34)
-    shape = f'<rect x="0" y="0" width="122" height="74" rx="26" fill="{col}" stroke="{INK}" stroke-width="3"/>'
-    return (f'<g transform="translate(0 16) {t}"><rect x="0" y="0" width="122" height="74" rx="26" fill="{line}" stroke="{INK}" stroke-width="3"/></g>'
-            f'<g transform="translate(0 2) {t}">{shape}<path d="M20 22 l12 8 12 -8 12 8 M60 46 l12 8 12 -8 12 8" stroke="{line}" stroke-width="4" fill="none"/></g>')
+    # propped upright against the headboard
+    t = mY(42, x0, 186)
+    return (f'<g transform="{t}"><rect x="0" y="0" width="124" height="78" rx="24" fill="{col}" stroke="{INK}" stroke-width="3"/>'
+            f'<path d="M22 26 l12 8 12 -8 12 8 M62 46 l12 8 12 -8 12 8" stroke="{line}" stroke-width="4" fill="none"/>'
+            f'<path d="M10 70 q52 9 104 0" stroke="{line}" stroke-width="3" fill="none"/></g>')
 bed += pillow(684, C["pink"], "#D2558C") + pillow(818, C["yellow"], "#CFA92F")
 patch = ["#F2543D", C["teal"], C["yellow"], C["pink"], C["mint"], C["cream"], C["lilT"], "#FF9F1C", C["sky"]]
 q = []
@@ -371,7 +372,7 @@ fly = (f'<path d="M0 -24 C-8 -46 -34 -46 -30 -28 C-28 -18 -12 -18 0 -22Z M0 -24 
 fur = (f'<rect x="-26" y="-44" width="52" height="40" rx="14" fill="#FF6FAE" stroke="{INK}" stroke-width="3"/>'
        f'<rect x="-26" y="-44" width="52" height="40" rx="14" fill="none" stroke="#FFB3D4" stroke-width="3" {FUZZ}/>'
        '<path d="M-14 -34 l4 6 M2 -36 l3 6 M14 -30 l-4 6 M-6 -20 l5 4" stroke="#FFC4DD" stroke-width="2" stroke-linecap="round"/>')
-add(cush(712, 120, fur) + cush(770, 96, heart) + cush(880, 104, smiley) + cush(932, 134, fly))
+add(cush(706, 74, fur) + cush(778, 66, heart) + cush(866, 70, smiley) + cush(930, 78, fly))
 
 
 # ---------- girl sitting on the floor against the right side of the bed, turned toward the viewer ----------
@@ -388,7 +389,7 @@ def anim_d(): return f'<animate attributeName="d" dur="12s" repeatCount="indefin
 def arm_path(stroke, w, extra=""):
     return f'<path d="{ARM[0]}" stroke="{stroke}" stroke-width="{w}" fill="none" stroke-linecap="round" stroke-linejoin="round" {extra}>{anim_d()}</path>'
 gx, gy = P(992, 300, 0)
-G = f'<g class="girl" transform="translate({f(gx)} {f(gy)}) scale(1.15)">'
+G = f'<g id="girl" class="girl hot" data-toggle="girl" transform="translate({f(gx)} {f(gy)}) scale(1.15)">'
 G += '<ellipse cx="50" cy="6" rx="105" ry="13" fill="#1F1B3A" opacity=".18"/>'
 # ashtray on the floor by her left hip (against the bed)
 G += (f'<ellipse cx="52" cy="6" rx="15" ry="5.5" fill="#2E9C96" stroke="{INK}" stroke-width="2.5"/><ellipse cx="52" cy="4" rx="9" ry="3" fill="#1E6E6A"/>'
@@ -411,16 +412,20 @@ G += (f'<path d="M30 -48 L4 -36 L6 -28 L30 -40 L58 -32 L58 -40Z" fill="#3A3A42" 
 G += (limb(LEFT, 12, SK) + f'<path d="{LEFT}" stroke="#2E9C96" stroke-width="12" fill="none" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round"/>'
       f'<path d="{LEFT}" stroke="#F2543D" stroke-width="5" fill="none" stroke-dasharray="2 7" stroke-linecap="round"/>'
       f'<circle cx="20" cy="-36" r="6.5" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>')
+G += '<g id="girlHead">'
 # neck + head, 3/4 view, looking down at the book; orange hair with thick blonde highlights in a messy bun
 G += (f'<rect x="-6" y="-134" width="14" height="14" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>'
       f'<circle cx="-10" cy="-176" r="12" fill="{HAIR}" stroke="{INK}" stroke-width="2.5"/>'
       f'<path d="M-16 -180 q6 -6 12 -2" stroke="{HL}" stroke-width="3.5" fill="none" stroke-linecap="round"/>'
-      f'<circle cx="4" cy="-150" r="23" fill="{SK}" stroke="{INK}" stroke-width="3"/>'
+      f'<circle id="girlFace" cx="4" cy="-150" r="23" fill="{SK}" stroke="{INK}" stroke-width="3"/>'
       f'<path d="M-19 -146 C-22 -170 -4 -180 14 -174 C22 -170 26 -164 26 -158 C14 -162 4 -160 -2 -152 C-6 -146 -10 -136 -14 -132 C-18 -136 -19 -140 -19 -146Z" fill="{HAIR}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
       f'<path d="M-12 -150 C-12 -162 -2 -170 8 -170 M-4 -140 C-6 -152 2 -162 14 -166 M14 -172 C20 -170 23 -166 24 -162" stroke="{HL}" stroke-width="4" fill="none" stroke-linecap="round"/>'
       f'<path d="M24 -158 C28 -150 27 -140 22 -134" stroke="{HAIR}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M25 -154 C27 -148 26 -142 23 -137" stroke="{HL}" stroke-width="2" fill="none" stroke-linecap="round"/>'
       f'<ellipse cx="-8" cy="-148" rx="4" ry="5.5" fill="{SKD}" stroke="{INK}" stroke-width="1.6"/>'
-      f'<path d="M6 -150 q4 3 8 0 M17 -151 q3 2 6 0" stroke="{INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
+      f'<path class="eyes-c" d="M6 -150 q4 3 8 0 M17 -151 q3 2 6 0" stroke="{INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
+      f'<g class="roll"><ellipse cx="10" cy="-151" rx="4.6" ry="4" fill="#fff" stroke="{INK}" stroke-width="1.5"/><ellipse cx="20" cy="-152" rx="3.6" ry="3.8" fill="#fff" stroke="{INK}" stroke-width="1.5"/>'
+      f'<circle class="pup" cx="10" cy="-150" r="1.9" fill="{INK}"/><circle class="pup" cx="20" cy="-151" r="1.7" fill="{INK}"/>'
+      f'<path d="M5 -152.5 q5 -3.5 10 0 M16.4 -153.6 q3.6 -2.6 7.2 0" stroke="{INK}" stroke-width="2" fill="{SK}"/></g>'
       f'<path d="M21 -146 l3 5 l-4 1" stroke="{INK}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
       f'<path d="M12 -137 q4 2 8 0" stroke="#C2564A" stroke-width="2.4" fill="none" stroke-linecap="round"/>'
       f'<circle cx="10" cy="-142" r="3" fill="#F2A0A0" opacity=".5"/>')
@@ -431,6 +436,7 @@ G += (f'<path d="M-10 -136 C-16 -110 -30 -70 -6 -40 C6 -26 14 -20 18 -14" stroke
       f'<rect x="24" y="-164" width="9" height="18" rx="4" fill="#3B3550" stroke="{INK}" stroke-width="2"/>'
       f'<rect x="-19" y="-162" width="16" height="25" rx="7" fill="#3B3550" stroke="{INK}" stroke-width="2.5"/>'
       f'<rect x="-15" y="-157" width="8" height="15" rx="4" fill="#FF6FAE"/>')
+G += '</g>'
 # near arm (her right): smokes, rests on her knee, taps ash; two patchwork tattoos ride on the forearm
 G += arm_path(INK, 17) + arm_path(SK, 12)
 G += (f'<g><animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite" keyTimes="{KT}" values="{";".join(TATS)}"/>'

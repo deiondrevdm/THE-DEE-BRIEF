@@ -67,7 +67,14 @@ button{font:inherit;color:inherit}
 .exhale circle{fill:#F4F0FA;opacity:0;transform-box:fill-box;transform-origin:center;animation:exhale 9s ease-out infinite}
 .exhale circle:nth-child(2){animation-delay:.25s}.exhale circle:nth-child(3){animation-delay:.5s}
 @keyframes exhale{0%,62%{opacity:0;transform:translate(0,0) scale(.4)}68%{opacity:.75}100%{opacity:0;transform:translate(-26px,-30px) scale(2.2)}}
-.girl{pointer-events:none}
+.girl .roll{display:none}.girl.annoyed .roll{display:inline}.girl.annoyed .eyes-c{display:none}
+.girl .pup{transform-box:fill-box;transform-origin:center}
+.girl.annoyed .pup{animation:eyeroll 1.3s ease-in-out .25s both}
+@keyframes eyeroll{0%{transform:translate(0,0)}35%{transform:translate(-1.6px,-2.8px)}70%{transform:translate(1.6px,-3px)}100%{transform:translate(1px,-1.6px)}}
+.bubble{position:absolute;z-index:7;max-width:240px;background:#FFFDF6;color:var(--ink);border:3px solid var(--ink);border-radius:20px;padding:10px 16px 12px;font-family:var(--hand);font-size:clamp(18px,2.2vw,24px);line-height:1.15;box-shadow:4px 5px 0 rgba(0,0,0,.35);transform-origin:0 100%;animation:pop .35s cubic-bezier(.3,1.6,.5,1) both;pointer-events:none}
+.bubble::after{content:"";position:absolute;left:-14px;bottom:14px;width:18px;height:18px;background:#FFFDF6;border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:skewY(-30deg) rotate(20deg)}
+.bubble.left{transform-origin:100% 100%}.bubble.left::after{left:auto;right:-14px;transform:skewY(30deg) rotate(-20deg) scaleX(-1)}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
 .exhale2 circle{fill:#F4F0FA;opacity:0;transform-box:fill-box;transform-origin:center;animation:exhale2 12s ease-out infinite}
 .exhale2 circle:nth-child(2){animation-delay:.2s}.exhale2 circle:nth-child(3){animation-delay:.4s}
 @keyframes exhale2{0%,34%{opacity:0;transform:translate(0,0) scale(.4)}39%{opacity:.8}54%,100%{opacity:0;transform:translate(10px,-34px) scale(2.3)}}
@@ -365,6 +372,7 @@ button{font:inherit;color:inherit}
     </div>
   </div>
   <div class="tip" id="tip"></div>
+  <div class="bubble" id="bubble" hidden>I don't bother you in your bedroom..</div>
   <div class="panel" id="panel" hidden>
     <div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pTitle">
       <div class="phead"><div><h2 id="pTitle"></h2><p id="pSub"></p></div><button class="back" id="back">← back to the room</button></div>
@@ -411,7 +419,7 @@ const ROOMS={
   laptop:{t:"The old Mac",s:"Still boots. My writing lives in the folder."},
   board:{t:"The corkboard",s:"Newsletters I actually open. Pinned so I don't forget them."}
 };
-const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
+const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],girl:["do not disturb","she's reading"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
 
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
 const rnd=Math.random;
@@ -532,6 +540,24 @@ function lava(){
   svg.classList.add("lava-burst");clearTimeout(lava._t);lava._t=setTimeout(()=>svg.classList.remove("lava-burst"),3000);
   const ac=audio();if(ac){const t=ac.currentTime;[0,.12,.26].forEach((d,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.setValueAtTime(420+i*90,t+d);o.frequency.exponentialRampToValueAtTime(160,t+d+.12);g.gain.setValueAtTime(.18,t+d);g.gain.exponentialRampToValueAtTime(.001,t+d+.14);o.connect(g).connect(ac.destination);o.start(t+d);o.stop(t+d+.15)})}
 }
+function grunt(){const a=audio();if(!a)return;const t=a.currentTime,o=a.createOscillator(),f=a.createBiquadFilter(),g=a.createGain();
+  o.type="sawtooth";o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(92,t+.38);f.type="lowpass";f.frequency.value=700;f.Q.value=3;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.22,t+.04);g.gain.setValueAtTime(.2,t+.22);g.gain.exponentialRampToValueAtTime(.001,t+.42);
+  o.connect(f).connect(g).connect(a.destination);o.start(t);o.stop(t+.45)}
+let girlBusy=false;
+function girlTap(){
+  const girl=$("#girl"),head=$("#girlHead"),bub=$("#bubble");if(girlBusy||openId||!girl)return;girlBusy=true;hideTip();
+  const b=svgBox($("#girlFace"));scene.classList.add("zoomed");
+  tween(fit({x:b.x-b.width*1.4,y:b.y-b.height*.9,w:b.width*4.4,h:b.height*2.6}),750,()=>{
+    girl.classList.add("annoyed");grunt();
+    const r=head.getBoundingClientRect(),st=stage.getBoundingClientRect();bub.hidden=false;bub.classList.remove("left");
+    let left=r.right-st.left+14,top=r.top-st.top-10;
+    if(left+250>st.width){left=r.left-st.left-14-Math.min(240,bub.offsetWidth||240);bub.classList.add("left")}
+    bub.style.left=Math.max(8,left)+"px";bub.style.top=Math.max(8,top)+"px";
+    setTimeout(()=>{bub.hidden=true;girl.classList.remove("annoyed");
+      tween(VB0,750,()=>{scene.classList.remove("zoomed");girlBusy=false})},2900);
+  });
+}
 function vroom(node){
   node.classList.remove("vroom");void node.getBoundingClientRect();node.classList.add("vroom");dismissHint();
   const ac=audio();if(!ac)return;const t=ac.currentTime,o=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain();
@@ -590,6 +616,7 @@ function act(node){
   else if(tg==="lamp"){lampOn=!lampOn;click();lightsUp();dismissHint()}
   else if(tg==="win"){night=!night;click();lightsUp();dismissHint()}
   else if(tg==="lava")lava();
+  else if(tg==="girl")girlTap();
   else if(tg==="car")vroom(node);
 }
 document.querySelectorAll(".hot").forEach(h=>{
