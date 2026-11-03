@@ -107,8 +107,12 @@ add('<g id="posterG" class="hot" data-toggle="poster">' + g(mX(0, 236, 430), pos
 mix = (rect(0, 0, 70, 90, C["yellow"]) + f'<rect x="10" y="22" width="50" height="32" rx="4" fill="{C["cream"]}" stroke="{INK}" stroke-width="2.5"/><circle cx="25" cy="38" r="7" fill="{INK}"/><circle cx="45" cy="38" r="7" fill="{INK}"/>'
        f'<text x="35" y="78" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="12" fill="{INK}">MIX VOL.2</text>')
 add(g(mX(0, 66, 350), mix))
-for (yy, zz, rot, col) in [(62, 236, -6, C["sky"]), (118, 220, 5, C["mint"])]:
-    add(g(mX(0, yy, zz), f'<g transform="rotate({rot} 24 28)">' + rect(0, 0, 48, 56, "#FFFDF6", 2.5) + rect(5, 5, 38, 36, col, 2) + '</g>'))
+pol = ""
+for k, (yy, zz, rot, col, img) in enumerate([(62, 236, -6, C["sky"], "p2"), (118, 220, 5, C["mint"], "p1")]):
+    pol += g(mX(0, yy, zz), f'<g transform="rotate({rot} 24 28)">' + rect(0, 0, 48, 56, "#FFFDF6", 2.5) + rect(5, 5, 38, 36, col, 2)
+             + f'<clipPath id="polc{k}"><rect x="6" y="6" width="36" height="34"/></clipPath><image href="/THE-DEE-BRIEF/room/photos/{img}.webp" x="6" y="6" width="36" height="34" preserveAspectRatio="xMidYMid slice" clip-path="url(#polc{k})"/>'
+             + f'<rect x="5" y="5" width="38" height="36" fill="none" stroke="{INK}" stroke-width="2"/></g>')
+add('<g class="hot" data-go="photos">' + pol + '</g>')
 add(g(mX(0, 250, 528), '<text class="neon" x="10" y="40">dee\'s room</text>'))
 
 # ---------- string lights on the back wall ----------
@@ -161,9 +165,9 @@ mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" strok
        '<rect x="30" y="69" width="24" height="9" fill="#ffffffaa"/>'
        '<text x="8" y="89" font-family="Permanent Marker, Patrick Hand, cursive" font-size="10" fill="#1F1B3A">to do:</text>'
        f'<g fill="none" stroke="{INK}" stroke-width="1.1"><rect x="7" y="99.5" width="5" height="5"/><rect x="7" y="112.5" width="5" height="5"/><rect x="7" y="125.5" width="5" height="5"/></g>'
-       f'<path d="M7.5 114.5 l2 2.5 4 -6" stroke="#E8577E" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+       f'<g class="todoDone"><path d="M7.5 114.5 l2 2.5 4 -6" stroke="#E8577E" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
        '<text font-family="Patrick Hand, cursive" font-size="8.2" fill="#1F1B3A"><tspan x="15" y="105">tell Nicole I love her</tspan><tspan x="15" y="118">water plant</tspan><tspan x="15" y="131">punch a bigot in</tspan><tspan x="15" y="143">the guts</tspan></text>'
-       f'<path d="M15 115 H56" stroke="{INK}" stroke-width="1"/>'
+       f'<path d="M15 115 H56" stroke="{INK}" stroke-width="1"/></g>'
        f'<path d="M78 136 c-3 -4 -8 -1 -4 3 l4 4 4 -4 c4 -4 -1 -7 -4 -3z" fill="#FF6FAE" stroke="{INK}" stroke-width=".9"/></g>'
        # pink note: kyk noord, fok voort
        f'<g transform="rotate(7 132 46)"><rect x="102" y="20" width="60" height="50" fill="#FFC1D3" stroke="{INK}" stroke-width="2"/>'
@@ -185,6 +189,19 @@ for (x, y, s) in [(10, 20, 1), (50, 60, .7), (20, 110, .8), (70, 140, 1.1), (30,
     st += f'<path transform="translate({x} {y}) scale({s})" d="M0 -12 L3.5 -4 12 -3.5 5.5 2.5 7.5 11 0 6.5 -7.5 11 -5.5 2.5 -12 -3.5 -3.5 -4Z" fill="#FFF07A" stroke="{INK}" stroke-width="2"/>'
 st += f'<path transform="translate(60 92)" d="M0 -14 a14 14 0 1 0 10 24 a11 11 0 1 1 -10 -24Z" fill="#FFF07A" stroke="{INK}" stroke-width="2"/>'
 add(g(mY(1, 556, 520), st))
+
+# ---------- backstage pass (about me) ----------
+pass_svg = (f'<circle cx="22" cy="0" r="3.2" fill="#FF6FAE" stroke="{INK}" stroke-width="1.5"/>'
+            f'<path d="M22 1 L6 20 M22 1 L38 20" stroke="{INK}" stroke-width="5" stroke-linecap="round"/><path d="M22 1 L6 20 M22 1 L38 20" stroke="#B57BFF" stroke-width="2.8" stroke-linecap="round"/>'
+            f'<rect x="0" y="18" width="44" height="60" rx="4" fill="#FFFDF6" stroke="{INK}" stroke-width="2.5"/>'
+            f'<rect x="1.3" y="19.3" width="41.4" height="9" rx="3" fill="#FF6FAE"/><path d="M1.3 28.3 H42.7" stroke="{INK}" stroke-width="1.5"/>'
+            '<text x="22" y="26" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="5.6" fill="#1F1B3A" letter-spacing=".4">ALL ACCESS</text>'
+            f'<rect x="7" y="31" width="30" height="27" rx="2" fill="#BFD4FF" stroke="{INK}" stroke-width="1.5"/>'
+            '<svg id="idPhoto" x="7.5" y="31.5" width="29" height="26" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"></svg>'
+            '<text x="22" y="66.5" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="7.5" fill="#1F1B3A">DEE</text>'
+            f'<g stroke="{INK}" stroke-width=".9">' + "".join(f'<path d="M{x} 69.5 v5"/>' for x in (12, 13.5, 16, 17, 19.5, 21, 22, 24.5, 26, 28.5, 29.5, 32)) + '</g>'
+            '<path d="M3 22 L12 76" stroke="#ffffff" stroke-opacity=".5" stroke-width="3"/>')
+add('<g id="pass" class="hot" data-go="me">' + g(mY(1, 566, 300), pass_svg) + '</g>')
 
 # ---------- bookshelf ----------
 bs = [box(30, 0, 0, 260, 80, 470, C["lilT"], C["lilF"], C["lilS"])]
@@ -220,10 +237,18 @@ for top, bot in comps:
 bs.append(g(mY(80, 30, 470), "".join(face)))
 bs.append(box(170, 14, 470, 80, 52, 14, C["yellow"], "#E9C143", "#CFA92F", 2.5) + box(178, 18, 484, 66, 44, 12, C["sky"], "#4FB4E2", "#3A9CCB", 2.5) + box(174, 16, 496, 72, 48, 12, C["pink"], "#E96BA2", "#D2558C", 2.5))
 plant = (f'<path d="M-20 0 l-4 -34 h48 l-4 34Z" fill="{C["coral"]}" stroke="{INK}" stroke-width="3"/><rect x="-28" y="-42" width="56" height="10" rx="3" fill="#FF9F80" stroke="{INK}" stroke-width="3"/>'
-         f'<path d="M-6 -42 c-30 -10 -40 -40 -30 -60 c20 6 30 30 30 60 M4 -42 c0 -30 10 -54 28 -62 c6 26 -6 46 -28 62 M0 -42 c-4 -30 -2 -56 6 -70 c10 20 6 46 -6 70" fill="{C["mint"]}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+         '<g class="leaves">' f'<path d="M-6 -42 c-30 -10 -40 -40 -30 -60 c20 6 30 30 30 60 M4 -42 c0 -30 10 -54 28 -62 c6 26 -6 46 -28 62 M0 -42 c-4 -30 -2 -56 6 -70 c10 20 6 46 -6 70" fill="{C["mint"]}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>' '</g>'
          f'<path d="M-20 -30 c-10 30 -16 60 -12 100" stroke="{INK}" stroke-width="5" fill="none"/><path d="M-20 -30 c-10 30 -16 60 -12 100" stroke="#4FB86A" stroke-width="2.5" fill="none"/>'
          + "".join(f'<ellipse cx="{x}" cy="{y}" rx="8" ry="5" transform="rotate({r} {x} {y})" fill="{C["mint"]}" stroke="{INK}" stroke-width="2"/>' for x, y, r in [(-28, 0, 50), (-32, 30, 70), (-30, 60, 80)]))
-bs.append(g(at(80, 36, 470), plant))
+wcan = (f'<g class="wcan"><g transform="translate(58 -92)"><g class="wtilt">'
+        f'<path d="M-4 -6 L-34 -22" stroke="{INK}" stroke-width="7" stroke-linecap="round"/><path d="M-4 -6 L-34 -22" stroke="#5B9BFF" stroke-width="3.5" stroke-linecap="round"/>'
+        f'<ellipse cx="-36" cy="-23" rx="5" ry="3.5" fill="#5B9BFF" stroke="{INK}" stroke-width="2" transform="rotate(-30 -36 -23)"/>'
+        f'<rect x="-6" y="-20" width="34" height="28" rx="6" fill="#5B9BFF" stroke="{INK}" stroke-width="3"/>'
+        f'<path d="M4 -20 q10 -16 20 0" stroke="{INK}" stroke-width="3" fill="none"/><path d="M0 -10 h24" stroke="#9CC4FF" stroke-width="2.5" stroke-linecap="round"/></g></g>'
+        + "".join(f'<ellipse class="drop" cx="{x+6}" cy="-110" rx="2.2" ry="3.4" fill="#8FD3F5" stroke="{INK}" stroke-width="1" style="animation-delay:{d}s"/>' for x, d in [(-8, 0), (-2, .15), (-12, .3), (0, .45), (-6, .6)])
+        + "".join(f'<path class="spark" d="M{x} {y} l2 -6 2 6 6 2 -6 2 -2 6 -2 -6 -6 -2Z" fill="#FFE27A" stroke="{INK}" stroke-width="1" style="animation-delay:{d}s"/>' for x, y, d in [(-34, -96, 0), (26, -110, .2), (8, -76, .35)])
+        + '</g>')
+bs.append('<g id="plant" class="hot" data-toggle="plant">' + g(at(80, 36, 470), plant + wcan) + '</g>')
 add(f'<g class="hot" data-go="books">{"".join(bs)}</g>')
 
 # ---------- record cabinet, record player, wall shelf with sleeves ----------
@@ -541,9 +566,11 @@ G += limb("M-6 -8 L70 2 L140 12", 19, SKD) + limb("M140 12 L154 2", 14, "#7FDBA8
 # far arm upper part (behind the torso)
 LEFT = "M-16 -116 L-30 -64 L20 -36"
 # torso in the EAT THE RICH tee
-G += (f'<path d="M-26 -122 C-10 -128 14 -126 26 -118 C30 -84 30 -46 28 -14 L-22 -12 C-28 -50 -30 -90 -26 -122Z" fill="#2B2733" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
-      '<text x="7" y="-90" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="11.5" fill="#FFFBF2" letter-spacing=".3">EAT THE</text>'
-      '<text x="7" y="-75" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="13.5" fill="#FFFBF2" letter-spacing="1">RICH</text>')
+G += (f'<path id="tee" d="M-26 -122 C-10 -128 14 -126 26 -118 C30 -84 30 -46 28 -14 L-22 -12 C-28 -50 -30 -90 -26 -122Z" fill="#2B2733" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+      f'<g class="hoodie"><path d="M-16 -50 H20 L24 -24 H-18Z" fill="#5A4CD8" stroke="{INK}" stroke-width="2.2" stroke-linejoin="round"/>'
+      f'<path d="M-25 -119 C-22 -136 22 -136 25 -117" stroke="{INK}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M-25 -119 C-22 -136 22 -136 25 -117" stroke="#6A5CFF" stroke-width="10" fill="none" stroke-linecap="round"/>'
+      f'<path d="M-2 -122 l-1 12 M14 -122 l1 12" stroke="#FFFBF2" stroke-width="2" stroke-linecap="round"/><circle cx="-3" cy="-109" r="2" fill="#FFFBF2" stroke="{INK}" stroke-width="1"/><circle cx="15" cy="-109" r="2" fill="#FFFBF2" stroke="{INK}" stroke-width="1"/></g>'
+      '<text id="shirtTxt" x="7" y="-90" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" fill="#FFFBF2"><tspan x="7" y="-90" font-size="11.5" letter-spacing=".3">EAT THE</tspan><tspan x="7" y="-75" font-size="13.5" letter-spacing="1">RICH</tspan></text>')
 G += f'<path d="M-24 -22 L28 -20 L36 4 L-20 8Z" fill="#3D57A6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M6 -21 L8 6" stroke="#2C428A" stroke-width="2"/>'
 # near leg (her right), knee up, star tattoo on the knee, pink sock
 G += limb("M14 -8 L62 -78 L104 10", 20, SK) + limb("M104 10 L124 4", 14, "#FF6FAE") + '<path d="M109 8 l2 -8 M116 7 l2 -8" stroke="#FFFBF2" stroke-width="3"/>'
@@ -632,6 +659,15 @@ add('</g>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
 add('<g id="catBedFront" style="display:none">' + _fluff(_bumps(True), "#7FDB97") + "".join(f'<path d="M{f(_bx+dx)} {f(_by+dy)} q3 -3 6 0" stroke="#B5F0C4" stroke-width="1.8" fill="none" stroke-linecap="round"/>' for dx, dy in [(-34, 10), (-12, 17), (14, 17), (32, 9)]) + '</g>')
+_kx, _ky = P(374, 210, 0)
+add(f'<g id="chips" class="hot" data-toggle="chips" transform="translate({f(_kx)} {f(_ky)})"><g class="chipbag">'
+    f'<ellipse cx="6" cy="2" rx="30" ry="6" fill="#1F1B3A" opacity=".18"/>'
+    + "".join(f'<ellipse class="chip" cx="{x}" cy="{y}" rx="6" ry="3.6" fill="#F8C94A" stroke="{INK}" stroke-width="1.6" transform="rotate({r} {x} {y})"/>' for x, y, r in [(24, 0, -10), (33, -3, 20), (28, 5, 5), (-22, 3, 15)])
+    + f'<g transform="rotate(-8)"><path d="M-17 0 L-19 -42 l4.75 -4 4.75 4 4.75 -4 4.75 4 4.75 -4 4.75 4 4.75 -4 4.75 4 L17 0 Z" fill="#FF4FA3" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+    f'<path d="M-18.6 -36 H18.6" stroke="{INK}" stroke-width="2"/><path d="M-18.4 -33 H18.4" stroke="#FFE27A" stroke-width="3"/>'
+    f'<circle cx="0" cy="-18" r="10" fill="#FFE27A" stroke="{INK}" stroke-width="2"/>'
+    '<text x="0" y="-16" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="5.6" fill="#1F1B3A" transform="rotate(-10 0 -18)">CRNCH</text>'
+    f'<path d="M-12 -6 l2 -4 M10 -8 l3 -3" stroke="#FFFFFF" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/></g></g></g>')
 add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g class="supz"><text class="zz" x="30" y="-70" font-size="18">z</text><text class="zz" x="42" y="-80" font-size="13">z</text></g><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="napcat">
