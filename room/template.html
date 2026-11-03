@@ -612,8 +612,6 @@ body{background:radial-gradient(1.2px 1.2px at 12% 18%,#FFF6D8 50%,transparent 5
 .eightb{transform-box:fill-box;transform-origin:50% 100%}
 #eight.shake .eightb{animation:shake8 .6s ease-in-out}
 @keyframes shake8{20%{transform:rotate(-14deg) translateX(-3px)}40%{transform:rotate(12deg) translateX(3px)}60%{transform:rotate(-8deg)}80%{transform:rotate(5deg)}}
-#bowl .kib{transform-box:fill-box;transform-origin:50% 100%}#bowl.fill .kib{animation:kib .5s ease-out 2}
-@keyframes kib{50%{transform:translateY(-4px)}}
 #catA.awake .mad{display:inline}#catA.awake .sleep{display:none}#catA.awake .breathe{animation:none}
 .dream{animation:dream 3.6s ease-in-out forwards;transform-box:fill-box;transform-origin:0 100%}
 .dream circle,.dream ellipse{fill:#FFFDF6;stroke:#1F1B3A;stroke-width:2.2}
@@ -625,15 +623,6 @@ body{background:radial-gradient(1.2px 1.2px at 12% 18%,#FFF6D8 50%,transparent 5
 svg.music #girlHead{animation:headbob .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 95%}
 @keyframes headbob{from{transform:rotate(-2deg)}to{transform:rotate(4deg) translateY(1.5px)}}
 #torchC{transition:none}
-.dball{transition:transform 1s cubic-bezier(.3,1.5,.5,1);transform:translateY(-150px)}svg.disco .dball{transform:none}
-svg.disco .facets{animation:facets .6s linear infinite}
-@keyframes facets{from{transform:translateX(-7px)}to{transform:translateX(7px)}}
-#sparkles{display:none}svg.disco #sparkles{display:inline}
-#sparkles circle{opacity:0;animation:spark 1.6s ease-in-out infinite;mix-blend-mode:screen}
-#sparkles circle:nth-child(3n){animation-duration:1.1s}#sparkles circle:nth-child(4n){animation-duration:2.1s}
-@keyframes spark{50%{opacity:.85;transform:translate(10px,4px)}}
-svg.disco .bulb,svg.disco .glowb{animation:hue 1.6s linear infinite!important}
-@keyframes hue{to{filter:hue-rotate(360deg) brightness(1.3)}}
 .build .piece{animation:drop .75s cubic-bezier(.25,1.55,.45,1) both}
 @keyframes drop{from{translate:0 -110px;opacity:0}60%{opacity:1}to{translate:0 0;opacity:1}}
 .bead{animation:bead 8s linear infinite}
@@ -645,18 +634,10 @@ svg.disco .bulb,svg.disco .glowb{animation:hue 1.6s linear infinite!important}
 @keyframes ring{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.85}100%{opacity:0;transform:translate(26px,-74px) scale(2.4,2)}}
 .facebook{display:none}svg.late .facebook{display:inline}
 svg.late #girl .smoke,svg.late #girl .exhale2,svg.late #girl .ember{display:none}
-.sash{display:none}svg.winopen .sash{display:inline}
 .curt{transform-box:fill-box;transform-origin:50% 0}
-svg.winopen .curt.cl{animation:billow 3.4s ease-in-out infinite}svg.winopen .curt.cr{animation:billow 3.9s ease-in-out -1.2s infinite}
-@keyframes billow{0%,100%{transform:skewX(0) scaleX(1)}35%{transform:skewX(-5deg) scaleX(1.12)}70%{transform:skewX(3deg) scaleX(.94)}}
-svg.winopen [data-toggle="ash"] .smoke path{animation-name:smokeout}
-@keyframes smokeout{0%{opacity:0;transform:translate(0,0) scale(.8)}15%{opacity:.55}100%{opacity:0;transform:translate(-46px,-70px) scale(1.6,1.4)}}
-.lever{transform-box:fill-box;transform-origin:0 50%;transition:transform .3s}svg.winopen .lever{transform:rotate(80deg)}
-.tvscene{display:none}.tvscene.on{display:inline}
 .tvscene{animation:tvflick 3s steps(1) infinite}
 @keyframes tvflick{0%,100%{opacity:1}47%{opacity:.82}48%{opacity:1}73%{opacity:.9}}
-@media (prefers-reduced-motion:reduce){.build .piece,.bead,.trick,.ring,svg.disco .bulb{animation:none!important}}
-</style>
+@media (prefers-reduced-motion:reduce){.build .piece,.bead,.trick,.ring,</style>
 </head>
 <body>
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="dTitle">
@@ -687,7 +668,6 @@ svg.winopen [data-toggle="ash"] .smoke path{animation-name:smokeout}
   <div class="panhint gone" id="panHint" aria-hidden="true"><b>←</b> swipe to look around <b>→</b></div>
   <div class="nbpage" id="nbPage" hidden aria-live="polite"><div class="nbl"></div><div class="nbspiral" aria-hidden="true"></div><div class="nbr"><p>nosy little fucker, aren't you?</p></div></div>
   <img class="posterpop" id="posterPop" alt="" hidden>
-  <button class="nowp" id="nowP" hidden aria-live="polite"><span class="vin"><i id="nowPLab"></i></span><div><small>♪ now playing</small><b id="nowPT"></b><span id="nowPL"></span></div></button>
   <div class="bubble" id="bubble" hidden>I don't bother you in your bedroom..</div>
   <div class="panel" id="panel" hidden>
     <div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pTitle">
@@ -736,7 +716,7 @@ const ROOMS={
   laptop:{t:"",s:""},
   photos:{t:"",s:""}
 };
-const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],mirror:["the mirror","read the notes"],candles:["the candles","light them"],notebook:["my notebook","private"],poster:["the poster","don't"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],lamp:["the lamp","on / off"],skate:["the skateboard","kickflip?"],eight:["magic 8-ball","ask it anything"],bowl:["the food bowl","dinner time"],disco:["pull the cord","party?"],latch:["the window latch","open / close"],photos:["polaroids","flip through"],plant:["the plant","water it"],chips:["the chips","help yourself"],win:["the window","day / night"]};
+const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],mirror:["the mirror","read the notes"],candles:["the candles","light them"],notebook:["my notebook","private"],poster:["the poster","don't"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],lamp:["the lamp","on / off"],skate:["the skateboard","kickflip?"],eight:["magic 8-ball","ask it anything"],photos:["polaroids","flip through"],plant:["the plant","water it"],chips:["the chips","help yourself"],win:["the window","day / night"]};
 
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
 const rnd=Math.random;
@@ -1068,9 +1048,6 @@ function act(node){
   else if(tg==="plant")waterPlant();
   else if(tg==="skate")kickflip();
   else if(tg==="eight")eightBall();
-  else if(tg==="bowl")feedCats();
-  else if(tg==="disco")disco();
-  else if(tg==="latch")toggleWindow();
   else if(tg==="chips")crunch();
 }
 document.querySelectorAll(".hot").forEach(h=>{
@@ -1261,28 +1238,9 @@ let skBusy=false;function kickflip(){const k=$("#skate");if(skBusy||!k)return;sk
 const EIGHT=["kyk noord, fok voort","ask again after coffee","absolutely not, babe","the cats say yes","signs point to a nap","it's giving yes","outlook: chronically online","horses don't stop. so, yes.","not today, satan","read the room","yes, but tax the rich first","my sources say lol no"];
 let eightBusy=false;function eightBall(){const e=$("#eight");if(eightBusy||!e)return;eightBusy=true;hideTip();e.classList.remove("shake");void e.getBoundingClientRect();e.classList.add("shake");
   [0,.12,.24,.36].forEach(d=>setTimeout(()=>clack(),d*1000));setTimeout(()=>{SFX.ting();sayAt(e,"🎱 "+EIGHT[Math.random()*EIGHT.length|0],2600,()=>{e.classList.remove("shake");eightBusy=false})},620)}
-/* food bowl: both cats come and eat */
-SFX.kibble=function(){const a=audio();if(!a)return;const t0=a.currentTime;for(let k=0;k<14;k++){const t=t0+k*.045+Math.random()*.02,n=SFX.noise(a,.03),hp=a.createBiquadFilter();hp.type="highpass";hp.frequency.value=3000+Math.random()*2000;const g=SFX.env(a,t,.28,.002,.025);n.connect(hp).connect(g).connect(a.destination);n.start(t)}};
-function setMia(x,y,sc,lift){const m=window.MIA,mp=$("#miataPos");if(!m||!mp)return;m.x=x;m.y=y;m.sc=sc;mp.setAttribute("transform",`translate(${x.toFixed(1)} ${(y-(lift||0)).toFixed(1)}) scale(${sc}) translate(${(-m.x0).toFixed(1)} ${(-m.y0).toFixed(1)})`)}
-function hopMia(tx,ty,tsc,ms,done){const m=window.MIA;if(!m)return done&&done();const fx=m.x,fy=m.y,fs=m.sc,t0=performance.now();
-  (function step(now){const k=Math.min(1,(now-t0)/ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;setMia(fx+(tx-fx)*e,fy+(ty-fy)*e,fs+(tsc-fs)*e,Math.sin(Math.PI*k)*70);if(k<1)requestAnimationFrame(step);else done&&done()})(t0)}
-let feedBusy=false;
-function feedCats(){const b=$("#bowl");if(feedBusy||!b||miataBusy)return;feedBusy=true;hideTip();SFX.kibble();b.classList.remove("fill");void b.getBoundingClientRect();b.classList.add("fill");
-  const toS=(x,y,z)=>[640+x-.78*y,560+.2*x+.5*y-(z||0)];
-  /* Supra */
-  TRIP.phase=null;EAT.on=true;const wasNap=SUP.state==="nap";if(wasNap){supPos.classList.remove("nap");supTick._n=0}
-  SUP.state="walk";SUP.tx=372;SUP.ty=318;
-  const supWatch=setInterval(()=>{if(SUP.state==="pause"&&Math.hypot(SUP.x-372,SUP.y-318)<3){SUP.state="eat";SUP.face=-1;supFlip.setAttribute("transform","scale(-1 1)");supCat.classList.add("idle");clearInterval(supWatch)}},120);
-  /* Miata */
-  const cat=$("#catA");cat.classList.add("awake");$("#catBedFront")&&($("#catBedFront").style.display="none");
-  const [bx,by]=toS(280,322,0);SFX.mrrp();
-  setTimeout(()=>hopMia(bx,by,.82,1100,()=>{floatText(["crunch","crunch"],svgBox(b),"prr")}),300);
-  setTimeout(()=>{floatText(["nom nom"],svgBox(supCat),"prr")},2600);
-  setTimeout(()=>{clearInterval(supWatch);EAT.on=false;if(SUP.state==="eat"||SUP.state==="walk"){SUP.state="pause";SUP.wait=.6}
-    const h=window.MIA.home;hopMia(h[0],h[1],h[2],1100,()=>{cat.classList.remove("awake");if(window.MIA.spot==="tv")$("#catBedFront").style.display="";feedBusy=false})},7200)}
 /* Miata dreams */
 const DREAMS=["🐟","🚗","🐭","🧦","🐟","🍗"];
-(function dream(){setTimeout(()=>{const c=$("#catA");if(c&&!miataBusy&&!feedBusy&&!openId&&!document.hidden&&!scene.classList.contains("zoomed")){
+(function dream(){setTimeout(()=>{const c=$("#catA");if(c&&!miataBusy&&!openId&&!document.hidden&&!scene.classList.contains("zoomed")){
     const bb=svgBox(c),g=el("g",{class:"dream"},$("#fx")),x=bb.x+bb.width*.18,y=bb.y+bb.height*.1;
     el("circle",{cx:x,cy:y-4,r:3.5},g);el("circle",{cx:x+7,cy:y-14,r:5},g);el("ellipse",{cx:x+30,cy:y-38,rx:26,ry:18},g);
     const t=el("text",{x:x+30,y:y-31,"text-anchor":"middle","font-size":20},g);t.textContent=DREAMS[Math.random()*DREAMS.length|0];setTimeout(()=>g.remove(),3700)}
@@ -1292,10 +1250,8 @@ const DREAMS=["🐟","🚗","🐭","🧦","🐟","🍗"];
   if(!reduce&&SUP.state==="pause"&&!TRIP.phase&&!EAT.on&&now-last>15000&&Math.random()<.004){last=now;const k=Math.random()<.5?"chase":"yawn";SUP.wait=2.4;supCat.classList.add(k);if(k==="yawn")setTimeout(()=>floatText(["yawwwn"],svgBox(supCat),"prr"),500);else SFX.mrrp();setTimeout(()=>supCat.classList.remove(k),2300)}}})();
 /* flashlight */
 (function(){const c=$("#torchC");if(!c)return;scene.addEventListener("pointermove",e=>{const t=$("#torch");if(t.style.display==="none")return;const p=svgPt(e.clientX,e.clientY);c.setAttribute("cx",p.x.toFixed(0));c.setAttribute("cy",p.y.toFixed(0))},{passive:true})})();
-/* disco */
-function disco(){const on=!svg.classList.contains("disco");svg.classList.toggle("disco",on);SFX.lampClick();if(on){setTimeout(SFX.ting,400);setTimeout(()=>{["#catA","#catB"].forEach(id=>{const c=$(id);if(c)floatText(["…"],svgBox(c),"prr")})},1200)}TIPS.disco[1]=on?"enough now":"party?"}
 /* room builds itself on first connect */
-addEventListener("dee-build",()=>{if(reduce)return;const L=["#bedG",'[data-go="books"]',"#eight",'[data-go="records"]','[data-toggle="lamp"]','[data-go="laptop"]','[data-go="screen"]','[data-go="games"]',"#bowl","#chips","#girl","#miataPos","#supraPos"];
+addEventListener("dee-build",()=>{if(reduce)return;const L=["#bedG",'[data-go="books"]',"#eight",'[data-go="records"]','[data-toggle="lamp"]','[data-go="laptop"]','[data-go="screen"]','[data-go="games"]',"#chips","#girl","#miataPos","#supraPos"];
   L.forEach((sel,i)=>{const n=$(sel);if(!n)return;n.classList.add("piece");n.style.animationDelay=(0.25+i*.13)+"s"});svg.classList.add("build");setTimeout(()=>{svg.classList.remove("build");L.forEach(sel=>{const n=$(sel);n&&n.classList.remove("piece")})},4200)},{once:true});
 /* living bookshelf */
 (function(){const bs=$('#room [data-go="books"]');if(!bs)return;let cur=null,tm;bs.addEventListener("pointermove",e=>{const sp=e.target.closest&&e.target.closest(".spine");if(sp===cur)return;if(cur){const c=cur;setTimeout(()=>c.classList.remove("out"),350)}cur=sp;if(sp)sp.classList.add("out")});
@@ -1307,9 +1263,6 @@ addEventListener("dee-build",()=>{if(reduce)return;const L=["#bedG",'[data-go="b
 (function(){let zt;function snore(){const a=audio();if(!a||!svg.classList.contains("late"))return;const t=a.currentTime,n=SFX.noise(a,1.4),lp=a.createBiquadFilter();lp.type="lowpass";lp.frequency.setValueAtTime(260,t);lp.frequency.linearRampToValueAtTime(520,t+.7);lp.frequency.linearRampToValueAtTime(220,t+1.3);
     const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05,t+.6);g.gain.linearRampToValueAtTime(0,t+1.35);n.connect(lp).connect(g).connect(a.destination);n.start(t)}
   setInterval(()=>{if(!svg.classList.contains("late")||document.hidden)return;snore();const f=$("#girlFace");if(f&&!openId){const b=svgBox(f);const t=el("text",{x:b.x+b.width*.9,y:b.y,class:"zz",style:"font-size:20px;animation-iteration-count:1"},$("#fx"));t.textContent="z";setTimeout(()=>t.remove(),5800)}},4300)})();
-/* open window */
-function toggleWindow(){const on=!svg.classList.contains("winopen");svg.classList.toggle("winopen",on);clack();
-  const a=audio();if(a&&on){const t=a.currentTime,n=SFX.noise(a,1.6),lp=a.createBiquadFilter();lp.type="lowpass";lp.frequency.value=700;const g=SFX.env(a,t,.12,.4,1.1);n.connect(lp).connect(g).connect(a.destination);n.start(t)}}
 /* mini TV in the room */
 function miniTV(i){const g=$("#scrGlow");if(!g)return;let host=g.querySelector(".tvscenes");
   if(!host){host=el("g",{class:"tvscenes"},g);const c=TV.map(x=>x.c);

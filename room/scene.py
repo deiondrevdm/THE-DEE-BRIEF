@@ -129,13 +129,7 @@ def curtain():
     return s
 window_svg += g(mX(0, 704, 534), '<g class="curt cl">' + curtain() + '</g>') + g(mX(0, 286, 534), '<g class="curt cr">' + curtain() + '</g>')
 window_svg += g(mX(0, 712, 540), f'<rect x="0" y="-5" width="500" height="10" rx="5" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="0" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="500" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>')
-sash = (f'<g class="sash"><path d="M180 0 L320 -34 L320 222 L180 250Z" fill="#CFE3FF" fill-opacity=".35" stroke="#FFFDF6" stroke-width="10" stroke-linejoin="round"/>'
-        f'<path d="M180 0 L320 -34 L320 222 L180 250Z" fill="none" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/><path d="M250 -17 V236" stroke="#FFFDF6" stroke-width="6"/><path d="M250 -17 V236" stroke="{INK}" stroke-width="1.5"/>'
-        f'<path d="M196 30 l30 -8 M196 50 l50 -13" stroke="#ffffffaa" stroke-width="5" stroke-linecap="round"/></g>')
-latch = (f'<g id="latch" class="hot" data-toggle="latch"><rect x="170" y="112" width="20" height="26" rx="4" fill="#FFE27A" stroke="{INK}" stroke-width="2.4"/>'
-         f'<path class="lever" d="M180 125 h16" stroke="{INK}" stroke-width="5" stroke-linecap="round"/><path class="lever" d="M180 125 h16" stroke="#FFE27A" stroke-width="2.5" stroke-linecap="round"/><circle cx="180" cy="125" r="3" fill="{INK}"/></g>')
 add(f'<g class="hot" data-toggle="win">{window_svg}</g>')
-add(g(mX(0, 640, 490), sash + latch))
 
 # ashtray on the windowsill, joint resting in it, smoke drifting up
 ash_x, ash_y = P(14, 616, 238)
@@ -166,7 +160,6 @@ for k, (yy, zz, rot, col, img) in enumerate([(62, 236, -6, C["sky"], "p2"), (118
              + f'<clipPath id="polc{k}"><rect x="6" y="6" width="36" height="34"/></clipPath><image href="/THE-DEE-BRIEF/room/photos/{img}.webp" x="6" y="6" width="36" height="34" preserveAspectRatio="xMidYMid slice" clip-path="url(#polc{k})"/>'
              + f'<rect x="5" y="5" width="38" height="36" fill="none" stroke="{INK}" stroke-width="2"/></g>')
 add('<g class="hot" data-go="photos">' + pol + '</g>')
-add(g(mX(0, 250, 528), '<text class="neon" x="10" y="40">dee\'s room</text>'))
 
 # ---------- string lights on the back wall ----------
 def qbez(p0, p1, p2, t): return ((1-t)**2*p0[0] + 2*(1-t)*t*p1[0] + t*t*p2[0], (1-t)**2*p0[1] + 2*(1-t)*t*p1[1] + t*t*p2[1])
@@ -506,15 +499,6 @@ tv += cbed
 add(f'<g class="hot" data-go="screen">{tv}</g>')
 
 
-# ---------- cat food bowl ----------
-_bwx, _bwy = P(330, 300, 0)
-add(f'<g id="bowl" class="hot" data-toggle="bowl" transform="translate({f(_bwx)} {f(_bwy)})">'
-    f'<ellipse cx="0" cy="2" rx="26" ry="9" fill="#1F1B3A" opacity=".2"/>'
-    f'<path d="M-22 -8 L-17 3 Q0 10 17 3 L22 -8Z" fill="#FF6FAE" stroke="{INK}" stroke-width="2.6" stroke-linejoin="round"/>'
-    f'<ellipse cx="0" cy="-8" rx="22" ry="7" fill="#FFB3D6" stroke="{INK}" stroke-width="2.6"/>'
-    f'<g class="kib">' + "".join(f'<circle cx="{x}" cy="{y}" r="2.4" fill="#A86A3C" stroke="{INK}" stroke-width=".9"/>' for x, y in [(-9,-9),(-3,-7),(4,-9),(10,-8),(-6,-11),(1,-12),(7,-11)]) + '</g>'
-    f'<text x="-2" y="0" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="6" fill="#1F1B3A">MEOW</text></g>')
-
 # ---------- rug + floor clutter ----------
 # rug: hot pink + cobalt blue chevrons with a zigzag border
 PINK, COB = "#FF2E93", "#1F4FD8"
@@ -815,16 +799,7 @@ lpx, lpy = P(30, 444, 225)
 add('<rect id="goldTint" x="-50" y="-50" width="1700" height="1100" fill="#FF9F4A" style="mix-blend-mode:soft-light;pointer-events:none" opacity="0"/>')
 add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#1B1442" style="mix-blend-mode:multiply;pointer-events:none" opacity=".16"/>')
 add(f'<g style="pointer-events:none"><circle id="lampGlow" class="glow" cx="{f(gx)}" cy="{f(gy)}" r="320" fill="url(#warm)"/>'
-    f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>'
-    + g(mX(0, 250, 528), '<text class="neon" x="10" y="40" opacity=".4" style="mix-blend-mode:screen">dee\'s room</text>') + '</g>')
-_dx = 1010
-add(f'<g id="disco" class="hot" data-toggle="disco"><g class="dball"><path d="M{_dx} -40 V56" stroke="{INK}" stroke-width="2"/>'
-    f'<g class="spinball" transform="translate({_dx} 78)"><circle r="22" fill="#C9D3E6" stroke="{INK}" stroke-width="2.6"/>'
-    + "".join(f'<path d="M-22 {y} H22" stroke="#8C97AE" stroke-width="1"/>' for y in (-14, -7, 0, 7, 14))
-    + f'<g class="facets">' + "".join(f'<path d="M{x} -21 Q{x*1.6:.0f} 0 {x} 21" stroke="#8C97AE" stroke-width="1" fill="none"/>' for x in (-14, -7, 0, 7, 14)) + '</g>'
-    + f'<circle cx="-8" cy="-8" r="5" fill="#FFFFFF" opacity=".75"/></g></g>'
-    f'<g class="dcord"><path d="M{_dx+34} -10 V34" stroke="{INK}" stroke-width="1.6"/><circle cx="{_dx+34}" cy="38" r="5" fill="#FF6FAE" stroke="{INK}" stroke-width="1.8"/></g></g>')
-add('<g id="sparkles" style="pointer-events:none">' + "".join(f'<circle cx="{R.uniform(60,1560):.0f}" cy="{R.uniform(40,700):.0f}" r="{R.uniform(2,4.5):.1f}" fill="#FFFFFF" style="animation-delay:{-R.uniform(0,2):.2f}s"/>' for _ in range(70)) + '</g>')
+    f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>' + '</g>')
 add('<g class="motes" style="pointer-events:none">' + "".join(f'<circle cx="{f(gx+R.uniform(-120,120))}" cy="{f(gy+R.uniform(-90,110))}" r="{R.uniform(1,2.2):.1f}" fill="#FFF6D8" style="animation-delay:{-R.uniform(0,14):.1f}s;animation-duration:{R.uniform(10,18):.1f}s"/>' for _ in range(18)) + '</g>')
 add('<mask id="torchM" maskUnits="userSpaceOnUse" x="-50" y="-50" width="1700" height="1100"><rect x="-50" y="-50" width="1700" height="1100" fill="#fff"/><circle id="torchC" cx="800" cy="520" r="170" fill="url(#torchG)"/></mask>'
     '<rect id="torch" x="-50" y="-50" width="1700" height="1100" fill="#06041A" opacity=".86" mask="url(#torchM)" style="display:none;pointer-events:none"/>')
