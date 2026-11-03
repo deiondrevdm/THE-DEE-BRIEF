@@ -422,7 +422,7 @@ add(G)
 
 # ---------- the cats ----------
 ax, ay = P(800, 250, 112)
-add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.6)"><g class="breathe">
+add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.74)"><g class="breathe">
 <ellipse cx="0" cy="0" rx="74" ry="36" fill="#F09A3E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-12 -34 q7 14 0 26"/><path d="M8 -35 q7 14 0 26"/><path d="M28 -31 q7 12 0 22"/><path d="M46 -24 q6 10 0 18"/></g>
 <g class="tail"><path d="M66 8 C72 32 30 42 -10 36 C-38 33 -56 28 -64 20" stroke="{INK}" stroke-width="23" fill="none" stroke-linecap="round"/><path d="M66 8 C72 32 30 42 -10 36 C-38 33 -56 28 -64 20" stroke="#F09A3E" stroke-width="16" fill="none" stroke-linecap="round"/>
@@ -444,10 +444,10 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <g class="paw"><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="{INK}" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#F7A54E" stroke-width="11" fill="none" stroke-linecap="round"/>
 <circle cx="-106" cy="-2" r="8" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/><path d="M-112 -8 l-6 -4 M-114 -2 l-7 0 M-112 4 l-6 4" stroke="{INK}" stroke-width="2" stroke-linecap="round"/></g>
 </g></g></g>""")
-add(f'<text class="zz" x="{f(ax-50)}" y="{f(ay-36)}" font-size="18">z</text><text class="zz" x="{f(ax-40)}" y="{f(ay-44)}" font-size="13">z</text>')
+add(f'<text class="zz" x="{f(ax-60)}" y="{f(ay-44)}" font-size="20">z</text><text class="zz" x="{f(ax-48)}" y="{f(ay-54)}" font-size="15">z</text>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
-add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.82)">
+add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">
 <g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
