@@ -1025,7 +1025,7 @@ else fetch("https://api.open-meteo.com/v1/forecast?latitude=52.37&longitude=4.89
 /* backstage pass */
 function headSVG(){const h=$("#girlHead");if(!h)return"";const b=h.getBBox(),pad=b.width*.12;return `<svg viewBox="${(b.x-pad).toFixed(1)} ${(b.y-pad*.6).toFixed(1)} ${(b.width+pad*2).toFixed(1)} ${(b.width+pad*2).toFixed(1)}" aria-hidden="true"><use href="#girlHead"/></svg>`}
 (function(){const ph=$("#idPhoto"),h=$("#girlHead");if(!ph||!h)return;const b=h.getBBox(),pad=b.width*.1;ph.setAttribute("viewBox",`${(b.x-pad).toFixed(1)} ${(b.y-pad*.4).toFixed(1)} ${(b.width+pad*2).toFixed(1)} ${(b.width+pad*2).toFixed(1)}`);ph.innerHTML='<use href="#girlHead"/>'})();
-const ABOUT="Lives in Amsterdam with two cats, Miata and Supra, who run the place. Writes cold coffee, hot takes on Substack. Reads more than she games, games more than she should.";
+const ABOUT="neurotic writer (& reader) in Amsterdam / south african / tender, tired, tragically online";
 function buildMe(v){v.innerHTML=`<div class="pass"><div class="strap" aria-hidden="true"></div><div class="card">
   <div class="top"><span>ALL ACCESS</span><small>DEE'S ROOM · EST. 1999</small></div>
   <div class="body"><div class="ph">${headSVG()}</div><div><h3>Dee</h3><div class="role">resident · writer · cat staff</div>
