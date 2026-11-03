@@ -322,12 +322,12 @@ const CATS={catA:{name:"Miata",rate:23,pitch:1,tip:"do not touch"},catB:{name:"S
 const ROOMS={
   books:{t:"The bookshelf",s:"Tap a spine and it turns to face you. What I'm reading, what I've read and what's next."},
   records:{t:"Records",s:"Pick a sleeve, drop the needle. It keeps playing while you walk around the room."},
-  screen:{t:"The TV",s:"Three channels: one movie, one series, one cartoon. Turn the dial."},
+  screen:{t:"The TV",s:"What I've been watching."},
   games:{t:"The PS2",s:"Games I've played. Pick a case to see some gameplay."},
   laptop:{t:"The old Mac",s:"Still boots. Essays from my Substack, this week's notes and the mailing list."},
   board:{t:"The corkboard",s:"Newsletters I actually open. Pinned so I don't forget them."}
 };
-const TIPS={books:["the bookshelf","books I'd lend you"],records:["the record player","playlists"],screen:["the TV","movie · series · animation"],lava:["the lava lamp","click to change colour"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the PS2","games I've played"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
+const TIPS={books:["the bookshelf","books I'd lend you"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the PS2","games I've played"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
 
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
 const rnd=Math.random;
