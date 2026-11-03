@@ -940,9 +940,9 @@ else fetch("https://api.open-meteo.com/v1/forecast?latitude=52.37&longitude=4.89
     requestAnimationFrame(tick)})();
 })();
 /* cats pick a new spot each visit */
-(function(){const mp=$("#miataPos");if(mp){const S={bed:[800,250,112],chair:[214,444,112],tv:[66,759,158]};
+(function(){const mp=$("#miataPos");if(mp){const S={bed:[800,250,112],chair:[214,444,112],tv:[76,766,168]};
     const r=Math.random(),k=Q.get("miata")||(r<.55?"bed":r<.78?"chair":"tv"),P3=([x,y,z])=>[640+x-.78*y,560+.2*x+.5*y-z],[x0,y0]=P3(S.bed),[x1,y1]=P3(S[k]||S.bed);
-    mp.setAttribute("transform",`translate(${(x1-x0).toFixed(1)} ${(y1-y0).toFixed(1)})`)}
+    const sc=k==="tv"?.78:1;mp.setAttribute("transform",`translate(${x1.toFixed(1)} ${y1.toFixed(1)}) scale(${sc}) translate(${(-x0).toFixed(1)} ${(-y0).toFixed(1)})`);if(k==="tv")$("#catBedFront").style.display=""}
   const sp=Q.get("supra");if(sp==="nap"||(!sp&&Math.random()<.3)){SUP.state="nap";SUP.x=330;SUP.y=600}
 })();
 

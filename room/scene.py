@@ -374,10 +374,30 @@ crt = (f'<rect x="4" y="6" width="64" height="80" rx="10" fill="#3B3550" stroke=
        f'<path d="M80 16 v4 M80 34 l3 3" stroke="#EAE3D3" stroke-width="2"/>'
        + "".join(f'<path d="M73 {y} H88" stroke="{INK}" stroke-width="2"/>' for y in range(54, 82, 5)))
 tv += g(mX(118, 806, 158), crt)
-ax_, ay_ = P(66, 759, 158)
+ax_, ay_ = P(32, 728, 158)
 tv += (f'<path d="M{f(ax_)} {f(ay_)} l-40 -62 M{f(ax_)} {f(ay_)} l30 -66" stroke="{INK}" stroke-width="3.5"/>'
        f'<circle cx="{f(ax_-40)}" cy="{f(ay_-62)}" r="4" fill="{C["red"]}" stroke="{INK}" stroke-width="2"/><circle cx="{f(ax_+30)}" cy="{f(ay_-66)}" r="4" fill="{C["red"]}" stroke="{INK}" stroke-width="2"/>'
        f'<ellipse cx="{f(ax_)}" cy="{f(ay_)}" rx="14" ry="7" fill="#3B3550" stroke="{INK}" stroke-width="2.5"/>')
+import math as _m
+_bx, _by = P(72, 764, 158)
+def _bumps(front):
+    pts = []
+    for i in range(22):
+        t = 2 * _m.pi * i / 22
+        if (_m.sin(t) >= 0) == front:
+            pts.append((_bx + 48 * _m.cos(t), _by - 4 + 20 * _m.sin(t), 9.5 if front else 8.5))
+    return pts
+def _fluff(pts, fill):
+    return ("".join(f'<circle cx="{f(x)}" cy="{f(y)}" r="{r}" fill="{fill}" stroke="{INK}" stroke-width="2.6"/>' for x, y, r in pts)
+            + "".join(f'<circle cx="{f(x)}" cy="{f(y)}" r="{r-1.3}" fill="{fill}"/>' for x, y, r in pts))
+cbed = (f'<g id="catBed"><ellipse cx="{f(_bx)}" cy="{f(_by+8)}" rx="54" ry="25" fill="#2F8A4C" stroke="{INK}" stroke-width="3"/>'
+        + _fluff(_bumps(False), "#6FD08A")
+        + f'<ellipse cx="{f(_bx)}" cy="{f(_by-3)}" rx="36" ry="13" fill="#3FA45E" stroke="{INK}" stroke-width="2.2"/>'
+        + f'<path d="M{f(_bx-18)} {f(_by-4)} q4 -3 8 0 M{f(_bx+6)} {f(_by-6)} q4 -3 8 0" stroke="#7FDD99" stroke-width="2" fill="none" stroke-linecap="round"/>'
+        + _fluff(_bumps(True), "#7FDB97")
+        + "".join(f'<path d="M{f(_bx+dx)} {f(_by+dy)} q3 -3 6 0" stroke="#B5F0C4" stroke-width="1.8" fill="none" stroke-linecap="round"/>' for dx, dy in [(-34, 10), (-12, 17), (14, 17), (32, 9)])
+        + '</g>')
+tv += cbed
 add(f'<g class="hot" data-go="screen">{tv}</g>')
 
 
@@ -611,6 +631,7 @@ add(f'<text class="zz" x="{f(ax-60)}" y="{f(ay-44)}" font-size="20">z</text><tex
 add('</g>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
+add('<g id="catBedFront" style="display:none">' + _fluff(_bumps(True), "#7FDB97") + "".join(f'<path d="M{f(_bx+dx)} {f(_by+dy)} q3 -3 6 0" stroke="#B5F0C4" stroke-width="1.8" fill="none" stroke-linecap="round"/>' for dx, dy in [(-34, 10), (-12, 17), (14, 17), (32, 9)]) + '</g>')
 add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g class="supz"><text class="zz" x="30" y="-70" font-size="18">z</text><text class="zz" x="42" y="-80" font-size="13">z</text></g><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="napcat">
