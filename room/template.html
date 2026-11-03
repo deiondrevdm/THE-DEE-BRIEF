@@ -60,6 +60,11 @@ button{font:inherit;color:inherit}
 
 /* ambient animation inside the room */
 .twinkle{animation:tw 3.2s ease-in-out infinite}
+.smoke path{fill:none;stroke:#F4F0FA;stroke-width:3;stroke-linecap:round;opacity:0;transform-box:fill-box;transform-origin:50% 100%;animation:smoke 7s ease-in infinite}
+.smoke path:nth-child(2){animation-delay:2.3s}.smoke path:nth-child(3){animation-delay:4.6s}
+@keyframes smoke{0%{opacity:0;transform:translate(0,0) scale(.8)}15%{opacity:.55}100%{opacity:0;transform:translate(14px,-80px) scale(1.6,1.4)}}
+.ember{animation:ember 2.6s ease-in-out infinite}
+@keyframes ember{50%{fill:#FFB04A}}
 @keyframes tw{50%{opacity:.55}}
 .steam path{animation:steam 3.5s ease-in-out infinite;opacity:0}
 .steam path:nth-child(2){animation-delay:1.2s}

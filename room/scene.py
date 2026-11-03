@@ -76,6 +76,17 @@ window_svg += g(mX(0, 704, 534), curtain()) + g(mX(0, 286, 534), curtain())
 window_svg += g(mX(0, 712, 540), f'<rect x="0" y="-5" width="500" height="10" rx="5" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="0" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="500" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>')
 add(f'<g class="hot" data-toggle="win">{window_svg}</g>')
 
+# ashtray on the windowsill, joint resting in it, smoke drifting up
+ash_x, ash_y = P(14, 616, 238)
+add(f'<g transform="translate({f(ash_x)} {f(ash_y)})">'
+    f'<ellipse cx="0" cy="0" rx="18" ry="7" fill="#2E9C96" stroke="{INK}" stroke-width="2.5"/>'
+    f'<ellipse cx="0" cy="-2" rx="12" ry="4" fill="#1E6E6A"/><circle cx="-4" cy="-2" r="1.5" fill="#9C97AA"/><circle cx="3" cy="-1" r="1.2" fill="#9C97AA"/>'
+    f'<path d="M-6 -3 L20 -11 L21 -8 L-5 0Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"/>'
+    f'<path d="M-6 -3 L-1 -4.6 L0 -1.6 L-5 0Z" fill="#D9C7A7"/>'
+    f'<circle class="ember" cx="20.5" cy="-9.5" r="2.2" fill="#FF7A2A"/>'
+    f'<g class="smoke" transform="translate(21 -12)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/><path d="M0 0 q-4 -9 3 -18 q5 -8 -2 -18"/></g>'
+    '</g>')
+
 poster = (rect(0, 0, 150, 200, C["pink"]) + f'<circle cx="75" cy="88" r="40" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>'
           f'<ellipse cx="75" cy="92" rx="68" ry="14" fill="none" stroke="{INK}" stroke-width="7"/><ellipse cx="75" cy="92" rx="68" ry="14" fill="none" stroke="{C["mint"]}" stroke-width="3"/>'
           f'<path d="M50 70 q12 -16 30 -8 M60 104 q14 6 30 -4" stroke="{C["coral"]}" stroke-width="5" fill="none" stroke-linecap="round"/>'
