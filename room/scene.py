@@ -241,6 +241,25 @@ add(f'<g class="hot" data-go="records">{records_svg}</g>')
 add(f'<g class="hot" data-toggle="lava" transform="{at(512, 50, 130)}">{lava}</g>')
 add(cars_svg + car_hots)
 
+# skateboard hung on the wall above the cars: underside facing out, flame graphic
+deck = "M28 0 H232 C252 0 262 12 262 27 C262 42 252 54 232 54 H28 C8 54 -2 42 -2 27 C-2 12 8 0 28 0Z"
+fl = "M24 54 " + " ".join(f"q11 -{40 + (k % 3) * 9} 22 0" for k in range(10)) + " V54Z"
+sk = (f'<path d="M40 -10 v12 M222 -10 v12" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
+      f'<circle cx="40" cy="-12" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="2"/><circle cx="222" cy="-12" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="2"/>'
+      '<clipPath id="deckClip"><path d="' + deck + '"/></clipPath>'
+      f'<path d="{deck}" fill="#1F1B3A"/>'
+      f'<g clip-path="url(#deckClip)"><path d="{fl}" fill="#F2543D"/><path d="{fl}" transform="translate(0 54) scale(1 .62) translate(0 -54)" fill="#FF9F1C"/>'
+      f'<path d="{fl}" transform="translate(0 54) scale(1 .3) translate(0 -54)" fill="#F8D65A"/></g>'
+      f'<path d="{deck}" fill="none" stroke="{INK}" stroke-width="3"/>')
+for tx in (56, 206):
+    sk += (f'<rect x="{tx-24}" y="16" width="48" height="22" rx="5" fill="#C9C1D6" stroke="{INK}" stroke-width="2.5"/>'
+           f'<rect x="{tx-34}" y="22" width="68" height="9" rx="4" fill="#E6E1F0" stroke="{INK}" stroke-width="2.5"/>'
+           f'<circle cx="{tx}" cy="27" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="1.6"/>')
+    for wx in (tx - 36, tx + 36):
+        sk += (f'<ellipse cx="{wx}" cy="27" rx="9" ry="12" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5"/>'
+               f'<ellipse cx="{wx}" cy="27" rx="3.5" ry="5" fill="#FF6FAE" stroke="{INK}" stroke-width="1.5"/>')
+add(g(mY(2, 682, 416), sk))
+
 # ---------- nightstand + mushroom lamp ----------
 ns = box(560, 0, 0, 82, 80, 112, C["woodT"], C["woodF"], C["woodS"])
 ns += g(mY(80, 560, 112), rect(8, 10, 66, 40, C["woodT"], 2.5) + rect(8, 58, 66, 44, C["woodT"], 2.5) + f'<circle cx="41" cy="30" r="4" fill="{INK}"/><circle cx="41" cy="80" r="4" fill="{INK}"/>'
@@ -324,16 +343,16 @@ add(f'<g class="hot" data-go="screen">{tv}</g>')
 
 
 # ---------- rug + floor clutter ----------
-def flames(w, flip=False):
-    d = f"M0 0 " + " ".join(f"q{8} {-18 - (k % 3) * 8} {16} 0" for k in range(int(w // 16))) + f" V12 H0Z"
-    return d
-rug = rect(0, 0, 360, 280, "#1F1B3A")
-rug += f'<path d="{flames(360)}" transform="translate(0 280)" fill="#F2543D"/><path d="{flames(360)}" transform="translate(0 280) scale(1 .6)" fill="#FF9F1C"/>'
-rug += f'<path d="{flames(360)}" transform="translate(360 0) rotate(180)" fill="#F2543D"/><path d="{flames(360)}" transform="translate(360 0) rotate(180) scale(1 .6)" fill="#FF9F1C"/>'
-rug += ('<text x="180" y="158" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="78" letter-spacing="2" '
-        'fill="#FFFBF2" stroke="#F2543D" stroke-width="5" paint-order="stroke" transform="skewX(-10)">SHRED</text>')
-rug += ('<g transform="translate(120 190)"><rect x="0" y="0" width="120" height="16" rx="8" fill="#F8D65A" stroke="#FFFBF2" stroke-width="2.5"/>'
-        '<circle cx="22" cy="22" r="6" fill="#FFFBF2"/><circle cx="98" cy="22" r="6" fill="#FFFBF2"/></g>')
+# rug: hot pink + cobalt blue chevrons with a zigzag border
+PINK, COB = "#FF2E93", "#1F4FD8"
+rug = rect(0, 0, 360, 280, COB)
+for k, y in enumerate(range(20, 270, 36)):
+    col = PINK if k % 2 == 0 else "#FFFBF2"
+    d = "M18 " + str(y + 18) + " " + " ".join(f"L{x + 18} {y} L{x + 36} {y + 18}" for x in range(18, 324, 36))
+    rug += f'<path d="{d}" fill="none" stroke="{col}" stroke-width="{9 if col == PINK else 3}" stroke-linejoin="miter"/>'
+zig = "M0 0 " + " ".join(f"l9 -9 l9 9" for _ in range(20))
+rug += f'<rect x="0" y="0" width="360" height="280" fill="none" stroke="{PINK}" stroke-width="22"/>'
+rug += f'<path d="{zig}" transform="translate(0 16)" fill="none" stroke="#FFFBF2" stroke-width="2.5"/><path d="{zig}" transform="translate(0 273)" fill="none" stroke="#FFFBF2" stroke-width="2.5"/>'
 rug += rect(0, 0, 360, 280, "none") + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
 add(g(mZ(0.5, 200, 420), rug))
 def sock(c):
