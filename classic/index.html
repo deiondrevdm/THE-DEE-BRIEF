@@ -297,7 +297,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .arts-ctl div{display:flex;gap:8px}
 .arts-ctl button{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center}
 .arts-ctl button:hover{background:var(--ink);color:var(--white)}
-.book-card{transition:opacity .35s}.book-card.fade{opacity:0}
+.cv.img{background-size:cover;background-position:center}.cv.img b,.cv.img small{visibility:hidden}
+.book-card{transition:opacity .3s,transform .3s cubic-bezier(.3,1.4,.5,1)}.book-card.fade{opacity:0;transform:translateY(10px) scale(.97)}
 .book-card{margin-top:44px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:start}
 .book-card .count{font-family:var(--hand);font-size:24px;color:var(--muted)}
 .book-card h3{font-family:"IM Fell English",Georgia,serif;font-weight:400;font-size:clamp(34px,5vw,54px);line-height:1.02;margin:0;text-wrap:balance;letter-spacing:-.01em}
@@ -539,21 +540,21 @@ const NEWSLETTERS=[
 ];
 
 const BOOKS=[
-  {"t": "On Writing: A Memoir of the Craft", "a": "Stephen King", "c": "#3A3A42", "h": 270, "w": 48, "status": "Currently reading"},
-  {"t": "Rassie: Stories of Life and Rugby", "a": "Rassie Erasmus", "c": "#1F3C6B", "h": 262, "w": 50, "status": "Currently reading"},
-  {"t": "Dungeon Crawler Carl", "a": "Matt Dinniman", "c": "#F4C21A", "h": 276, "w": 60, "status": "Read", "r": 4, "note": "Had time of my life despite never hearing the word ‘LitRPG’ in my life."},
-  {"t": "The Elements of Style", "a": "William Strunk Jr.", "c": "#D9D6CF", "h": 206, "w": 30, "status": "Want to read"},
-  {"t": "Vasmora", "a": "Keri Lake", "c": "#1A1712", "h": 284, "w": 56, "status": "On the shelf"},
-  {"t": "Yesteryear", "a": "Caro Claire Burke", "c": "#8FD3C2", "h": 262, "w": 50, "status": "On the shelf"},
-  {"t": "Daggermouth", "a": "H.M. Wolfe", "c": "#1B1B1E", "h": 280, "w": 54, "status": "On the shelf"},
-  {"t": "Brimstone", "a": "Callie Hart", "c": "#2A120C", "h": 286, "w": 58, "status": "On the shelf"},
-  {"t": "Quicksilver", "a": "Callie Hart", "c": "#5E6B78", "h": 290, "w": 64, "status": "On the shelf"},
-  {"t": "Open Throat", "a": "Henry Hoke", "c": "#F5EFE4", "h": 228, "w": 34, "status": "On the shelf"},
-  {"t": "Hell Bent", "a": "Leigh Bardugo", "c": "#BFBFC2", "h": 278, "w": 52, "status": "On the shelf"},
-  {"t": "Ninth House", "a": "Leigh Bardugo", "c": "#141414", "h": 278, "w": 54, "status": "On the shelf"},
-  {"t": "Down the Drain", "a": "Julia Fox", "c": "#9EA3A8", "h": 256, "w": 44, "status": "On the shelf"},
-  {"t": "Discontent", "a": "Beatriz Serrano", "c": "#2E5FA8", "h": 244, "w": 40, "status": "On the shelf"},
-  {"t": "Girl Dinner", "a": "Olivie Blake", "c": "#9FE3CF", "h": 264, "w": 50, "status": "On the shelf"}
+  {"t": "On Writing: A Memoir of the Craft", "a": "Stephen King", "c": "#3A3A42", "h": 270, "w": 48, "status": "Currently reading", "img": "https://covers.openlibrary.org/b/id/9255939-L.jpg", "rev": "Half memoir, half toolbox: how King learned to write, and the habits that keep him at it.", "yes": "Anyone with a draft they keep avoiding.", "no": "Readers who want a strict step-by-step manual."},
+  {"t": "Rassie: Stories of Life and Rugby", "a": "Rassie Erasmus", "c": "#1F3C6B", "h": 262, "w": 50, "status": "Currently reading", "rev": "The Springbok boss in his own words, from the Eastern Cape to two World Cup wins.", "yes": "Rugby fans who want the story behind the trophies.", "no": "Anyone who thinks rugby is just large men running into each other."},
+  {"t": "Dungeon Crawler Carl", "a": "Matt Dinniman", "c": "#F4C21A", "h": 276, "w": 60, "status": "Read", "r": 4, "note": "Had time of my life despite never hearing the word ‘LitRPG’ in my life.", "img": "https://covers.openlibrary.org/b/id/15143022-L.jpg", "rev": "Had time of my life despite never hearing the word ‘LitRPG’ in my life.", "yes": "Gamers, and anyone who likes their apocalypse funny and filthy.", "no": "Readers who want their fantasy serious."},
+  {"t": "The Elements of Style", "a": "William Strunk Jr.", "c": "#D9D6CF", "h": 206, "w": 30, "status": "Want to read", "img": "https://covers.openlibrary.org/b/id/10515358-L.jpg", "rev": "The tiny classic on writing clearly. Omit needless words, apparently.", "yes": "Writers who want rules to follow, or to break on purpose.", "no": "Anyone allergic to being told what to do."},
+  {"t": "Vasmora", "a": "Keri Lake", "c": "#1A1712", "h": 284, "w": 56, "status": "On the shelf", "rev": "Gothic, witchy and very dark. Keri Lake doesn't do gentle.", "yes": "Fans of dark romance and gothic fantasy.", "no": "Anyone after a soft, cosy read."},
+  {"t": "Yesteryear", "a": "Caro Claire Burke", "c": "#8FD3C2", "h": 262, "w": 50, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15234864-L.jpg", "rev": "A tradwife influencer gets the old-fashioned life she sells online, for real.", "yes": "Anyone who has ever hate-watched a homesteading video.", "no": "Readers who want gentle historical fiction."},
+  {"t": "Daggermouth", "a": "H.M. Wolfe", "c": "#1B1B1E", "h": 280, "w": 54, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15177710-L.jpg", "rev": "Romantasy with teeth: blades, banter and a lot of tension.", "yes": "Romantasy readers who like it sharp.", "no": "Anyone who skips the romance subplot."},
+  {"t": "Brimstone", "a": "Callie Hart", "c": "#2A120C", "h": 286, "w": 58, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15146289-L.jpg", "rev": "Callie Hart goes full dark romantasy: fire, vengeance and a slow, slow burn.", "yes": "Readers who like their heroes morally grey.", "no": "Anyone who wants a quick, light read."},
+  {"t": "Quicksilver", "a": "Callie Hart", "c": "#5E6B78", "h": 290, "w": 64, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15227615-L.jpg", "rev": "A thief, a fae warrior and a portal she really shouldn't have opened.", "yes": "Fans of fae romantasy who want it spicier.", "no": "Readers who like their books under 600 pages."},
+  {"t": "Open Throat", "a": "Henry Hoke", "c": "#F5EFE4", "h": 228, "w": 34, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/14564366-L.jpg", "rev": "Told by a lonely mountain lion living under the Hollywood sign. Short, strange and tender.", "yes": "Anyone who loves a weird narrator and a short book.", "no": "Readers who need a conventional plot."},
+  {"t": "Hell Bent", "a": "Leigh Bardugo", "c": "#BFBFC2", "h": 278, "w": 52, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/14357966-L.jpg", "rev": "Alex Stern breaks into hell to bring Darlington back. Yale, magic and very bad decisions.", "yes": "Anyone who finished Ninth House and needed more.", "no": "Readers who haven't started Ninth House yet."},
+  {"t": "Ninth House", "a": "Leigh Bardugo", "c": "#141414", "h": 278, "w": 54, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/12667414-L.jpg", "rev": "Yale's secret societies run on dark magic, and a girl who sees ghosts is sent to watch them.", "yes": "Dark academia fans who don't mind it getting grim.", "no": "Readers who want a cosy campus mystery."},
+  {"t": "Down the Drain", "a": "Julia Fox", "c": "#9EA3A8", "h": 256, "w": 44, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/14748770-L.jpg", "rev": "Julia Fox's memoir: New York, addiction, Uncut Gems and surviving all of it.", "yes": "Memoir readers who like it raw and unfiltered.", "no": "Anyone expecting a light celebrity read."},
+  {"t": "Discontent", "a": "Beatriz Serrano", "c": "#2E5FA8", "h": 244, "w": 40, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15158277-L.jpg", "rev": "A burnt-out marketing exec in Madrid who is very good at looking busy. Office satire that hits close.", "yes": "Anyone who has cried in a work bathroom.", "no": "People who genuinely love their job."},
+  {"t": "Girl Dinner", "a": "Olivie Blake", "c": "#9FE3CF", "h": 264, "w": 50, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15142832-L.jpg", "rev": "Dark, hungry satire about women, appetite and the price of fitting in.", "yes": "Fans of horror-tinged literary fiction.", "no": "Squeamish readers."}
 ];
 
 const STRATEGY={
@@ -817,7 +818,7 @@ function rBooks(el){
     <div class="arts-vp"><div class="arts-row">${Array.from({length:3*N},(_,k)=>{const i=k%N,b=BOOKS[i],mid=k>=N&&k<2*N;
       return `<button class="bslot v${i%3}" data-k="${k}" style="--bk:${b.c};--fg:${fg(b.c)}" ${mid?`aria-label="${esc(b.t)} by ${esc(b.a)}"`:`tabindex="-1" aria-hidden="true"`}><div class="bk">
         <div class="sp"><b>${esc(b.t)}</b><small>${esc(b.a.split(" ").pop())}</small></div>
-        <div class="cv"><b>${esc(b.t)}</b><small>${esc(b.a)}</small></div></div></button>`}).join("")}</div></div>
+        <div class="cv${b.img?" img":""}"${b.img?` style="background-image:url('${b.img}')"`:""}><b>${esc(b.t)}</b><small>${esc(b.a)}</small></div></div></button>`}).join("")}</div></div>
     <div class="arts-ctl"><span id="artsN" aria-live="polite"></span><div><button data-d="-1" aria-label="Previous book">←</button><button data-d="1" aria-label="Next book">→</button></div></div>
   </div><div class="book-card" id="bc"></div>`;
   const arts=el.querySelector(".arts"),vp=el.querySelector(".arts-vp"),row=el.querySelector(".arts-row"),slots=[...row.children];
@@ -834,7 +835,7 @@ function rBooks(el){
     el.querySelectorAll(".arts-pg button").forEach(x=>x.setAttribute("aria-current",+x.dataset.i===i));
     $("#artsN").textContent=`${String(i+1).padStart(2,"0")} / ${String(N).padStart(2,"0")} · ${b.t}`;
     const bc=$("#bc");bc.classList.add("fade");
-    setTimeout(()=>{bc.innerHTML=`<div><span class="count">book ${i+1} of ${N}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why"><a href="https://www.goodreads.com/search?q=${encodeURIComponent(b.t+" "+b.a)}" target="_blank" rel="noopener">Find it on Goodreads ↗</a></p></div><div class="verdict"><div class="taped"><small>On my shelf</small>${esc(b.status||"On the shelf")}${b.r?` · ${"★".repeat(b.r)}${"☆".repeat(5-b.r)}`:""}</div>${b.note?`<div class="taped"><small>My take</small>${esc(b.note)}</div>`:""}</div>`;bc.classList.remove("fade")},reduce?0:220);
+    setTimeout(()=>{bc.innerHTML=`<div><span class="count">${esc(b.status||"On the shelf")}${b.r?` · ${"★".repeat(b.r)}${"☆".repeat(5-b.r)}`:""}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why">${esc(b.rev||"")}</p></div><div class="verdict"><div class="taped"><small>Who it's for</small>${esc(b.yes||"")}</div><div class="taped"><small>Who it's not for</small>${esc(b.no||"")}</div></div>`;bc.classList.remove("fade")},reduce?0:220);
   }
   function snap(){ // jump back to the middle copy without animating, so the loop never ends
     if(v>=N&&v<2*N)return;row.classList.add("snap");v=v%N+N;layout();void row.offsetWidth;row.classList.remove("snap")}

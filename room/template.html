@@ -132,7 +132,25 @@ button{font:inherit;color:inherit}
 {{ARTS_CSS}}
 .arts{box-shadow:none}
 .arts-h{font-size:clamp(34px,6vw,72px)}
-.book-card{margin-top:22px}
+.book-card{margin-top:12px;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px}
+#v-books .book-card h3{font-size:clamp(22px,2.4vw,30px)}
+#v-books .book-card .by{margin:4px 0 6px;font-size:13px}
+#v-books .book-card .why{font-size:16px;line-height:1.35}
+#v-books .book-card .count{font-size:19px}
+#v-books .verdict{gap:10px}
+#v-books .verdict div{padding:10px 14px 8px;font-size:19px;line-height:1.1;background-image:none}
+#v-books .arts-ctl{padding:8px 16px}
+#v-books .arts-ctl button{width:36px;height:36px}
+#v-books .pbody{padding-top:10px}
+#v-books .arts-top{display:none}
+#v-books .arts{padding-top:6px}
+@media (max-height:800px){#v-books .phead h2{font-size:30px}#v-books .phead p{font-size:18px}}
+@media (max-width:720px){.book-card{grid-template-columns:1fr}
+  #v-books .phead p{display:none}
+  #v-books .verdict{grid-template-columns:1fr 1fr}
+  #v-books .verdict div{font-size:16px;padding:8px 10px 6px;transform:none}
+  #v-books .book-card .why{font-size:14.5px}
+  #v-books .book-card{gap:10px}}
 
 /* records */
 .hifi{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;align-items:start}
@@ -298,7 +316,7 @@ button{font:inherit;color:inherit}
 
 <nav class="nav" aria-label="Things in the room">
   <span>look at</span>
-  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">ps2</button><button data-go="laptop">laptop</button><button data-go="board">corkboard</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
+  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">games</button><button data-go="laptop">laptop</button><button data-go="board">corkboard</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
 </nav>
 
 <script>
@@ -320,14 +338,14 @@ let GAMESEL=null;
 const CATS={catA:{name:"Miata",rate:23,pitch:1,tip:"do not touch"},catB:{name:"Supra",rate:27,pitch:1.25,tip:"catch her if you can"}}; /* catA: ginger on the bed (bites). catB: calico on the floor (runs, then purrs). */
 
 const ROOMS={
-  books:{t:"The bookshelf",s:"Tap a spine and it turns to face you. What I'm reading, what I've read and what's next."},
+  books:{t:"What I've been reading",s:"Books I've read. Tap a spine and it turns to face you."},
   records:{t:"Records",s:"Pick a sleeve, drop the needle. It keeps playing while you walk around the room."},
   screen:{t:"The TV",s:"What I've been watching."},
-  games:{t:"The PS2",s:"Games I've played. Pick a case to see some gameplay."},
+  games:{t:"What I've been playing",s:"Pick a game for my take and some gameplay."},
   laptop:{t:"The old Mac",s:"Still boots. Essays from my Substack, this week's notes and the mailing list."},
   board:{t:"The corkboard",s:"Newsletters I actually open. Pinned so I don't forget them."}
 };
-const TIPS={books:["the bookshelf","books I'd lend you"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the PS2","games I've played"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
+const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
 
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
 const rnd=Math.random;

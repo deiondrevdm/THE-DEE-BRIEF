@@ -317,11 +317,11 @@ GAME_ART = [
   ("#7FD36A", f'<path d="M22 12 c-12 6 -14 22 0 30 c14 -8 12 -24 0 -30Z" fill="#FFF4DE" stroke="{INK}" stroke-width="1.5"/><path d="M22 14 V40" stroke="#4E9A3F" stroke-width="2"/><rect x="6" y="46" width="32" height="5" fill="#FFF4DE"/>'),
 ]
 games = f'<path d="M{f(cab_x)} {f(cab_y)} C{f(cab_x+60)} {f(cab_y+20)} {padx-90} {pady+40} {padx-40} {pady+4}" stroke="{INK}" stroke-width="3" fill="none"/>'
-games += f'<g transform="translate({padx} {pady}) rotate(-14)">{pad}</g>'
+games += f'<g class="hot" data-go="games"><g transform="translate({padx} {pady}) rotate(-14)">{pad}</g></g>'
 for i, ((gx_, gy_, rot), (col, art)) in enumerate(zip([(226, 548, -10), (290, 566, 14), (244, 612, -24)], GAME_ART)):
     case = f'<g transform="rotate({rot} 22 30)">{rect(0, 0, 44, 60, col, 2.5)}<rect x="0" y="0" width="5" height="60" fill="#00000033"/>{art}</g>'
-    games += f'<g class="hot game" data-go="games" data-game="{i}">' + g(mZ(0.8, gx_, gy_), case) + '</g>'
-add(f'<g data-zoom="games"><g class="hot" data-go="games">' + g(mX(130.5, 814, 60), ps2) + '</g>' + games + '</g>')
+    games += g(mZ(0.8, gx_, gy_), case)
+add(f'<g data-zoom="games">' + g(mX(130.5, 814, 60), ps2) + games + '</g>')
 
 # ---------- bed ----------
 bed = box(656, 0, 0, 308, 20, 240, C["woodT"], C["woodF"], C["woodS"])
