@@ -365,7 +365,6 @@ button{font:inherit;color:inherit}
     </div>
   </div>
   <div class="tip" id="tip"></div>
-  <div class="hint" id="hint">click around. the cats like it.</div>
   <div class="panel" id="panel" hidden>
     <div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pTitle">
       <div class="phead"><div><h2 id="pTitle"></h2><p id="pSub"></p></div><button class="back" id="back">← back to the room</button></div>
@@ -423,7 +422,6 @@ function size(){
   if(W/H>=1.6){h=H;w=H*1.6}else if(W>=760){w=W;h=W/1.6}else{h=H;w=H*1.6}
   scene.style.width=w+"px";scene.style.height=h+"px";return {W,w}}
 const first=size();
-if(first.w>first.W)$("#hint").textContent="swipe to look around. tap the cats.";
 if(first.w>first.W)scroller.scrollLeft=(first.w-first.W)/2+(1080/1600-.5)*first.w;
 new ResizeObserver(size).observe(stage);
 
@@ -546,7 +544,7 @@ function vroom(node){
 const tip=$("#tip");
 function showTip(node,[a,b]){const r=node.getBoundingClientRect(),s=stage.getBoundingClientRect();tip.innerHTML=`${esc(a)}<small>${esc(b)}</small>`;tip.style.left=(r.left+r.width/2-s.left)+"px";tip.style.top=(Math.max(r.top-s.top,40))+"px";tip.classList.add("on")}
 function hideTip(){tip.classList.remove("on")}
-let hinted=false;function dismissHint(){if(hinted)return;hinted=true;$("#hint").classList.add("gone")}
+function dismissHint(){}
 
 /* ---------- camera ---------- */
 const VB0={x:0,y:0,w:1600,h:1000};let vb={...VB0},raf=0,openId=null;
