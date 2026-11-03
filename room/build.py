@@ -1,7 +1,7 @@
 # Assembles room/index.html from template.html + room.svg + content/slider code pulled from the main index.html.
 import re,pathlib
 here=pathlib.Path(__file__).parent
-old=(here.parent/"classic"/"index.html").read_text()
+old=(here/"_content.html").read_text()  # content source; files starting with _ are not published
 t=(here/"template.html").read_text()
 def block(name):
     m=re.search(r"^const "+name+r"=\[.*?^\];",old,re.S|re.M); return m.group(0)

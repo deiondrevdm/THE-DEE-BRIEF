@@ -270,6 +270,10 @@ button{font:inherit;color:inherit}
 .panel.full #v-laptop{flex:1;min-height:0;display:flex;flex-direction:column}
 .panel.full .os{flex:1;min-height:0;display:flex;flex-direction:column}
 .panel.full .desk{flex:1;height:auto}
+.panel.full #v-screen{flex:1;min-height:0;display:flex}
+.panel.full .tvset{flex:1;min-height:0;grid-template-columns:minmax(0,1fr) 190px;align-items:center}
+.panel.full .tvscr{aspect-ratio:auto;height:100%;max-height:100%}
+@media (max-width:760px){.panel.full .tvset{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.panel.full .tvscr{height:auto;aspect-ratio:16/9}}
 .desk{position:relative;height:min(58vh,480px);min-height:340px;overflow:hidden;border-radius:0 0 10px 10px}
 .desk .wall{position:absolute;inset:0;width:100%;height:100%;display:block}
 .icons{position:absolute;top:14px;right:14px;display:grid;gap:10px;z-index:1}
@@ -535,7 +539,7 @@ window.SFX=null;const SFX={
   ting(){SFX.tone("sine",2637,null,0,1.1,.12);SFX.tone("sine",3951,null,0,.7,.05)},
   mrrp(){const a=audio();if(!a)return;const t=a.currentTime,o=a.createOscillator(),f=a.createBiquadFilter(),g=SFX.env(a,t,.16,.02,.28);o.type="sawtooth";o.frequency.setValueAtTime(420,t);o.frequency.linearRampToValueAtTime(760,t+.12);o.frequency.linearRampToValueAtTime(620,t+.26);f.type="lowpass";f.frequency.value=1500;f.Q.value=4;o.connect(f).connect(g).connect(a.destination);o.start(t);o.stop(t+.32)}
 };
-/* night crickets + room ambience */
+/* room ambience: soft hum + occasional passing car */
 const AMB={on:false,nodes:[],timers:[]};
 function ambStop(){AMB.timers.forEach(clearInterval);AMB.timers=[];AMB.nodes.forEach(n=>{try{n.stop()}catch(e){}});AMB.nodes=[];AMB.on=false}
 function ambStart(){
@@ -713,7 +717,7 @@ function open(id){
   const bb=(document.querySelector(`#room [data-zoom="${id}"]`)||document.querySelector(`#room [data-go="${id}"]`)).getBBox();tween(fit({x:bb.x,y:bb.y,w:bb.width,h:bb.height}),900,()=>{
     $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;
     document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+id);
-    const p=$("#panel");p.classList.toggle("full",id==="laptop");p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
+    const p=$("#panel");p.classList.toggle("full",id==="laptop"||id==="screen");p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
     ENTER[id]&&ENTER[id]();
   });
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
@@ -811,11 +815,10 @@ const TV=[
 function rScreen(v){
   v.innerHTML=`<div class="tvset"><div class="tvscr" id="tvScr"><div><b>NO SIGNAL</b><span>turn the dial →</span></div></div>
     <div class="chans">${TV.map((x,i)=>`<button class="chan" data-i="${i}" style="--c:${x.c}" aria-pressed="false"><i></i><span><small>ch ${i+1} · ${esc(x.cat)}</small><b>${esc(x.title)}</b></span></button>`).join("")}</div></div>
-    <div class="tvinfo" id="tvInfo"></div>`;
+`;
   v.querySelectorAll(".chan").forEach(b=>b.onclick=()=>{
     const x=TV[+b.dataset.i],scr=$("#tvScr");v.querySelectorAll(".chan").forEach(o=>o.setAttribute("aria-pressed",o===b));SFX.crt();
     scr.classList.add("static");scr.innerHTML="";
-    $("#tvInfo").innerHTML=`<h3>${esc(x.title)}</h3><span class="by">${esc(x.cat)} · ${esc(x.by)}</span><p>${esc(x.note)}</p><p class="out">Trailer not loading? <a href="https://www.youtube.com/watch?v=${encodeURIComponent(x.yt)}" target="_blank" rel="noopener">Watch it on YouTube ↗</a></p>`;
     setTimeout(()=>{scr.classList.remove("static");scr.innerHTML=`<iframe src="https://www.youtube.com/embed/${encodeURIComponent(x.yt)}?autoplay=1&rel=0&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen title="${esc(x.title)} trailer"></iframe>`},reduce?0:450);
     svg.classList.add("movie")});
 }
