@@ -308,6 +308,18 @@ button{font:inherit;color:inherit}
 .lab{background-size:cover;background-position:center;width:36%;aspect-ratio:1;border-radius:50%;background:var(--c,var(--sun));display:grid;place-items:center;text-align:center;padding:8%;font-family:var(--hand);font-size:clamp(12px,1.4vw,16px);line-height:1;position:relative;z-index:1}
 .lab::after{content:"";position:absolute;width:8%;aspect-ratio:1;border-radius:50%;background:#eee;left:46%;top:46%}
 .tt.on .rec{animation:rot 1.8s linear infinite}
+.tt.empty .rec{opacity:0}
+.flydisc{position:fixed;z-index:60;border-radius:50%;pointer-events:none;background:repeating-radial-gradient(circle,#141010 0 2px,#1F1916 2px 4px);box-shadow:0 10px 24px rgba(0,0,0,.45);display:grid;place-items:center}
+.flydisc::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 10%,rgba(255,255,255,.14) 14%,transparent 20% 60%,rgba(255,255,255,.08) 64%,transparent 70%)}
+.flydisc i{width:36%;aspect-ratio:1;border-radius:50%;background:center/cover var(--c,#F2B230);border:2px solid #1F1916}
+.nowp{position:absolute;z-index:6;left:14px;bottom:14px;display:flex;align-items:center;gap:10px;max-width:min(360px,calc(100% - 28px));background:#FFFDF6;color:var(--ink);border:3px solid var(--ink);border-radius:16px;padding:8px 14px 8px 8px;box-shadow:4px 5px 0 rgba(0,0,0,.35);transform-origin:0 100%;animation:pop .35s cubic-bezier(.3,1.6,.5,1) both;cursor:pointer}
+.nowp[hidden]{display:none}
+.nowp .vin{flex:none;width:42px;height:42px;border-radius:50%;background:repeating-radial-gradient(circle,#141010 0 1.5px,#2A2224 1.5px 3px);display:grid;place-items:center;animation:rot 1.8s linear infinite}
+.nowp .vin i{width:16px;height:16px;border-radius:50%;background:center/cover #F2B230}
+.nowp small{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nowp b{display:block;font-family:var(--display);font-weight:800;font-size:16px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nowp span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nowp>div{min-width:0;text-align:left}
 .tarm{position:absolute;right:9%;top:8%;width:9%;aspect-ratio:1;border-radius:50%;background:#D9D2C5;box-shadow:0 2px 0 #8E857A;transform-origin:50% 50%;transition:transform 1s ease;transform:rotate(-8deg)}
 .tarm::after{content:"";position:absolute;left:44%;top:50%;width:14%;height:560%;background:#CFC8BC;border-radius:4px;transform-origin:50% 0;transform:rotate(14deg);box-shadow:1px 0 0 #8E857A}
 .tt.on .tarm{transform:rotate(22deg)}
@@ -316,6 +328,7 @@ button{font:inherit;color:inherit}
 .crate{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .sleeve{text-align:left;border:3px solid var(--ink);background:var(--c);padding:0;min-height:0;gap:0;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden;box-shadow:3px 4px 0 rgba(42,30,34,.2);transition:transform .2s}
 .sleeve::before{content:"";position:absolute;right:-30%;bottom:-30%;width:80%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.22)}
+.sleeve.lift{transform:translateY(-6px) rotate(-2deg)}
 .sleeve:hover{transform:translateY(-4px) rotate(-1deg)}
 .sleeve[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:3px}
 .sleeve .art{display:block;aspect-ratio:1;background:center/cover #2A2440;border-bottom:3px solid var(--ink)}
@@ -617,6 +630,7 @@ button{font:inherit;color:inherit}
   <div class="tip" id="tip"></div>
   <div class="nbpage" id="nbPage" hidden aria-live="polite"><div class="nbl"></div><div class="nbspiral" aria-hidden="true"></div><div class="nbr"><p>nosy little fucker, aren't you?</p></div></div>
   <img class="posterpop" id="posterPop" alt="" hidden>
+  <button class="nowp" id="nowP" hidden aria-live="polite"><span class="vin"><i id="nowPLab"></i></span><div><small>♪ now playing</small><b id="nowPT"></b><span id="nowPL"></span></div></button>
   <div class="bubble" id="bubble" hidden>I don't bother you in your bedroom..</div>
   <div class="panel" id="panel" hidden>
     <div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pTitle">
@@ -1106,6 +1120,19 @@ function spotApi(){if(SPOT_API)return SPOT_API;
     const sc=document.createElement("script");sc.src="https://open.spotify.com/embed/iframe-api/v1";sc.async=true;sc.onerror=rej;document.head.appendChild(sc);
     setTimeout(()=>rej(new Error("timeout")),8000)});
   SPOT_API.catch(()=>{});return SPOT_API}
+let npURI="",npName="",npList=null;
+$("#nowP")&&($("#nowP").onclick=()=>open("records"));
+function nowPlaying(d){
+  const box=$("#nowP");if(!box)return;const on=!d.isPaused&&!d.isBuffering;
+  if(!on){if(!d.isBuffering)box.hidden=true;return}
+  const p=npList;if(!p)return;
+  $("#nowPL").textContent=p.name;$("#nowPLab").style.backgroundImage=p.img?`url('${p.img}')`:"";
+  const uri=d.playingURI||"";
+  if(uri&&uri!==npURI){npURI=uri;const id=uri.split(":").pop();$("#nowPT").textContent="…";
+    fetch("https://open.spotify.com/oembed?url="+encodeURIComponent("https://open.spotify.com/track/"+id)).then(r=>r.json()).then(j=>{if(npURI===uri)$("#nowPT").textContent=j.title||p.name}).catch(()=>{$("#nowPT").textContent=p.name})}
+  else if(!uri)$("#nowPT").textContent=p.name;
+  if(box.hidden){box.hidden=false;box.style.animation="none";void box.offsetWidth;box.style.animation=""}
+}
 function setSpin(on){spOn=on;svg.classList.toggle("music",on);const t=$("#tt");t&&t.classList.toggle("on",on);const b=$("#ttPlay");if(b){b.textContent=on?"❚❚":"▶";b.setAttribute("aria-label",on?"Pause":"Play")}}
 function rRecords(v){
   v.innerHTML=`<div class="hifi"><div><div class="tt" id="tt"><div class="platter"><div class="rec"><div class="lab" id="ttLab"></div></div></div><div class="tarm"></div><button class="ttbtn" id="ttPlay" aria-label="Play">▶</button></div>
@@ -1122,11 +1149,27 @@ function rRecords(v){
     spotApi().then(api=>{
       if(spCtl){try{spCtl.destroy()}catch(e){}spCtl=null}
       api.createController($("#spSlot"),{uri:"spotify:playlist:"+p.spotify,width:"100%",height:352},c=>{spCtl=c;
-        c.addListener("playback_update",e=>{const d=e.data||{};setSpin(!d.isPaused&&!d.isBuffering?true:d.isBuffering?spOn:false)});
+        c.addListener("playback_update",e=>{const d=e.data||{};setSpin(!d.isPaused&&!d.isBuffering?true:d.isBuffering?spOn:false);npList=PLAYLISTS[cur];nowPlaying(d)});
         if(autoplay)c.play()})})
     .catch(()=>{host.innerHTML=`<iframe src="https://open.spotify.com/embed/playlist/${encodeURIComponent(p.spotify)}?utm_source=generator" height="352" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="${esc(p.name)} on Spotify"></iframe>`})
   }
-  v.querySelectorAll(".sleeve").forEach(s=>s.onclick=()=>{SFX.needle();load(+s.dataset.i,true)});
+  let flying=false;
+  function dropRecord(sl,i){
+    if(flying)return;flying=true;const p=PLAYLISTS[i],tt=$("#tt"),art=sl.querySelector(".art")||sl;
+    if(spCtl&&spOn){try{spCtl.pause()}catch(e){}}setSpin(false);tt.classList.add("empty");
+    const a=art.getBoundingClientRect(),r=tt.querySelector(".rec").getBoundingClientRect();
+    const d=document.createElement("div");d.className="flydisc";d.innerHTML=`<i style="--c:${p.c};${p.img?`background-image:url('${p.img}')`:""}"></i>`;
+    const size=a.width*.92;Object.assign(d.style,{left:(a.left+a.width/2-size/2)+"px",top:(a.top+a.height/2-size/2)+"px",width:size+"px",height:size+"px"});
+    document.body.appendChild(d);sl.classList.add("lift");
+    const sx=r.left+r.width/2-(a.left+a.width/2),sy=r.top+r.height/2-(a.top+a.height/2),sc=r.width/size;
+    const done=()=>{d.remove();sl.classList.remove("lift");tt.classList.remove("empty");load(i,false);SFX.needle();setSpin(true);
+      setTimeout(()=>{if(spCtl){try{spCtl.play()}catch(e){}}else{const w=setInterval(()=>{if(spCtl){clearInterval(w);try{spCtl.play()}catch(e){}}},150);setTimeout(()=>clearInterval(w),6000)}flying=false},1000)};
+    if(reduce||!d.animate){done();return}
+    const out=sx>0?size*.62:-size*.62;
+    d.animate([{transform:"translate(0,0) rotate(0)"},{transform:`translate(${out}px,-6px) rotate(40deg)`,offset:.32},{transform:`translate(${sx}px,${sy-26}px) scale(${sc}) rotate(320deg)`,offset:.82},{transform:`translate(${sx}px,${sy}px) scale(${sc}) rotate(360deg)`}],
+      {duration:1300,easing:"cubic-bezier(.45,.05,.35,1)",fill:"forwards"}).onfinish=done;
+  }
+  v.querySelectorAll(".sleeve").forEach(s=>s.onclick=()=>dropRecord(s,+s.dataset.i));
   $("#ttPlay").onclick=()=>{if(!spOn)SFX.needle();if(spCtl){if(spOn)spCtl.togglePlay();else setTimeout(()=>spCtl.togglePlay(),500);if(!spOn)setSpin(true)}else{setSpin(!spOn)}};
   load(0,false);
 }
