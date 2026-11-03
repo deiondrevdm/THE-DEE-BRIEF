@@ -495,7 +495,7 @@ footer h2 span{color:var(--sun)}
 const STATIONS=[
   {f:88.1, id:"digest",     name:"Media Digest",    short:"Digest",  c:"var(--tomato)",  blurb:"The weekly log. What came through the speakers, screens and pages this week, with stars."},
   {f:91.5, id:"newsletters",name:"Newsletters",     short:"Inbox",   c:"var(--sky)",     blurb:"The inboxes I actually open. Filter by beat, or let the dial pick one for you."},
-  {f:94.7, id:"books",      name:"Book Recs",       short:"Books",   c:"var(--mint)",    blurb:"Tap a spine and it turns to face you. Each one comes with who it's for and who should skip it."},
+  {f:94.7, id:"books",      name:"Book Recs",       short:"Books",   c:"var(--mint)",    blurb:"Tap a spine and it turns to face you. What I'm reading, what I've read and what's next."},
   {f:99.3, id:"strategy",   name:"Content Strategy",short:"Strategy",c:"var(--lilac)",   blurb:"How the whole machine runs: the four steps, the weekly rhythm, and the rules I keep."},
   {f:102.9,id:"playlists",  name:"Playlists",       short:"Vinyl",   c:"var(--pink)",    blurb:"My actual Spotify playlists, pressed to vinyl. Drop the needle, then hit play on the player to listen."},
   {f:106.5,id:"writing",    name:"Writing",         short:"Writing", c:"var(--tangerine)",blurb:"Essays and longer notes. Open one to read the first few paragraphs."}
@@ -539,14 +539,21 @@ const NEWSLETTERS=[
 ];
 
 const BOOKS=[
-  {t:"The Creative Act",a:"Rick Rubin",c:"var(--sky)",h:270,w:56,why:"A book of short meditations on making things. Open it anywhere.",ifu:"you're stuck on a project and need permission to start over.",skip:"you want a step-by-step method."},
-  {t:"Bird by Bird",a:"Anne Lamott",c:"var(--sun)",h:230,w:48,why:"The kindest book about writing badly first and fixing it later.",ifu:"the blank page wins most mornings.",skip:"you hate memoir mixed into your advice."},
-  {t:"Filterworld",a:"Kyle Chayka",c:"var(--pink)",h:250,w:50,why:"How recommendation algorithms flattened taste, and what to do about it.",ifu:"you curate anything for anyone.",skip:"you already deleted every app."},
-  {t:"How to Do Nothing",a:"Jenny Odell",c:"var(--mint)",h:244,w:50,why:"An argument for paying attention to what's in front of you instead of the feed.",ifu:"your screen time report makes you wince.",skip:"you want productivity tips. This is the opposite."},
-  {t:"Steal Like an Artist",a:"Austin Kleon",c:"var(--tomato)",h:204,w:42,why:"Ten rules for creative work you can read in an hour and reread forever.",ifu:"you think everything's already been done.",skip:"you've read his blog for a decade."},
-  {t:"Several Short Sentences About Writing",a:"Verlyn Klinkenborg",c:"var(--lilac)",h:280,w:46,why:"Writing advice delivered one sentence at a time, which is the point.",ifu:"your drafts sound like a corporate memo.",skip:"you need a plot-structure guide."},
-  {t:"Tomorrow, and Tomorrow, and Tomorrow",a:"Gabrielle Zevin",c:"var(--tangerine)",h:288,w:64,why:"Thirty years of friendship told through the games two people build.",ifu:"you grew up with a controller in your hands.",skip:"you need a fast plot. It takes its time."},
-  {t:"Stolen Focus",a:"Johann Hari",c:"#23324A",h:236,w:52,why:"A wide-ranging investigation into why nobody can concentrate any more.",ifu:"you want the research behind the vibes.",skip:"you're allergic to pop-science framing."}
+  {"t": "On Writing: A Memoir of the Craft", "a": "Stephen King", "c": "#3A3A42", "h": 270, "w": 48, "status": "Currently reading"},
+  {"t": "Rassie: Stories of Life and Rugby", "a": "Rassie Erasmus", "c": "#1F3C6B", "h": 262, "w": 50, "status": "Currently reading"},
+  {"t": "Dungeon Crawler Carl", "a": "Matt Dinniman", "c": "#F4C21A", "h": 276, "w": 60, "status": "Read", "r": 4, "note": "Had time of my life despite never hearing the word ‘LitRPG’ in my life."},
+  {"t": "The Elements of Style", "a": "William Strunk Jr.", "c": "#D9D6CF", "h": 206, "w": 30, "status": "Want to read"},
+  {"t": "Vasmora", "a": "Keri Lake", "c": "#1A1712", "h": 284, "w": 56, "status": "On the shelf"},
+  {"t": "Yesteryear", "a": "Caro Claire Burke", "c": "#8FD3C2", "h": 262, "w": 50, "status": "On the shelf"},
+  {"t": "Daggermouth", "a": "H.M. Wolfe", "c": "#1B1B1E", "h": 280, "w": 54, "status": "On the shelf"},
+  {"t": "Brimstone", "a": "Callie Hart", "c": "#2A120C", "h": 286, "w": 58, "status": "On the shelf"},
+  {"t": "Quicksilver", "a": "Callie Hart", "c": "#5E6B78", "h": 290, "w": 64, "status": "On the shelf"},
+  {"t": "Open Throat", "a": "Henry Hoke", "c": "#F5EFE4", "h": 228, "w": 34, "status": "On the shelf"},
+  {"t": "Hell Bent", "a": "Leigh Bardugo", "c": "#BFBFC2", "h": 278, "w": 52, "status": "On the shelf"},
+  {"t": "Ninth House", "a": "Leigh Bardugo", "c": "#141414", "h": 278, "w": 54, "status": "On the shelf"},
+  {"t": "Down the Drain", "a": "Julia Fox", "c": "#9EA3A8", "h": 256, "w": 44, "status": "On the shelf"},
+  {"t": "Discontent", "a": "Beatriz Serrano", "c": "#2E5FA8", "h": 244, "w": 40, "status": "On the shelf"},
+  {"t": "Girl Dinner", "a": "Olivie Blake", "c": "#9FE3CF", "h": 264, "w": 50, "status": "On the shelf"}
 ];
 
 const STRATEGY={
@@ -574,10 +581,10 @@ const STRATEGY={
 };
 
 const PLAYLISTS=[
-  {name:"nov faves 💫",c:"var(--sun)",spotify:"1FsmUtLiG7CN4HJE4x3Z3F",mood:"What's on repeat this month. Updated as I go, so check back.",tracks:[]},
-  {name:"when houses were affordable",c:"var(--tangerine)",spotify:"41lY0eu1ID7GJzODbIrCZG",mood:"Songs from back when a starter home didn't need three incomes. Sun-faded and a little wistful.",tracks:[]},
-  {name:"old school hh",c:"var(--mint)",spotify:"5BAP5dhPrY9qmB65CXQmoN",mood:"Boom bap, breaks and the golden era. Nod your head accordingly.",tracks:[]},
-  {name:"my wife left me and took the dog",c:"var(--sky)",spotify:"2zRyNUeG1BFXRh95qVHSY4",mood:"For dramatic sulking. The title says it all.",tracks:[]}
+  {"name": "nov faves 💫", "c": "var(--sun)", "spotify": "1FsmUtLiG7CN4HJE4x3Z3F", "mood": "What's on repeat this month. Updated as I go, so check back.", "tracks": []},
+  {"name": "evenings in maboneng", "c": "var(--tangerine)", "spotify": "6zfCkOMKZ07sPM5T8AbQXe", "mood": "Named after Maboneng in Joburg. For the hours after work.", "tracks": []},
+  {"name": "when houses were affordable", "c": "var(--mint)", "spotify": "41lY0eu1ID7GJzODbIrCZG", "mood": "Songs from back when a starter home didn't need three incomes. Sun-faded and a little wistful.", "tracks": []},
+  {"name": "I’m high, this bangs", "c": "var(--sky)", "spotify": "71uSlcLttNMj0aiQlmIApk", "mood": "Exactly what it says.", "tracks": []}
 ];
 
 const WRITING=[
@@ -802,7 +809,7 @@ function rNews(el){
 
 function rBooks(el){
   const N=BOOKS.length,GAP=4,DUR=900,M=["#F2542D","#23324A","#241B16","#3B474B"];
-  const fg=c=>M.some(x=>c.includes(x))||/tomato/.test(c)?"#FFFDF6":"#241B16";
+  const fg=c=>{if(c[0]==="#"){const n=parseInt(c.slice(1),16),l=(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255));return l<150?"#FFFDF6":"#241B16"}return M.some(x=>c.includes(x))||/tomato/.test(c)?"#FFFDF6":"#241B16"};
   let v=N,auto=!reduce,snapT=null,autoT=null,hover=false;
   el.innerHTML=`<div class="arts" tabindex="-1">
     <div class="arts-top"><span>The Dee Brief · Shelf</span><nav class="arts-pg" aria-label="Pick a book">${BOOKS.map((b,i)=>`<button data-i="${i}" aria-label="${esc(b.t)}">${i+1}</button>`).join("")}</nav></div>
@@ -827,7 +834,7 @@ function rBooks(el){
     el.querySelectorAll(".arts-pg button").forEach(x=>x.setAttribute("aria-current",+x.dataset.i===i));
     $("#artsN").textContent=`${String(i+1).padStart(2,"0")} / ${String(N).padStart(2,"0")} · ${b.t}`;
     const bc=$("#bc");bc.classList.add("fade");
-    setTimeout(()=>{bc.innerHTML=`<div><span class="count">rec ${i+1} of ${N}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why">${esc(b.why)}</p></div><div class="verdict"><div class="taped"><small>Read it if</small>${esc(b.ifu)}</div><div class="taped"><small>Skip it if</small>${esc(b.skip)}</div></div>`;bc.classList.remove("fade")},reduce?0:220);
+    setTimeout(()=>{bc.innerHTML=`<div><span class="count">book ${i+1} of ${N}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why"><a href="https://www.goodreads.com/search?q=${encodeURIComponent(b.t+" "+b.a)}" target="_blank" rel="noopener">Find it on Goodreads ↗</a></p></div><div class="verdict"><div class="taped"><small>On my shelf</small>${esc(b.status||"On the shelf")}${b.r?` · ${"★".repeat(b.r)}${"☆".repeat(5-b.r)}`:""}</div>${b.note?`<div class="taped"><small>My take</small>${esc(b.note)}</div>`:""}</div>`;bc.classList.remove("fade")},reduce?0:220);
   }
   function snap(){ // jump back to the middle copy without animating, so the loop never ends
     if(v>=N&&v<2*N)return;row.classList.add("snap");v=v%N+N;layout();void row.offsetWidth;row.classList.remove("snap")}

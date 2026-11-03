@@ -103,10 +103,26 @@ for s in segs:
         bul.append(f'<ellipse cx="{f(x)}" cy="{f(y+10)}" rx="5" ry="7.5" fill="{c}" stroke="{INK}" stroke-width="2"/>')
 add(g(mY(2, 0, 548), "".join(bul)))
 
-# ---------- projector screen on the back wall ----------
-scr = (rect(-12, -14, 324, 20, "#3B3550") + rect(0, 6, 300, 210, "#FFFDF6") + '<g id="scrGlow"><rect x="6" y="12" width="288" height="198" fill="#7FB2FF" opacity=".8"/></g>'
-       + rect(-6, 214, 312, 9, "#3B3550") + f'<path d="M280 223 V262" stroke="{INK}" stroke-width="2.5"/><circle cx="280" cy="266" r="6" fill="{C["yellow"]}" stroke="{INK}" stroke-width="2.5"/>')
-screen_svg = g(mY(4, 650, 530), scr)
+# ---------- toy car shelf above the bed ----------
+def wheel(x):
+    return f'<g transform="translate({x} -7)"><g class="wh"><circle r="7.5" fill="{INK}"/><circle r="3.8" fill="#C9C1D6"/><path d="M0 -3.8 V3.8 M-3.8 0 H3.8" stroke="{INK}" stroke-width="1"/></g></g>'
+CARS = {
+  "f40": ("#E8302A", 'M2 -8 Q2 -14 10 -15 L30 -17 L44 -27 L60 -27 L70 -18 L88 -15 Q92 -14 92 -9 L92 -6 Q92 -3 88 -3 L6 -3 Q2 -3 2 -8Z',
+          'M45 -25 L58 -25 L66 -18 L40 -18Z', '<path d="M-1 -22 h19 v4 h-19Z" fill="#E8302A" stroke="#1F1B3A" stroke-width="2"/><path d="M7 -18 v4 M13 -18 v4" stroke="#1F1B3A" stroke-width="2"/><path d="M24 -11 h14 M26 -8 h10" stroke="#1F1B3A" stroke-width="1.6"/>'),
+  "r34": ("#2C5BBF", 'M2 -7 L2 -16 Q3 -18 8 -18 L24 -19 L36 -30 L62 -30 L72 -20 L90 -17 Q93 -16 93 -11 L93 -6 Q93 -3 89 -3 L6 -3 Q2 -3 2 -7Z',
+          'M38 -28 L50 -28 L50 -20 L30 -20Z M53 -28 L61 -28 L68 -20 L53 -20Z', '<path d="M-1 -24 h17 v3 h-17Z" fill="#2C5BBF" stroke="#1F1B3A" stroke-width="2"/><path d="M6 -21 v3 M11 -21 v3" stroke="#1F1B3A" stroke-width="2"/><path d="M4 -10 H90" stroke="#1F1B3A" stroke-width="1.2" opacity=".5"/>'),
+  "e30": ("#F2EEE4", 'M2 -6 L2 -17 Q2 -19 6 -19 L22 -20 L32 -32 L62 -32 L72 -20 L90 -19 Q93 -19 93 -15 L93 -6 Q93 -3 90 -3 L5 -3 Q2 -3 2 -6Z',
+          'M34 -30 L46 -30 L46 -21 L27 -21Z M49 -30 L60 -30 L68 -21 L49 -21Z', '<path d="M-1 -9 h7 M89 -9 h6" stroke="#9A93A8" stroke-width="3"/><path d="M6 -12 H88" stroke="#3B6BC4" stroke-width="2"/><path d="M6 -14 H88" stroke="#E8302A" stroke-width="2"/>'),
+}
+def car(k):
+    col, body, win, extra = CARS[k]
+    return (f'<path d="{body}" fill="{col}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+            f'<path d="{win}" fill="#24345C" stroke="{INK}" stroke-width="1.8"/>' + extra + wheel(20) + wheel(74))
+cars_svg = box(672, 0, 320, 284, 24, 10, C["woodT"], C["woodF"], C["woodS"], 2.5)
+cars_svg += g(mY(1, 672, 330), f'<path d="M20 0 v18 h10 M264 0 v18 h-10" stroke="{INK}" stroke-width="4" fill="none"/>')
+car_hots = ""
+for k, x in [("f40", 680), ("r34", 772), ("e30", 864)]:
+    car_hots += f'<g class="hot car" data-toggle="car" data-car="{k}">' + g(mY(12, x, 330), f'<g class="carbody">{car(k)}</g>') + '</g>'
 
 # ---------- corkboard ----------
 cork = [rect(0, 0, 200, 140, "#C97B45"), rect(10, 10, 180, 120, "url(#corkp)", 2)]
@@ -187,9 +203,8 @@ tt = (f'<circle cx="52" cy="37" r="33" fill="#3B3550" stroke="{INK}" stroke-widt
 rc.append(g(mZ(154, 338, 12), tt))
 lava = (f'<path d="M-16 0 l6 -18 h20 l6 18Z" fill="{C["purple"]}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
         f'<path d="M-10 -18 l-6 -48 q16 -12 32 0 l-6 48Z" fill="url(#lavaG)" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
-        f'<ellipse class="blob" cx="0" cy="-30" rx="7" ry="9" fill="#FFE6A8"/><ellipse class="blob b2" cx="-3" cy="-44" rx="5" ry="6" fill="#FFE6A8"/>'
+        f'<ellipse class="blob lavablob" cx="0" cy="-30" rx="7" ry="9" fill="#FFE6A8"/><ellipse class="blob b2 lavablob" cx="-3" cy="-44" rx="5" ry="6" fill="#FFE6A8"/>'
         f'<path d="M-14 -66 l4 -16 h20 l4 16Z" fill="{C["purple"]}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>')
-rc.append(g(at(512, 50, 130), lava))
 rc.append(box(320, 0, 240, 220, 34, 10, C["woodT"], C["woodF"], C["woodS"], 2.5))
 sl = (f'<g transform="rotate(-4 32 70)">{rect(0, 2, 64, 66, C["yellow"])}<circle cx="32" cy="52" r="18" fill="{C["red"]}" stroke="{INK}" stroke-width="2.5"/>{rect(0, 54, 64, 14, C["teal"], 2.5)}</g>'
       f'{rect(66, 0, 66, 68, C["teal"])}<g fill="none" stroke="#FFF4DE" stroke-width="4"><circle cx="99" cy="34" r="8"/><circle cx="99" cy="34" r="17"/><circle cx="99" cy="34" r="26"/></g>'
@@ -197,20 +212,10 @@ sl = (f'<g transform="rotate(-4 32 70)">{rect(0, 2, 64, 66, C["yellow"])}<circle
 rc.append(g(mY(16, 326, 318), sl))
 records_svg = "".join(rc)
 
-# projector on the right end of the wall shelf
-pj = box(474, 4, 250, 56, 26, 32, "#F7EEDB", "#EADFC6", "#D6C9AC")
-pj += g(mY(17, 474, 300), f'<circle cx="14" cy="16" r="15" fill="#2A2440" stroke="{INK}" stroke-width="2.5"/><circle cx="42" cy="12" r="17" fill="#2A2440" stroke="{INK}" stroke-width="2.5"/><circle cx="14" cy="16" r="4" fill="#C9C1D6"/><circle cx="42" cy="12" r="4" fill="#C9C1D6"/>')
-pj += g(mX(530, 28, 278), f'<circle cx="12" cy="12" r="9" fill="#17131F" stroke="{INK}" stroke-width="2.5"/><circle cx="10" cy="10" r="3" fill="#BFD4FF"/>')
-
-lx, ly = P(538, 16, 268)
-beam = [P(650, 4, 524), P(950, 4, 524), P(950, 4, 316), P(650, 4, 316)]
-beam_svg = f'<polygon id="beam" points="{f(lx)},{f(ly)} ' + " ".join(f"{f(a)},{f(b)}" for a, b in beam) + '" fill="url(#beamG)" style="mix-blend-mode:screen;pointer-events:none"/>'
-
 add(f'<g class="hot" data-go="board">{board_svg}</g>')
-add(f'<g class="hot" data-go="screen">{screen_svg}</g>')
 add(f'<g class="hot" data-go="records">{records_svg}</g>')
-add(f'<g class="hot" data-go="screen">{pj}</g>')
-add(beam_svg)
+add(f'<g class="hot" data-toggle="lava" transform="{at(512, 50, 130)}">{lava}</g>')
+add(cars_svg + car_hots)
 
 # ---------- nightstand + mushroom lamp ----------
 ns = box(560, 0, 0, 82, 80, 112, C["woodT"], C["woodF"], C["woodS"])
@@ -234,12 +239,18 @@ mug = (f'<path d="M-12 0 v-28 h24 v28 q0 4 -4 4 h-16 q-4 0 -4 -4Z" fill="{C["tea
        f'<g class="steam" stroke="#FFFDF6" stroke-width="3" fill="none" stroke-linecap="round"><path d="M-4 -34 q-6 -10 2 -18 q6 -8 0 -16"/><path d="M6 -34 q6 -10 -2 -18 q-6 -8 0 -16"/></g>')
 dk += g(at(70, 320, 176), mug)
 add(dk)
-lt = box(30, 380, 176, 84, 130, 6, "#E6E1F0", "#D3CCE3", "#BEB6D2", 2.5)
-lt += box(22, 380, 182, 8, 130, 92, "#E6E1F0", "#D3CCE3", "#BEB6D2", 2.5)
-scr_ui = (rect(6, 6, 118, 80, "#24345C", 2) + rect(14, 14, 56, 36, "#C9D3E8", 1.5) + f'<rect x="14" y="14" width="56" height="6" fill="{INK}"/>'
-          + rect(52, 38, 64, 40, "#FFF4DE", 1.5) + f'<rect x="52" y="38" width="64" height="6" fill="{INK}"/><g fill="#1F1B3A66"><rect x="58" y="50" width="40" height="3"/><rect x="58" y="58" width="50" height="3"/><rect x="58" y="66" width="30" height="3"/></g>'
-          f'<circle cx="22" cy="72" r="4" fill="{C["yellow"]}"/><circle cx="34" cy="72" r="4" fill="{C["pink"]}"/>')
-lt += g(mX(30, 508, 270), scr_ui)
+TAN, TANF, TANS = "#FF9A3A", "#FF8A2A", "#E8761C"
+lt = box(30, 384, 176, 82, 124, 12, "#F7F2EA", TANF, TANS, 2.5)
+lt += g(mZ(188, 40, 396), rect(0, 0, 30, 100, "#E9E3D8", 2) + "".join(f'<path d="M{x} 3 V97" stroke="#BDB5A6" stroke-width="1.2"/>' for x in (8, 15, 22)) + "".join(f'<path d="M3 {y} H27" stroke="#BDB5A6" stroke-width="1.2"/>' for y in range(12, 100, 11)))
+lt += g(mY(508, 30, 188), f'<path d="M14 0 C14 24 66 24 66 0" fill="none" stroke="{INK}" stroke-width="10" stroke-linecap="round"/><path d="M14 0 C14 24 66 24 66 0" fill="none" stroke="{TAN}" stroke-width="5" stroke-linecap="round"/>')
+lt += box(20, 384, 186, 12, 124, 100, TAN, TANF, TANS, 2.5)
+os9 = (f'<rect x="6" y="6" width="112" height="88" rx="10" fill="#F7F2EA" stroke="{INK}" stroke-width="2"/>'
+       f'<rect x="14" y="13" width="96" height="70" rx="3" fill="#6F7FC6" stroke="{INK}" stroke-width="2"/>'
+       f'<rect x="14" y="13" width="96" height="7" fill="#F4F2F0"/><path d="M14 20 H110" stroke="{INK}" stroke-width="1"/>'
+       + rect(26, 28, 58, 40, "#E6E3DE", 1.5) + '<g stroke="#9C98A8" stroke-width="1">' + "".join(f'<path d="M27 {y} H83"/>' for y in (31, 33, 35)) + '</g>'
+       + rect(32, 40, 46, 24, "#FFFDF6", 1.2) + f'<g fill="#1F1B3A55"><rect x="36" y="45" width="30" height="2.5"/><rect x="36" y="51" width="36" height="2.5"/><rect x="36" y="57" width="22" height="2.5"/></g>'
+       f'<rect x="90" y="26" width="10" height="9" fill="#F4F2F0" stroke="{INK}" stroke-width="1"/><rect x="90" y="42" width="10" height="9" fill="#F4F2F0" stroke="{INK}" stroke-width="1"/>')
+lt += g(mX(32, 504, 282), os9)
 add(f'<g class="hot" data-go="laptop">{lt}</g>')
 ch = f'<g transform="{at(214, 444, 0)}"><path d="M-48 6 L48 -6 M-30 -16 L30 16 M0 -22 L0 22" stroke="{INK}" stroke-width="9" stroke-linecap="round"/><path d="M-48 6 L48 -6 M-30 -16 L30 16 M0 -22 L0 22" stroke="#E6E1F0" stroke-width="5" stroke-linecap="round"/>' + "".join(f'<circle cx="{x}" cy="{y+6}" r="6" fill="{INK}"/>' for x, y in [(-48, 6), (48, -6), (-30, -16), (30, 16), (0, -22), (0, 22)]) + '</g>'
 ch += box(207, 437, 10, 14, 14, 82, "#C9C1D6", "#B3AAC6", "#9E95B4", 2.5)
@@ -248,11 +259,31 @@ ch += box(258, 404, 112, 16, 80, 120, C["purple"], "#7A47B4", "#673A9C")
 ch += g(mX(274, 484, 214), f'<path d="M6 16 q30 18 68 -4" stroke="{C["sky"]}" stroke-width="10" fill="none" stroke-linecap="round"/>')
 add(ch)
 
+# ---------- old-school TV on a cabinet next to the desk ----------
+tv = box(6, 702, 0, 124, 112, 60, C["woodT"], C["woodF"], C["woodS"])
+tv += g(mY(814, 6, 60), rect(10, 8, 104, 44, C["woodT"], 2.5) + f'<rect x="54" y="26" width="16" height="6" rx="3" fill="{INK}"/>')
+tapes = "".join(rect(10 + i * 18, 10, 15, 42, ["#3B3550", "#2A2440", "#3B3550", "#2A2440", "#3B3550"][i], 2) + f'<rect x="{12 + i * 18}" y="16" width="11" height="14" fill="{[C["yellow"], C["pink"], C["sky"], C["mint"], C["coral"]][i]}"/>' for i in range(5))
+tv += g(mX(130, 814, 60), rect(6, 6, 100, 48, "#2A2440", 2.5))
+tv += box(14, 712, 60, 104, 94, 98, "#EAE3D3", "#D9D0BC", "#C7BCA4")
+crt = (f'<rect x="4" y="6" width="64" height="80" rx="10" fill="#3B3550" stroke="{INK}" stroke-width="2.5"/>'
+       f'<rect x="10" y="12" width="52" height="66" rx="14" fill="#2C4442" stroke="{INK}" stroke-width="2"/>'
+       f'<g id="scrGlow"><rect x="10" y="12" width="52" height="66" rx="14" fill="#7FB2FF"/></g>'
+       f'<path d="M16 22 q6 -6 16 -6" stroke="#FFFFFF77" stroke-width="4" fill="none" stroke-linecap="round"/>'
+       f'<circle cx="80" cy="20" r="6" fill="#3B3550" stroke="{INK}" stroke-width="2"/><circle cx="80" cy="38" r="6" fill="#3B3550" stroke="{INK}" stroke-width="2"/>'
+       f'<path d="M80 16 v4 M80 34 l3 3" stroke="#EAE3D3" stroke-width="2"/>'
+       + "".join(f'<path d="M73 {y} H88" stroke="{INK}" stroke-width="2"/>' for y in range(54, 82, 5)))
+tv += g(mX(118, 806, 158), crt)
+ax_, ay_ = P(66, 759, 158)
+tv += (f'<path d="M{f(ax_)} {f(ay_)} l-40 -62 M{f(ax_)} {f(ay_)} l30 -66" stroke="{INK}" stroke-width="3.5"/>'
+       f'<circle cx="{f(ax_-40)}" cy="{f(ay_-62)}" r="4" fill="{C["red"]}" stroke="{INK}" stroke-width="2"/><circle cx="{f(ax_+30)}" cy="{f(ay_-66)}" r="4" fill="{C["red"]}" stroke="{INK}" stroke-width="2"/>'
+       f'<ellipse cx="{f(ax_)}" cy="{f(ay_)}" rx="14" ry="7" fill="#3B3550" stroke="{INK}" stroke-width="2.5"/>')
+add(f'<g class="hot" data-go="screen">{tv}</g>')
+
+
 # ---------- rug + floor clutter ----------
 rug = rect(0, 0, 360, 280, "#8FD3F5") + "".join(f'<path d="M{x} 6 V274" stroke="#B9E5FA" stroke-width="7"/>' for x in range(20, 360, 26)) + rect(0, 0, 360, 280, "none") \
       + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
 add(g(mZ(0.5, 200, 420), rug))
-add(g(mZ(0.5, 120, 620), rect(0, 0, 70, 44, "#3B3550", 2.5) + rect(8, 8, 54, 16, C["yellow"], 2) + f'<circle cx="22" cy="32" r="5" fill="#E6E1F0" stroke="{INK}" stroke-width="2"/><circle cx="48" cy="32" r="5" fill="#E6E1F0" stroke="{INK}" stroke-width="2"/>'))
 add(box(548, 250, 0, 92, 66, 14, C["yellow"], "#E9C143", "#CFA92F", 2.5) + box(554, 254, 14, 80, 58, 12, C["mint"], "#69C893", "#56B07E", 2.5) + box(552, 250, 26, 86, 62, 10, C["coral"], "#E97C59", "#D46A48", 2.5))
 for i in range(3):
     add(box(430, 250 + i * 3, i * 12, 76, 44, 12, "#3B3550", "#2C2840", "#221F33", 2.5))
@@ -264,11 +295,33 @@ add(f'<g transform="translate(720 690) rotate(-30)">{sock(C["pink"])}</g>')
 add(f'<g transform="translate(470 905) rotate(60)">{sock(C["sky"])}</g>')
 shoe = (f'<path d="M0 0 q-2 -18 14 -20 l10 -10 h18 q10 14 30 16 q10 2 10 12 v4Z" fill="{C["coral"]}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
         f'<path d="M-2 0 h86 v8 h-86Z" fill="#FFFDF6" stroke="{INK}" stroke-width="3"/><path d="M24 -28 l8 10 M34 -28 l6 10" stroke="{INK}" stroke-width="2.5"/><path d="M50 -10 l8 -4 l6 6" stroke="#FFFDF6" stroke-width="3" fill="none"/>')
-add(f'<g transform="translate(150 930) rotate(-12)">{shoe}</g><g transform="translate(232 968) rotate(8)">{shoe}</g>')
+add(f'<g transform="translate(560 978) rotate(-10)">{shoe}</g><g transform="translate(650 994) rotate(6)">{shoe}</g>')
 pad = (f'<path d="M-40 -14 q-18 0 -20 18 q-2 18 12 18 q10 0 16 -10 h64 q6 10 16 10 q14 0 12 -18 q-2 -18 -20 -18Z" fill="#C9C1D6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
        f'<path d="M-40 -4 h-12 M-46 -10 v12" stroke="{INK}" stroke-width="4" stroke-linecap="round"/><circle cx="36" cy="-6" r="4" fill="{C["red"]}" stroke="{INK}" stroke-width="2"/><circle cx="46" cy="2" r="4" fill="{C["sky"]}" stroke="{INK}" stroke-width="2"/>'
        f'<path d="M0 -14 q10 -30 40 -26" stroke="{INK}" stroke-width="2.5" fill="none"/>')
-add(f'<g transform="translate(800 820) rotate(-8)">{pad}</g>')
+
+# ---------- PS2 in the cabinet, controller and games on the floor ----------
+ps2 = (f'<rect x="9" y="18" width="94" height="28" rx="2" fill="#1E1C24" stroke="{INK}" stroke-width="2"/>'
+       f'<path d="M14 25 H66 M14 39 H66" stroke="#3A3746" stroke-width="2"/><path d="M68 18 V46" stroke="#3A3746" stroke-width="2"/>'
+       f'<rect x="73" y="23" width="9" height="5" fill="#0E0D12"/><rect x="86" y="23" width="9" height="5" fill="#0E0D12"/><rect x="73" y="34" width="9" height="6" fill="#0E0D12"/><rect x="86" y="34" width="9" height="6" fill="#0E0D12"/>'
+       f'<circle cx="18" cy="32" r="2.6" fill="#5AA8FF"/>')
+cab_x, cab_y = P(130, 760, 28)
+pad = (f'<path d="M-40 -14 q-18 0 -20 18 q-2 18 12 18 q10 0 16 -10 h64 q6 10 16 10 q14 0 12 -18 q-2 -18 -20 -18Z" fill="#33303C" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+       f'<path d="M-40 -4 h-12 M-46 -10 v12" stroke="#9C97AA" stroke-width="4" stroke-linecap="round"/>'
+       f'<circle cx="-14" cy="6" r="6" fill="#55515F" stroke="{INK}" stroke-width="2"/><circle cx="14" cy="6" r="6" fill="#55515F" stroke="{INK}" stroke-width="2"/>'
+       f'<circle cx="38" cy="-10" r="3.5" fill="#4CC38A"/><circle cx="46" cy="-3" r="3.5" fill="#F2543D"/><circle cx="38" cy="4" r="3.5" fill="#5B9BFF"/><circle cx="30" cy="-3" r="3.5" fill="#FF6FAE"/>')
+padx, pady = 318, 868
+GAME_ART = [
+  ("#FF6FAE", f'<rect x="8" y="10" width="28" height="18" rx="3" fill="#FFE6A8" stroke="{INK}" stroke-width="1.5"/><circle cx="16" cy="19" r="3.5" fill="{INK}"/><circle cx="28" cy="19" r="3.5" fill="{INK}"/><rect x="6" y="38" width="32" height="5" fill="#FFE6A8"/><rect x="6" y="46" width="22" height="4" fill="{INK}"/>'),
+  ("#151418", f'<path d="M4 44 L40 18" stroke="#FF9F1C" stroke-width="5"/><path d="M4 50 L40 24" stroke="#4CC38A" stroke-width="3"/><rect x="6" y="6" width="22" height="7" fill="#FF9F1C"/><path d="M10 34 l8 -4 h12 l6 4 v4 h-26Z" fill="#5B9BFF" stroke="#FFF4DE" stroke-width="1"/>'),
+  ("#7FD36A", f'<path d="M22 12 c-12 6 -14 22 0 30 c14 -8 12 -24 0 -30Z" fill="#FFF4DE" stroke="{INK}" stroke-width="1.5"/><path d="M22 14 V40" stroke="#4E9A3F" stroke-width="2"/><rect x="6" y="46" width="32" height="5" fill="#FFF4DE"/>'),
+]
+games = f'<path d="M{f(cab_x)} {f(cab_y)} C{f(cab_x+60)} {f(cab_y+20)} {padx-90} {pady+40} {padx-40} {pady+4}" stroke="{INK}" stroke-width="3" fill="none"/>'
+games += f'<g transform="translate({padx} {pady}) rotate(-14)">{pad}</g>'
+for i, ((gx_, gy_, rot), (col, art)) in enumerate(zip([(226, 548, -10), (290, 566, 14), (244, 612, -24)], GAME_ART)):
+    case = f'<g transform="rotate({rot} 22 30)">{rect(0, 0, 44, 60, col, 2.5)}<rect x="0" y="0" width="5" height="60" fill="#00000033"/>{art}</g>'
+    games += f'<g class="hot game" data-go="games" data-game="{i}">' + g(mZ(0.8, gx_, gy_), case) + '</g>'
+add(f'<g data-zoom="games"><g class="hot" data-go="games">' + g(mX(130.5, 814, 60), ps2) + '</g>' + games + '</g>')
 
 # ---------- bed ----------
 bed = box(656, 0, 0, 308, 20, 240, C["woodT"], C["woodF"], C["woodS"])
@@ -296,25 +349,30 @@ add(bed)
 
 # ---------- the cats ----------
 ax, ay = P(800, 250, 112)
-add(f'''<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.9)"><g class="breathe">
+add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.9)"><g class="breathe">
 <ellipse cx="0" cy="0" rx="74" ry="36" fill="#F09A3E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-12 -34 q7 14 0 26"/><path d="M8 -35 q7 14 0 26"/><path d="M28 -31 q7 12 0 22"/><path d="M46 -24 q6 10 0 18"/></g>
 <g class="tail"><path d="M66 8 C72 32 30 42 -10 36 C-38 33 -56 28 -64 20" stroke="{INK}" stroke-width="23" fill="none" stroke-linecap="round"/><path d="M66 8 C72 32 30 42 -10 36 C-38 33 -56 28 -64 20" stroke="#F09A3E" stroke-width="16" fill="none" stroke-linecap="round"/>
 <g stroke="#B85C1A" stroke-width="4"><path d="M40 30 v10"/><path d="M14 33 v10"/><path d="M-14 31 v10"/></g></g>
 <ellipse cx="-28" cy="30" rx="13" ry="7" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/>
+<g class="head">
 <path d="M-84 -10 L-80 -44 L-58 -24 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-80 -16 L-78 -34 L-66 -24 Z" fill="#F6B7C4"/>
 <path d="M-52 -26 L-42 -36 L-38 -33 L-34 -36 L-30 -14 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-47 -24 L-41 -31 L-37 -29 L-34 -31 L-33 -18 Z" fill="#F6B7C4"/>
 <circle cx="-58" cy="2" r="29" fill="#F7A54E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="3" stroke-linecap="round"><path d="M-64 -24 v8"/><path d="M-57 -26 v9"/><path d="M-50 -24 v8"/></g>
 <ellipse cx="-57" cy="14" rx="12" ry="8" fill="#FFF4DE"/>
-<g stroke="{INK}" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M-74 0 q5 5 10 0"/><path d="M-52 0 q5 5 10 0"/></g>
+<g class="sleep" stroke="{INK}" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M-74 0 q5 5 10 0"/><path d="M-52 0 q5 5 10 0"/></g>
+<g class="mad"><ellipse cx="-69" cy="0" rx="6.5" ry="5.5" fill="#D6EA4A" stroke="{INK}" stroke-width="2.5"/><ellipse cx="-47" cy="0" rx="6.5" ry="5.5" fill="#D6EA4A" stroke="{INK}" stroke-width="2.5"/><rect x="-70" y="-4" width="2.4" height="8" rx="1" fill="{INK}"/><rect x="-48" y="-4" width="2.4" height="8" rx="1" fill="{INK}"/>
+<path d="M-78 -11 L-62 -6 M-38 -11 L-52 -6" stroke="{INK}" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M-67 13 q10 14 20 0 Z" fill="#7A1F3A" stroke="{INK}" stroke-width="2"/><path d="M-64 13 l2 6 l2 -6Z M-53 13 l2 6 l2 -6Z" fill="#fff" stroke="{INK}" stroke-width="1"/></g>
 <path d="M-60 9 h6 l-3 4 Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
 <g stroke="{INK}" stroke-width="1.4"><path d="M-72 14 l-18 -2 M-72 17 l-18 3 M-42 14 l18 -2 M-42 17 l18 3"/></g>
-</g></g></g>''')
+</g>
+</g></g></g>""")
 add(f'<text class="zz" x="{f(ax-74)}" y="{f(ay-52)}" font-size="24">z</text><text class="zz" x="{f(ax-58)}" y="{f(ay-62)}" font-size="17">z</text>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
-add(f"""<g transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat stroll" data-cat="catB">
+add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">
 <g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
@@ -336,7 +394,7 @@ add(f"""<g transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat 
 <path d="M54 -54 h6 l-3 4Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
 <path d="M57 -50 q-3 4 -7 2 M57 -50 q3 4 7 2" stroke="{INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
 <g stroke="{INK}" stroke-width="1.3"><path d="M46 -52 l-16 -2 M46 -50 l-16 3 M68 -52 l16 -2 M68 -50 l16 3"/></g>
-</g></g></g></g>""")
+</g></g></g></g></g>""")
 
 # ---------- light ----------
 gx, gy = lamp_x, lamp_y - 90
@@ -344,7 +402,7 @@ lvx, lvy = P(512, 50, 175)
 lpx, lpy = P(30, 444, 225)
 add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#1B1442" style="mix-blend-mode:multiply;pointer-events:none" opacity=".16"/>')
 add(f'<g style="pointer-events:none"><circle id="lampGlow" class="glow" cx="{f(gx)}" cy="{f(gy)}" r="320" fill="url(#warm)"/>'
-    f'<circle class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="70" fill="url(#pinkG)" opacity=".7"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>'
+    f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>'
     + g(mX(0, 250, 528), '<text class="neon" x="10" y="40" opacity=".4" style="mix-blend-mode:screen">dee\'s room</text>') + '</g>')
 add('<g id="fx" style="pointer-events:none"></g>')
 
@@ -353,16 +411,17 @@ DEFS = f'''<defs>
 <pattern id="corkp" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#D9A86C"/><circle cx="2" cy="3" r=".9" fill="#A97A45"/><circle cx="6" cy="6" r=".7" fill="#EAC690"/></pattern>
 <linearGradient id="skyN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1C4E"/><stop offset=".6" stop-color="#4A3278"/><stop offset="1" stop-color="#E0726A"/></linearGradient>
 <linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5DB8F5"/><stop offset="1" stop-color="#BFE8FB"/></linearGradient>
-<linearGradient id="lavaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB36E"/><stop offset="1" stop-color="#FF5C8A"/></linearGradient>
+<linearGradient id="lavaG" x1="0" y1="0" x2="0" y2="1"><stop id="lava0" offset="0" stop-color="#FFB36E"/><stop id="lava1" offset="1" stop-color="#FF5C8A"/></linearGradient>
 <linearGradient id="beamG" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFF6D8" stop-opacity=".6"/><stop offset="1" stop-color="#FFF6D8" stop-opacity=".06"/></linearGradient>
 <radialGradient id="warm"><stop offset="0" stop-color="#FFC870" stop-opacity=".75"/><stop offset=".45" stop-color="#FF9F4A" stop-opacity=".25"/><stop offset="1" stop-color="#FF9F4A" stop-opacity="0"/></radialGradient>
+<radialGradient id="lavaGlowG"><stop id="lavaGlowStop" offset="0" stop-color="#FF7A8A" stop-opacity=".75"/><stop offset="1" stop-color="#FF7A8A" stop-opacity="0"/></radialGradient>
 <radialGradient id="pinkG"><stop offset="0" stop-color="#FF7A8A" stop-opacity=".7"/><stop offset="1" stop-color="#FF7A8A" stop-opacity="0"/></radialGradient>
 <radialGradient id="blueG"><stop offset="0" stop-color="#8FB6FF" stop-opacity=".6"/><stop offset="1" stop-color="#8FB6FF" stop-opacity="0"/></radialGradient>
 <filter id="neonGlow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>'''
 
 svg = ('<svg id="room" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="roomTitle">'
-       '<title id="roomTitle">Dee\'s bedroom, seen from the corner: a lilac bookshelf, a record player on a mustard cabinet, a projector screen over the bed, two sleeping cats on a patchwork quilt, and a desk with a laptop under the window</title>'
+       '<title id="roomTitle">Dee\'s bedroom, seen from the corner: a lilac bookshelf, a record player on a mustard cabinet, toy cars on a shelf over the bed, a ginger cat asleep on a patchwork quilt, a calico cat on the rug, a desk with a retro laptop under the window and an old TV beside it</title>'
        + DEFS + "".join(out) + "</svg>")
 (pathlib.Path(__file__).parent / "room.svg").write_text(svg)
 print("scene", len(svg))
