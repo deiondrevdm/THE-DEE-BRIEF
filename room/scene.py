@@ -57,7 +57,7 @@ add(box(0, 0, 0, 1200, 8, 20, "#F6F1FF", "#E9E2FA", "#DDD4F5", 2.5))
 # ---------- left wall: window, curtains, poster, neon ----------
 win = [rect(0, 0, 360, 250, "url(#skyN)"), '<g id="stars">']
 for _ in range(24): win.append(f'<circle class="twinkle" cx="{f(R.uniform(10,350))}" cy="{f(R.uniform(10,170))}" r="{1.6 if R.random()<.2 else 1}" fill="#FFF6D8" style="animation-delay:{-R.uniform(0,3):.1f}s"/>')
-win.append('</g><g class="sec" data-sec="moon"><circle cx="280" cy="60" r="22" fill="#FFF3D0" stroke="#1F1B3A" stroke-width="2.5"/><circle cx="292" cy="54" r="19" fill="#2A2766"/></g>')
+win.append('</g><g><circle cx="280" cy="60" r="22" fill="#FFF3D0" stroke="#1F1B3A" stroke-width="2.5"/><circle cx="292" cy="54" r="19" fill="#2A2766"/></g>')
 win.append('<rect id="skyDay" x="0" y="0" width="360" height="250" fill="url(#skyD)"/>')
 win.append('<g id="sun"><circle cx="90" cy="70" r="30" fill="#FFD36E" stroke="#1F1B3A" stroke-width="2.5"/><path d="M200 90 q10 -22 32 -12 q14 -16 30 0 q20 2 14 20 h-74 q-14 -4 -2 -8Z" fill="#fff" stroke="#1F1B3A" stroke-width="2.5"/></g>')
 win.append('<path d="M0 250 V170 q20 -30 46 -10 q10 -36 44 -22 q26 -24 46 8 q22 -6 26 18 q10 20 -6 36 V250Z" fill="#4FB86A" stroke="#1F1B3A" stroke-width="3"/><path d="M40 210 q14 -10 26 0 M100 196 q12 -8 22 2" stroke="#2F8C4A" stroke-width="3" fill="none"/>')
@@ -80,7 +80,7 @@ def curtain():
     s = rect(0, 0, 58, 420, C["lilT"])
     s += f'<path d="M14 8 V412 M30 8 V412 M44 8 V412" stroke="{C["lilS"]}" stroke-width="3"/>'
     return s
-window_svg += g(mX(0, 704, 534), curtain()) + '<g class="sec" data-sec="curtain">' + g(mX(0, 286, 534), curtain()) + '</g>'
+window_svg += g(mX(0, 704, 534), curtain()) + g(mX(0, 286, 534), curtain())
 window_svg += g(mX(0, 712, 540), f'<rect x="0" y="-5" width="500" height="10" rx="5" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="0" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="500" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>')
 add(f'<g class="hot" data-toggle="win">{window_svg}</g>')
 
@@ -109,7 +109,7 @@ mix = (rect(0, 0, 70, 90, C["yellow"]) + f'<rect x="10" y="22" width="50" height
 add(g(mX(0, 66, 350), mix))
 for (yy, zz, rot, col) in [(62, 236, -6, C["sky"]), (118, 220, 5, C["mint"])]:
     add(g(mX(0, yy, zz), f'<g transform="rotate({rot} 24 28)">' + rect(0, 0, 48, 56, "#FFFDF6", 2.5) + rect(5, 5, 38, 36, col, 2) + '</g>'))
-add(g(mX(0, 250, 528), '<text class="neon sec" data-sec="neon" x="10" y="40">dee\'s room</text>'))
+add(g(mX(0, 250, 528), '<text class="neon" x="10" y="40">dee\'s room</text>'))
 
 # ---------- string lights on the back wall ----------
 def qbez(p0, p1, p2, t): return ((1-t)**2*p0[0] + 2*(1-t)*t*p1[0] + t*t*p2[0], (1-t)**2*p0[1] + 2*(1-t)*t*p1[1] + t*t*p2[1])
@@ -223,7 +223,7 @@ plant = (f'<path d="M-20 0 l-4 -34 h48 l-4 34Z" fill="{C["coral"]}" stroke="{INK
          f'<path d="M-6 -42 c-30 -10 -40 -40 -30 -60 c20 6 30 30 30 60 M4 -42 c0 -30 10 -54 28 -62 c6 26 -6 46 -28 62 M0 -42 c-4 -30 -2 -56 6 -70 c10 20 6 46 -6 70" fill="{C["mint"]}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
          f'<path d="M-20 -30 c-10 30 -16 60 -12 100" stroke="{INK}" stroke-width="5" fill="none"/><path d="M-20 -30 c-10 30 -16 60 -12 100" stroke="#4FB86A" stroke-width="2.5" fill="none"/>'
          + "".join(f'<ellipse cx="{x}" cy="{y}" rx="8" ry="5" transform="rotate({r} {x} {y})" fill="{C["mint"]}" stroke="{INK}" stroke-width="2"/>' for x, y, r in [(-28, 0, 50), (-32, 30, 70), (-30, 60, 80)]))
-bs.append('<g class="sec" data-sec="plant">' + g(at(80, 36, 470), plant) + '</g>')
+bs.append(g(at(80, 36, 470), plant))
 add(f'<g class="hot" data-go="books">{"".join(bs)}</g>')
 
 # ---------- record cabinet, record player, wall shelf with sleeves ----------
@@ -362,7 +362,7 @@ add(ch)
 
 # ---------- old-school TV on a cabinet next to the desk ----------
 tv = box(6, 702, 0, 124, 112, 60, C["woodT"], C["woodF"], C["woodS"])
-tv += '<g class="sec" data-sec="cabinet">' + g(mY(814, 6, 60), rect(10, 8, 104, 44, C["woodT"], 2.5) + f'<rect x="54" y="26" width="16" height="6" rx="3" fill="{INK}"/>') + '</g>'
+tv += g(mY(814, 6, 60), rect(10, 8, 104, 44, C["woodT"], 2.5) + f'<rect x="54" y="26" width="16" height="6" rx="3" fill="{INK}"/>')
 tapes = "".join(rect(10 + i * 18, 10, 15, 42, ["#3B3550", "#2A2440", "#3B3550", "#2A2440", "#3B3550"][i], 2) + f'<rect x="{12 + i * 18}" y="16" width="11" height="14" fill="{[C["yellow"], C["pink"], C["sky"], C["mint"], C["coral"]][i]}"/>' for i in range(5))
 tv += g(mX(130, 814, 60), rect(6, 6, 100, 48, "#2A2440", 2.5))
 tv += box(14, 712, 60, 104, 94, 98, "#EAE3D3", "#D9D0BC", "#C7BCA4")
@@ -457,9 +457,6 @@ bed += g(mY(468, 668, 110.5), fq)
 sq = "".join(f'<rect x="{j*53.5}" y="0" width="53.5" height="66" fill="{"#1F1B3A" if (6+j)%2 else "#FFFBF2"}"/>' for j in range(6)) + f'<g stroke="#8E87A3" stroke-width="2" stroke-dasharray="5 4">' + "".join(f'<path d="M{j*53.5} 0 V66"/>' for j in range(1, 6)) + '</g>' + rect(0, 0, 321, 66, "none")
 bed += g(mX(955, 468, 110.5), sq)
 add(bed)
-_c = [P(712, 474, 0), P(756, 474, 0), P(756, 486, 0), P(712, 486, 0)]
-add('<g class="sec" data-sec="bed">' + poly([(712, 470, 0), (752, 470, 0), (752, 488, 0), (712, 488, 0)], "#3B3550", 2.5)
-    + poly([(718, 476, 0.4), (746, 476, 0.4), (746, 482, 0.4), (718, 482, 0.4)], "#FF6FAE", 1.5) + '</g>')
 
 # seasonal props (shown by the page on the right dates)
 _tx, _ty = P(300, 160, 0)
