@@ -60,8 +60,21 @@ button{font:inherit;color:inherit}
 
 /* ambient animation inside the room */
 .twinkle{animation:tw 3.2s ease-in-out infinite}
-.nbtext{opacity:0;transition:opacity .5s ease .2s}
-#notebook.read .nbtext{opacity:1}
+.nbtext{display:none}
+.nbpage{position:absolute;z-index:8;left:50%;top:50%;width:min(680px,92%);aspect-ratio:1.55;display:grid;grid-template-columns:1fr 22px 1fr;
+  background:#F2543D;border:3px solid var(--ink);border-radius:10px;padding:10px;box-shadow:8px 10px 0 rgba(0,0,0,.35);transform:translate(-50%,-50%) rotate(-2deg);cursor:pointer}
+.nbpage.show{animation:nbin .45s cubic-bezier(.25,1.4,.5,1) both}
+.nbpage.hide{animation:nbout .28s ease-in both}
+@keyframes nbin{from{opacity:0;transform:translate(-50%,-40%) rotate(-6deg) scale(.7)}to{opacity:1;transform:translate(-50%,-50%) rotate(-2deg) scale(1)}}
+@keyframes nbout{to{opacity:0;transform:translate(-50%,-44%) rotate(-4deg) scale(.85)}}
+.nbl,.nbr{background:#FFFBF2 repeating-linear-gradient(transparent 0 26px,#9DB4F0 26px 27px);background-position:0 30px;border:2px solid var(--ink);position:relative}
+.nbl{border-radius:4px 0 0 4px}.nbr{border-radius:0 4px 4px 0;display:grid;place-items:center;padding:6%}
+.nbl::before,.nbr::before{content:"";position:absolute;top:0;bottom:0;left:22%;width:1.5px;background:#F2A0A0}
+.nbspiral{background:radial-gradient(circle at 50% 50%,transparent 4.5px,var(--ink) 5px 6.5px,transparent 7px) 50% 6px/22px 22px repeat-y}
+.nbr p{margin:0;font-family:"Permanent Marker","Marker Felt","Comic Sans MS",cursive;font-size:clamp(22px,4vw,40px);line-height:1.15;color:#141118;transform:rotate(-4deg);text-align:center;
+  clip-path:inset(0 100% 0 0);animation:write 1.1s steps(28) .45s forwards}
+@keyframes write{to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){.nbr p{clip-path:none}}
 .cflame{opacity:0;transition:opacity .25s}
 #candles.lit .cflame{opacity:1}
 #candles.lit .cflame path:first-of-type{transform-box:fill-box;transform-origin:50% 100%;animation:flick2 1.1s ease-in-out infinite alternate}
@@ -444,6 +457,7 @@ button{font:inherit;color:inherit}
     </div>
   </div>
   <div class="tip" id="tip"></div>
+  <div class="nbpage" id="nbPage" hidden aria-live="polite"><div class="nbl"></div><div class="nbspiral" aria-hidden="true"></div><div class="nbr"><p>nosy little fucker, aren't you?</p></div></div>
   <div class="bubble" id="bubble" hidden>I don't bother you in your bedroom..</div>
   <div class="panel" id="panel" hidden>
     <div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pTitle">
@@ -699,12 +713,15 @@ function mirrorZoom(){
 }
 let nbOn=false,nbT=0;
 function nbZoom(){
-  const n=$("#notebook");if(nbOn||mirrorOn||girlBusy||jointBusy||openId||!n)return;nbOn=true;hideTip();SFX.page();
+  const n=$("#notebook"),pg=$("#nbPage");if(nbOn||mirrorOn||girlBusy||jointBusy||openId||!n)return;nbOn=true;hideTip();SFX.page();
   const b=svgBox(n);scene.classList.add("zoomed");
-  tween(fit({x:b.x-b.width*.08,y:b.y-b.height*.1,w:b.width*1.16,h:b.height*1.2}),800,()=>{n.classList.add("read");SFX.marker();nbT=setTimeout(nbOut,6000)});
+  tween(fit({x:b.x-b.width*.9,y:b.y-b.height*.9,w:b.width*2.8,h:b.height*2.8}),650,()=>{
+    pg.hidden=false;pg.classList.remove("show");void pg.offsetWidth;pg.classList.add("show");
+    setTimeout(()=>SFX.marker(),450);nbT=setTimeout(nbOut,6500)});
 }
-function nbOut(){if(!nbOn)return;clearTimeout(nbT);$("#notebook").classList.remove("read");tween(VB0,750,()=>{scene.classList.remove("zoomed");nbOn=false})}
-stage.addEventListener("click",e=>{if(nbOn&&vb.w<1000)nbOut()},true);
+function nbOut(){if(!nbOn)return;clearTimeout(nbT);const pg=$("#nbPage");pg.classList.remove("show");pg.classList.add("hide");
+  setTimeout(()=>{pg.hidden=true;pg.classList.remove("hide");tween(VB0,700,()=>{scene.classList.remove("zoomed");nbOn=false})},280)}
+stage.addEventListener("click",e=>{if(nbOn&&!$("#nbPage").hidden)nbOut()},true);
 addEventListener("keydown",e=>{if(e.key==="Escape")nbOut()});
 function mirrorOut(){if(!mirrorOn)return;clearTimeout(mirrorT);tween(VB0,750,()=>{scene.classList.remove("zoomed");mirrorOn=false})}
 stage.addEventListener("click",e=>{if(mirrorOn&&!e.target.closest(".hot"))mirrorOut()});

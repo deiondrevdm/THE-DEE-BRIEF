@@ -241,24 +241,33 @@ add(f'<g class="hot" data-go="records">{records_svg}</g>')
 add(f'<g class="hot" data-toggle="lava" transform="{at(512, 50, 130)}">{lava}</g>')
 add(cars_svg + car_hots)
 
-# skateboard hung on the wall above the cars: underside facing out, flame graphic
-deck = "M28 0 H232 C252 0 262 12 262 27 C262 42 252 54 232 54 H28 C8 54 -2 42 -2 27 C-2 12 8 0 28 0Z"
-fl = "M24 54 " + " ".join(f"q11 -{40 + (k % 3) * 9} 22 0" for k in range(10)) + " V54Z"
-sk = (f'<path d="M40 -10 v12 M222 -10 v12" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
-      f'<circle cx="40" cy="-12" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="2"/><circle cx="222" cy="-12" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="2"/>'
-      '<clipPath id="deckClip"><path d="' + deck + '"/></clipPath>'
-      f'<path d="{deck}" fill="#1F1B3A"/>'
-      f'<g clip-path="url(#deckClip)"><path d="{fl}" fill="#F2543D"/><path d="{fl}" transform="translate(0 54) scale(1 .62) translate(0 -54)" fill="#FF9F1C"/>'
-      f'<path d="{fl}" transform="translate(0 54) scale(1 .3) translate(0 -54)" fill="#F8D65A"/></g>'
+# skateboard hung on the wall above the cars: underside facing out, hot-rod flames
+L, H = 280, 66
+deck = f"M34 0 H{L-34} C{L-8} 0 {L+4} 16 {L+4} {H/2} C{L+4} {H-16} {L-8} {H} {L-34} {H} H34 C8 {H} -4 {H-16} -4 {H/2} C-4 16 8 0 34 0Z"
+# flames sweep from the left (nose) toward the right in long tongues
+tips = [(150, 7), (215, 19), (175, 31), (240, 44), (165, 57)]
+d = "M-10 -4 "
+prev_y = -4
+for k, (tx, ty) in enumerate(tips):
+    vy = ty + 6
+    d += f"Q{tx*0.55:.0f} {ty-6} {tx} {ty} Q{tx*0.5:.0f} {ty+4} {tx*0.38:.0f} {vy+2} "
+d += f"L-10 {H+6}Z"
+inner = d.replace("Q", "Q").replace("M-10 -4", "M-10 4")
+sk = (f'<path d="M58 -14 v14 M{L-58} -14 v14" stroke="{INK}" stroke-width="4" stroke-linecap="round"/>'
+      f'<circle cx="58" cy="-16" r="4.5" fill="#9C97AA" stroke="{INK}" stroke-width="2"/><circle cx="{L-58}" cy="-16" r="4.5" fill="#9C97AA" stroke="{INK}" stroke-width="2"/>'
+      f'<clipPath id="deckClip"><path d="{deck}"/></clipPath><path d="{deck}" fill="#1F1B3A"/>'
+      f'<g clip-path="url(#deckClip)"><path d="{d}" fill="#F2543D"/>'
+      f'<path d="{d}" transform="translate(-14 0) scale(.82 1)" fill="#FF9F1C"/><path d="{d}" transform="translate(-20 0) scale(.6 1)" fill="#F8D65A"/></g>'
       f'<path d="{deck}" fill="none" stroke="{INK}" stroke-width="3"/>')
-for tx in (56, 206):
-    sk += (f'<rect x="{tx-24}" y="16" width="48" height="22" rx="5" fill="#C9C1D6" stroke="{INK}" stroke-width="2.5"/>'
-           f'<rect x="{tx-34}" y="22" width="68" height="9" rx="4" fill="#E6E1F0" stroke="{INK}" stroke-width="2.5"/>'
-           f'<circle cx="{tx}" cy="27" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="1.6"/>')
-    for wx in (tx - 36, tx + 36):
-        sk += (f'<ellipse cx="{wx}" cy="27" rx="9" ry="12" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5"/>'
-               f'<ellipse cx="{wx}" cy="27" rx="3.5" ry="5" fill="#FF6FAE" stroke="{INK}" stroke-width="1.5"/>')
-add(g(mY(2, 682, 416), sk))
+# trucks: baseplate along the board, hanger across it, wheels poking out top and bottom
+for tx in (70, L - 70):
+    sk += (f'<rect x="{tx-16}" y="{H/2-11}" width="32" height="22" rx="4" fill="#C9C1D6" stroke="{INK}" stroke-width="2.5"/>'
+           f'<rect x="{tx-6}" y="-4" width="12" height="{H+8}" rx="5" fill="#E6E1F0" stroke="{INK}" stroke-width="2.5"/>'
+           f'<circle cx="{tx}" cy="{H/2}" r="4" fill="#9C97AA" stroke="{INK}" stroke-width="1.6"/>')
+    for wy in (-6, H + 6):
+        sk += (f'<rect x="{tx-13}" y="{wy-8}" width="26" height="16" rx="7" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5"/>'
+               f'<rect x="{tx-6}" y="{wy-4}" width="12" height="8" rx="3" fill="#FF6FAE" stroke="{INK}" stroke-width="1.4"/>')
+add(g(mY(2, 676, 462), sk))
 
 # ---------- nightstand + mushroom lamp ----------
 ns = box(560, 0, 0, 82, 80, 112, C["woodT"], C["woodF"], C["woodS"])
