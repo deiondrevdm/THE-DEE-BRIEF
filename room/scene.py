@@ -263,6 +263,24 @@ mug = (f'<path d="M-12 0 v-28 h24 v28 q0 4 -4 4 h-16 q-4 0 -4 -4Z" fill="{C["tea
        f'<g class="steam" stroke="#FFFDF6" stroke-width="3" fill="none" stroke-linecap="round"><path d="M-4 -34 q-6 -10 2 -18 q6 -8 0 -16"/><path d="M6 -34 q6 -10 -2 -18 q-6 -8 0 -16"/></g>')
 dk += g(at(70, 320, 176), mug)
 add(dk)
+
+# three candles on the desk (click to light / blow out)
+def candle(x, y, h, w, col, top):
+    cx, cy = P(x, y, 176)
+    fl = (f'<g class="cflame" transform="translate(0 {-h-6})"><ellipse cx="0" cy="-2" rx="11" ry="14" fill="#FFC870" opacity=".35" class="cglow"/>'
+          f'<path d="M0 -14 C5 -7 6 -2 4 2 C3 5 -3 5 -4 2 C-6 -2 -5 -7 0 -14Z" fill="#FF9F1C" stroke="{INK}" stroke-width="1.6"/>'
+          f'<path d="M0 -8 C2 -5 2.5 -2 1.5 1 C1 2.5 -1 2.5 -1.5 1 C-2.5 -2 -2 -5 0 -8Z" fill="#FFF3B0"/></g>')
+    return (f'<g transform="translate({f(cx)} {f(cy)})">'
+            f'<ellipse cx="0" cy="0" rx="{w}" ry="{w*.42}" fill="{col}" stroke="{INK}" stroke-width="2.5"/>'
+            f'<rect x="{-w}" y="{-h}" width="{2*w}" height="{h}" fill="{col}"/>'
+            f'<path d="M{-w} {-h} V0 M{w} {-h} V0" stroke="{INK}" stroke-width="2.5"/>'
+            f'<ellipse cx="0" cy="{-h}" rx="{w}" ry="{w*.42}" fill="{top}" stroke="{INK}" stroke-width="2.5"/>'
+            f'<path d="M{-w*.5} {-h+3} q2 {h*.3} 0 {h*.45}" stroke="{top}" stroke-width="3" fill="none" stroke-linecap="round"/>'
+            f'<path d="M0 {-h} v-6" stroke="{INK}" stroke-width="2" stroke-linecap="round"/>{fl}</g>')
+add('<g id="candles" class="hot" data-toggle="candles">'
+    + candle(60, 642, 46, 10, "#FF8FC2", "#FFC1D9")
+    + candle(96, 668, 30, 12, "#B39BFF", "#D6C9FF")
+    + candle(48, 690, 20, 9, "#FFF4DE", "#FFFFFF") + '</g>')
 TAN, TANF, TANS = "#FF9A3A", "#FF8A2A", "#E8761C"
 lt = box(30, 384, 176, 82, 124, 12, "#F7F2EA", TANF, TANS, 2.5)
 lt += g(mZ(188, 40, 396), rect(0, 0, 30, 100, "#E9E3D8", 2) + "".join(f'<path d="M{x} 3 V97" stroke="#BDB5A6" stroke-width="1.2"/>' for x in (8, 15, 22)) + "".join(f'<path d="M3 {y} H27" stroke="#BDB5A6" stroke-width="1.2"/>' for y in range(12, 100, 11)))
@@ -306,8 +324,17 @@ add(f'<g class="hot" data-go="screen">{tv}</g>')
 
 
 # ---------- rug + floor clutter ----------
-rug = rect(0, 0, 360, 280, "#8FD3F5") + "".join(f'<path d="M{x} 6 V274" stroke="#B9E5FA" stroke-width="7"/>' for x in range(20, 360, 26)) + rect(0, 0, 360, 280, "none") \
-      + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
+def flames(w, flip=False):
+    d = f"M0 0 " + " ".join(f"q{8} {-18 - (k % 3) * 8} {16} 0" for k in range(int(w // 16))) + f" V12 H0Z"
+    return d
+rug = rect(0, 0, 360, 280, "#1F1B3A")
+rug += f'<path d="{flames(360)}" transform="translate(0 280)" fill="#F2543D"/><path d="{flames(360)}" transform="translate(0 280) scale(1 .6)" fill="#FF9F1C"/>'
+rug += f'<path d="{flames(360)}" transform="translate(360 0) rotate(180)" fill="#F2543D"/><path d="{flames(360)}" transform="translate(360 0) rotate(180) scale(1 .6)" fill="#FF9F1C"/>'
+rug += ('<text x="180" y="158" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="78" letter-spacing="2" '
+        'fill="#FFFBF2" stroke="#F2543D" stroke-width="5" paint-order="stroke" transform="skewX(-10)">SHRED</text>')
+rug += ('<g transform="translate(120 190)"><rect x="0" y="0" width="120" height="16" rx="8" fill="#F8D65A" stroke="#FFFBF2" stroke-width="2.5"/>'
+        '<circle cx="22" cy="22" r="6" fill="#FFFBF2"/><circle cx="98" cy="22" r="6" fill="#FFFBF2"/></g>')
+rug += rect(0, 0, 360, 280, "none") + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
 add(g(mZ(0.5, 200, 420), rug))
 def sock(c):
     return (f'<path d="M0 0 h18 v26 q0 6 6 6 h14 q8 0 8 8 q0 8 -8 8 h-26 q-12 0 -12 -12Z" fill="#FFFDF6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
