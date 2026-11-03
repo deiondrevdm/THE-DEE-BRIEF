@@ -659,7 +659,7 @@ add('</g>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
 add('<g id="catBedFront" style="display:none">' + _fluff(_bumps(True), "#7FDB97") + "".join(f'<path d="M{f(_bx+dx)} {f(_by+dy)} q3 -3 6 0" stroke="#B5F0C4" stroke-width="1.8" fill="none" stroke-linecap="round"/>' for dx, dy in [(-34, 10), (-12, 17), (14, 17), (32, 9)]) + '</g>')
-_kx, _ky = P(374, 210, 0)
+_kx, _ky = P(790, 360, 118)
 add(f'<g id="chips" class="hot" data-toggle="chips" transform="translate({f(_kx)} {f(_ky)})"><g class="chipbag">'
     f'<ellipse cx="6" cy="2" rx="30" ry="6" fill="#1F1B3A" opacity=".18"/>'
     + "".join(f'<ellipse class="chip" cx="{x}" cy="{y}" rx="6" ry="3.6" fill="#F8C94A" stroke="{INK}" stroke-width="1.6" transform="rotate({r} {x} {y})"/>' for x, y, r in [(24, 0, -10), (33, -3, 20), (28, 5, 5), (-22, 3, 15)])

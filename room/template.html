@@ -1047,7 +1047,7 @@ let munchN=0;function crunch(){const c=$("#chips");if(!c)return;c.classList.remo
 /* Supra sometimes goes to sniff the chips */
 const SNACK=[338,252];
 const _supTick=supTick;supTick=function(now,dt){
-  if(SUP.state==="pause"&&!SUP.sniffDone&&!reduce&&SUP.wait<=dt&&Math.random()<.2){SUP.tx=SNACK[0];SUP.ty=SNACK[1];SUP.state="walk";SUP.sniff=true}
+  if(false&&SUP.state==="pause"&&!SUP.sniffDone&&!reduce&&SUP.wait<=dt&&Math.random()<.2){SUP.tx=SNACK[0];SUP.ty=SNACK[1];SUP.state="walk";SUP.sniff=true}
   const was=SUP.state;_supTick(now,dt);
   if(SUP.sniff&&was==="walk"&&SUP.state==="pause"){SUP.sniff=false;SUP.wait=3;floatText(["sniff","sniff"],svgBox(supCat),"prr");setTimeout(()=>{if(SUP.state==="pause"){[SUP.tx,SUP.ty]=randF();SUP.state="walk"}},2600)}
   if(SUP.state==="run")SUP.sniff=false};
