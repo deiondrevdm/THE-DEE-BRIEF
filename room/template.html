@@ -6,7 +6,7 @@
 <title>Dee's Room</title>
 <meta name="description" content="Dee's room on the internet. Books, records, trailers, writing and two cats. Click around.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Shadows+Into+Light&family=Oswald:wght@500;700&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Courier+Prime:wght@400;700&family=Instrument+Sans:wght@400;500;600&family=VT323&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Patrick+Hand&family=Oswald:wght@700&family=VT323&display=swap">
 <style>
 /* Layout: one illustrated bedroom fills the screen. Click an object and the camera zooms in; its contents open on a paper card. */
 :root{
@@ -17,10 +17,10 @@
   --white:#FFFDF6;
   --tomato:#F2542D; --sun:#F2B230; --teal:#2E8A86; --pink:#E86A8E; --cobalt:#3D57A6;
   --mint:#4CC38A; --sky:#5B9BFF; --lilac:#B39BFF; --tangerine:#FF9F1C; --glass:#F8E9C2;
-  --display:"Shrikhand","Cooper Black",Georgia,serif;
-  --hand:"Shadows Into Light","Bradley Hand","Segoe Print",cursive;
-  --type:"Courier Prime","Courier New",Courier,monospace;
-  --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --hand:"Patrick Hand","Comic Sans MS","Segoe Print",cursive;
+  --type:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
   --pixel:"VT323","Courier New",monospace;
   color-scheme:light;
 }
@@ -128,7 +128,7 @@ button{font:inherit;color:inherit}
 #nightTint{transition:opacity .8s}
 .glow{transition:opacity .8s;mix-blend-mode:screen}
 #skyDay,#sun{transition:opacity .8s}
-.neon{font-family:var(--display);font-size:46px;fill:#FFE3EE;stroke:#FF6FAE;stroke-width:1.2px;filter:url(#neonGlow)}
+.neon{font-family:var(--display);font-weight:700;font-size:34px;fill:#FFE3EE;stroke:#FF6FAE;stroke-width:1.2px;filter:url(#neonGlow)}
 .lamp-off .neon{animation:neon 5s infinite}
 @keyframes neon{0%,92%,100%{opacity:1}93%{opacity:.4}95%{opacity:1}96%{opacity:.5}}
 

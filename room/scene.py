@@ -430,7 +430,7 @@ add(G)
 
 # ---------- the cats ----------
 ax, ay = P(800, 250, 112)
-add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.9)"><g class="breathe">
+add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.6)"><g class="breathe">
 <ellipse cx="0" cy="0" rx="74" ry="36" fill="#F09A3E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-12 -34 q7 14 0 26"/><path d="M8 -35 q7 14 0 26"/><path d="M28 -31 q7 12 0 22"/><path d="M46 -24 q6 10 0 18"/></g>
 <g class="tail"><path d="M66 8 C72 32 30 42 -10 36 C-38 33 -56 28 -64 20" stroke="{INK}" stroke-width="23" fill="none" stroke-linecap="round"/><path d="M66 8 C72 32 30 42 -10 36 C-38 33 -56 28 -64 20" stroke="#F09A3E" stroke-width="16" fill="none" stroke-linecap="round"/>
@@ -450,10 +450,10 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <g stroke="{INK}" stroke-width="1.4"><path d="M-72 14 l-18 -2 M-72 17 l-18 3 M-42 14 l18 -2 M-42 17 l18 3"/></g>
 </g>
 </g></g></g>""")
-add(f'<text class="zz" x="{f(ax-74)}" y="{f(ay-52)}" font-size="24">z</text><text class="zz" x="{f(ax-58)}" y="{f(ay-62)}" font-size="17">z</text>')
+add(f'<text class="zz" x="{f(ax-50)}" y="{f(ay-36)}" font-size="18">z</text><text class="zz" x="{f(ax-40)}" y="{f(ay-44)}" font-size="13">z</text>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
-add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip">
+add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.62)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">
 <g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
@@ -475,7 +475,7 @@ add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" c
 <path d="M54 -54 h6 l-3 4Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
 <path d="M57 -50 q-3 4 -7 2 M57 -50 q3 4 7 2" stroke="{INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
 <g stroke="{INK}" stroke-width="1.3"><path d="M46 -52 l-16 -2 M46 -50 l-16 3 M68 -52 l16 -2 M68 -50 l16 3"/></g>
-</g></g></g></g></g>""")
+</g></g></g></g></g></g>""")
 
 # ---------- light ----------
 gx, gy = lamp_x, lamp_y - 90
