@@ -282,6 +282,20 @@ button{font:inherit;color:inherit}
   .phead{flex-direction:column-reverse;gap:10px}
   .nav span{display:none}
 }
+
+@media (max-width:720px){
+  .tg{padding:4px 9px;font-size:11px}.brand b{font-size:18px}
+  .bar{padding-block:6px}.nav{padding-block:6px 8px}.nav button{padding:5px 11px;font-size:12px}
+  .panel{padding-block:8px}
+  .phead{flex-direction:row;align-items:center;padding:12px 14px 0}
+  .phead h2{font-size:22px}
+  .back{padding:6px 10px;font-size:11px}
+  .pbody{padding:10px 14px 14px}
+  body:has(#v-books:not([hidden])) #pSub{display:none}
+  #v-books .arts-ctl{display:none}
+  #v-books .book-card h3{font-size:20px}
+  #v-books .book-card .count{font-size:17px}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
