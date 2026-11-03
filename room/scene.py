@@ -95,7 +95,7 @@ poster = (rect(0, 0, 150, 200, "#FFFDF6")
           + f'<image href="data:image/jpeg;base64,{POSTER_IMG}" x="5" y="5" width="140" height="190" preserveAspectRatio="xMidYMid slice"/>'
           + rect(0, 0, 150, 200, "none")
           + '<rect x="-8" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(-20)"/><rect x="128" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(20 143 0)"/>')
-add(g(mX(0, 236, 430), poster))
+add('<g id="posterG" class="hot" data-toggle="poster">' + g(mX(0, 236, 430), poster) + '</g>')
 mix = (rect(0, 0, 70, 90, C["yellow"]) + f'<rect x="10" y="22" width="50" height="32" rx="4" fill="{C["cream"]}" stroke="{INK}" stroke-width="2.5"/><circle cx="25" cy="38" r="7" fill="{INK}"/><circle cx="45" cy="38" r="7" fill="{INK}"/>'
        f'<text x="35" y="78" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="12" fill="{INK}">MIX VOL.2</text>')
 add(g(mX(0, 66, 350), mix))
