@@ -146,10 +146,11 @@ mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" strok
        '<rect x="44" y="47" width="22" height="9" fill="#ffffffaa"/>'
        '<text font-family="Patrick Hand, cursive" font-size="10.5" fill="#1F1B3A" text-anchor="middle"><tspan x="55" y="68">horses don\'t</tspan><tspan x="55" y="81">stop, they</tspan><tspan x="55" y="94">keep going</tspan></text>'
        f'<path d="M40 101 q4 -6 8 0 q4 6 8 0" stroke="{INK}" stroke-width="1.4" fill="none"/></g>'
-       # pink note: ACAB with a heart
-       f'<g transform="rotate(7 132 46)"><rect x="104" y="22" width="56" height="46" fill="#FFC1D3" stroke="{INK}" stroke-width="2"/>'
-       '<text x="132" y="46" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="14" fill="#1F1B3A">ACAB</text>'
-       f'<path d="M132 63 C124 57 124 51 128 51 C130 51 132 53 132 55 C132 53 134 51 136 51 C140 51 140 57 132 63Z" fill="#F2543D" stroke="{INK}" stroke-width="1.2"/></g>'
+       # pink note: kyk noord, fok voort
+       f'<g transform="rotate(7 132 46)"><rect x="102" y="20" width="60" height="50" fill="#FFC1D3" stroke="{INK}" stroke-width="2"/>'
+       '<rect x="122" y="15" width="20" height="8" fill="#ffffffaa"/>'
+       '<text font-family="Patrick Hand, cursive" font-size="10.5" fill="#1F1B3A" text-anchor="middle"><tspan x="132" y="39">kyk noord,</tspan><tspan x="132" y="53">fok voort</tspan></text>'
+       f'<path d="M150 64 l3 -5 3 5 -5 -3 h6Z" fill="#F8D65A" stroke="{INK}" stroke-width="1"/></g>'
        # movie ticket stub: White Chicks
        f'<g transform="rotate(-4 140 100)"><path d="M104 84 H176 V92 a4 4 0 0 0 0 8 V116 H104 V100 a4 4 0 0 0 0 -8Z" fill="#BFD4FF" stroke="{INK}" stroke-width="2"/>'
        '<path d="M158 85 V115" stroke="#1F1B3A" stroke-width="1.2" stroke-dasharray="2 2"/>'
@@ -556,8 +557,14 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <path d="M-60 9 h6 l-3 4 Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
 <g stroke="{INK}" stroke-width="1.4"><path d="M-72 14 l-18 -2 M-72 17 l-18 3 M-42 14 l18 -2 M-42 17 l18 3"/></g>
 </g>
-<g class="paw"><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="{INK}" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#F7A54E" stroke-width="11" fill="none" stroke-linecap="round"/>
-<circle cx="-106" cy="-2" r="8" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/><path d="M-112 -8 l-6 -4 M-114 -2 l-7 0 M-112 4 l-6 4" stroke="{INK}" stroke-width="2" stroke-linecap="round"/></g>
+<g transform="translate(-62 26)"><g class="paw">
+<path d="M0 -9 C-16 -12 -34 -11 -46 -9 C-50 -8 -52 -4 -52 0 C-52 5 -49 8 -45 8 C-32 9 -16 10 0 9Z" fill="#F09A3E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>
+<path d="M-14 -10 q3 9 0 19 M-28 -10 q3 9 0 18" stroke="#B85C1A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<ellipse cx="-56" cy="0" rx="12" ry="11" fill="#F7A54E" stroke="{INK}" stroke-width="3"/>
+<ellipse cx="-56" cy="3" rx="6" ry="5" fill="#F6B7C4"/>
+<circle cx="-64" cy="-6" r="2.6" fill="#F6B7C4"/><circle cx="-67" cy="1" r="2.6" fill="#F6B7C4"/><circle cx="-64" cy="8" r="2.6" fill="#F6B7C4"/>
+<g fill="#FFFDF6" stroke="{INK}" stroke-width="1.3" stroke-linejoin="round"><path d="M-66 -9 C-73 -14 -77 -14 -79 -11 C-75 -11 -71 -9 -68 -6Z"/><path d="M-68 -2 C-76 -4 -80 -2 -81 1 C-77 0 -73 1 -69 2Z"/><path d="M-67 5 C-74 6 -78 9 -78 12 C-75 10 -71 9 -67 9Z"/></g>
+</g></g>
 <g class="streaks"><path d="M-96 -42 Q-134 -24 -128 18"/><path d="M-110 -40 Q-146 -18 -138 22"/><path d="M-124 -34 Q-156 -10 -146 26"/></g>
 </g></g></g>""")
 add(f'<text class="zz" x="{f(ax-60)}" y="{f(ay-44)}" font-size="20">z</text><text class="zz" x="{f(ax-48)}" y="{f(ay-54)}" font-size="15">z</text>')
