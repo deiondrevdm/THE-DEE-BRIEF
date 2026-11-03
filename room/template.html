@@ -55,7 +55,7 @@ button{font:inherit;color:inherit}
 .tip{position:absolute;z-index:6;pointer-events:none;background:var(--paper);color:var(--ink);font-family:var(--hand);font-size:20px;line-height:1.1;padding:5px 10px 6px;border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,.35);transform:translate(-50%,calc(-100% - 16px)) rotate(-2deg);white-space:nowrap;opacity:0;transition:opacity .15s}
 .tip.on{opacity:1}
 .tip small{display:block;font-family:var(--type);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.hint{position:absolute;z-index:5;left:50%;bottom:14px;transform:translateX(-50%) rotate(-1.5deg);background:#FFE6A8;color:var(--ink);font-family:var(--hand);font-size:21px;padding:4px 14px;box-shadow:3px 3px 0 rgba(0,0,0,.35);transition:opacity .5s;pointer-events:none;white-space:nowrap}
+.hint{position:absolute;z-index:5;left:50%;top:14px;transform:translateX(-50%) rotate(-1.5deg);background:#FFE6A8;color:var(--ink);font-family:var(--hand);font-size:21px;padding:4px 14px;box-shadow:3px 3px 0 rgba(0,0,0,.35);transition:opacity .5s;pointer-events:none;white-space:nowrap}
 .hint.gone{opacity:0}
 
 /* ambient animation inside the room */
@@ -64,6 +64,10 @@ button{font:inherit;color:inherit}
 .smoke path:nth-child(2){animation-delay:2.3s}.smoke path:nth-child(3){animation-delay:4.6s}
 @keyframes smoke{0%{opacity:0;transform:translate(0,0) scale(.8)}15%{opacity:.55}100%{opacity:0;transform:translate(14px,-80px) scale(1.6,1.4)}}
 .ember{animation:ember 2.6s ease-in-out infinite}
+.exhale circle{fill:#F4F0FA;opacity:0;transform-box:fill-box;transform-origin:center;animation:exhale 9s ease-out infinite}
+.exhale circle:nth-child(2){animation-delay:.25s}.exhale circle:nth-child(3){animation-delay:.5s}
+@keyframes exhale{0%,62%{opacity:0;transform:translate(0,0) scale(.4)}68%{opacity:.75}100%{opacity:0;transform:translate(-26px,-30px) scale(2.2)}}
+.girl{pointer-events:none}
 @keyframes ember{50%{fill:#FFB04A}}
 @keyframes tw{50%{opacity:.55}}
 .steam path{animation:steam 3.5s ease-in-out infinite;opacity:0}
@@ -466,8 +470,8 @@ const SUP={x:300,y:560,tx:300,ty:560,state:"pause",wait:1,flees:0,tiredAt:0,last
 const supPos=$("#supraPos"),supCat=$("#catB"),supFlip=supCat&&supCat.querySelector(".flip");
 const toScr=(x,y)=>[640+x-.78*y,560+.2*x+.5*y];
 const toFloor=(sx,sy)=>{const a=sx-640,b=sy-560,y=(b-.2*a)/.656;return[a+.78*y,y]};
-const clampF=(x,y)=>{x=Math.max(280,Math.min(600,x));y=Math.max(470,Math.min(790-.4*x,y));return[x,y]};
-const randF=()=>clampF(280+Math.random()*320,470+Math.random()*220);
+const clampF=(x,y)=>{x=Math.max(280,Math.min(470,x));y=Math.max(470,Math.min(790-.4*x,y));return[x,y]};
+const randF=()=>clampF(280+Math.random()*190,470+Math.random()*220);
 let ptr=null;
 function supFlee(px,py){
   let dx=SUP.x-px,dy=SUP.y-py,L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;

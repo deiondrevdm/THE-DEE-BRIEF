@@ -87,11 +87,19 @@ add(f'<g transform="translate({f(ash_x)} {f(ash_y)})">'
     f'<g class="smoke" transform="translate(21 -12)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/><path d="M0 0 q-4 -9 3 -18 q5 -8 -2 -18"/></g>'
     '</g>')
 
-poster = (rect(0, 0, 150, 200, C["pink"]) + f'<circle cx="75" cy="88" r="40" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>'
-          f'<ellipse cx="75" cy="92" rx="68" ry="14" fill="none" stroke="{INK}" stroke-width="7"/><ellipse cx="75" cy="92" rx="68" ry="14" fill="none" stroke="{C["mint"]}" stroke-width="3"/>'
-          f'<path d="M50 70 q12 -16 30 -8 M60 104 q14 6 30 -4" stroke="{C["coral"]}" stroke-width="5" fill="none" stroke-linecap="round"/>'
-          + "".join(f'<path d="M{x} {y} l3 7 7 1 -5 5 1 7 -6 -4 -6 4 1 -7 -5 -5 7 -1Z" fill="#FFF6D8" stroke="{INK}" stroke-width="1.5"/>' for x, y in [(20, 22), (120, 30), (128, 140), (16, 128)])
-          + f'<text x="75" y="182" text-anchor="middle" font-family="Shrikhand, Georgia, serif" font-size="24" fill="{C["cream"]}" stroke="{INK}" stroke-width="5" paint-order="stroke">OUT THERE</text>'
+poster = (rect(0, 0, 150, 200, "#1F1B3A")
+          + '<path d="M0 200 L0 150 q10 -26 18 -4 q8 -34 20 -6 q10 -30 22 -2 q8 -28 20 0 q10 -36 22 -4 q8 -24 18 2 q10 -28 18 -6 L150 200Z" fill="#F2543D"/>'
+          + '<path d="M0 200 L0 166 q12 -16 20 0 q10 -22 22 0 q10 -18 22 2 q10 -20 22 0 q10 -22 22 0 q10 -16 20 2 q8 -14 14 -4 L150 200Z" fill="#FF9F1C"/>'
+          + f'<g stroke="{INK}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">'
+          + '<path d="M62 120 l-22 18 l10 14 M88 120 l20 10 l-6 18" fill="none" stroke="#C9C1D6" stroke-width="9"/>'
+          + '<path d="M60 84 h32 l6 40 h-44Z" fill="#7FDBA8"/>'
+          + '<path d="M62 90 l-26 -22 M90 90 l20 -26" fill="none" stroke="#F4C4A1" stroke-width="7"/>'
+          + '<circle cx="112" cy="60" r="5" fill="#9C97AA"/><path d="M112 65 l-6 10" stroke-width="2"/>'
+          + '<circle cx="76" cy="70" r="13" fill="#F4C4A1"/><path d="M63 66 q13 -20 26 0 v-6 q-13 -12 -26 0Z" fill="#2B2733"/>'
+          + '<path d="M70 76 q6 4 12 0" fill="none"/></g>'
+          + '<text x="75" y="30" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="25" fill="#E6E3DE" stroke="#1F1B3A" stroke-width="1" letter-spacing="1" transform="skewX(-8)">DRYWALL</text>'
+          + '<text x="75" y="52" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="20" fill="#F2543D" letter-spacing="4" transform="skewX(-8)">PUNCH</text>'
+          + '<text x="75" y="192" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="9" fill="#1F1B3A">LIVE · SUMMER 1999</text>'
           '<rect x="-8" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(-20)"/><rect x="128" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(20 143 0)"/>')
 add(g(mX(0, 236, 430), poster))
 mix = (rect(0, 0, 70, 90, C["yellow"]) + f'<rect x="10" y="22" width="50" height="32" rx="4" fill="{C["cream"]}" stroke="{INK}" stroke-width="2.5"/><circle cx="25" cy="38" r="7" fill="{INK}"/><circle cx="45" cy="38" r="7" fill="{INK}"/>'
@@ -299,11 +307,10 @@ add(g(mZ(0.5, 200, 420), rug))
 def sock(c):
     return (f'<path d="M0 0 h18 v26 q0 6 6 6 h14 q8 0 8 8 q0 8 -8 8 h-26 q-12 0 -12 -12Z" fill="#FFFDF6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
             f'<path d="M0 6 h18 M0 12 h18" stroke="{c}" stroke-width="3"/><path d="M30 32 q8 0 8 8 q0 8 -8 8 h-4 v-16Z" fill="{c}" stroke="{INK}" stroke-width="2.5"/>')
-add(f'<g transform="translate(720 690) rotate(-30)">{sock(C["pink"])}</g>')
 add(f'<g transform="translate(470 905) rotate(60)">{sock(C["sky"])}</g>')
 shoe = (f'<path d="M0 0 q-2 -18 14 -20 l10 -10 h18 q10 14 30 16 q10 2 10 12 v4Z" fill="{C["coral"]}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
         f'<path d="M-2 0 h86 v8 h-86Z" fill="#FFFDF6" stroke="{INK}" stroke-width="3"/><path d="M24 -28 l8 10 M34 -28 l6 10" stroke="{INK}" stroke-width="2.5"/><path d="M50 -10 l8 -4 l6 6" stroke="#FFFDF6" stroke-width="3" fill="none"/>')
-add(f'<g transform="translate(560 978) rotate(-10)">{shoe}</g><g transform="translate(650 994) rotate(6)">{shoe}</g>')
+add(f'<g transform="translate(600 650) rotate(-10)">{shoe}</g><g transform="translate(676 668) rotate(6)">{shoe}</g>')
 pad = (f'<path d="M-40 -14 q-18 0 -20 18 q-2 18 12 18 q10 0 16 -10 h64 q6 10 16 10 q14 0 12 -18 q-2 -18 -20 -18Z" fill="#C9C1D6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
        f'<path d="M-40 -4 h-12 M-46 -10 v12" stroke="{INK}" stroke-width="4" stroke-linecap="round"/><circle cx="36" cy="-6" r="4" fill="{C["red"]}" stroke="{INK}" stroke-width="2"/><circle cx="46" cy="2" r="4" fill="{C["sky"]}" stroke="{INK}" stroke-width="2"/>'
        f'<path d="M0 -14 q10 -30 40 -26" stroke="{INK}" stroke-width="2.5" fill="none"/>')
@@ -354,6 +361,52 @@ bed += g(mY(468, 668, 110.5), fq)
 sq = "".join(f'<rect x="{j*53.5}" y="0" width="53.5" height="66" fill="{pick(patch)}"/>' for j in range(6)) + f'<g stroke="#FFFDF6" stroke-width="2" stroke-dasharray="5 4">' + "".join(f'<path d="M{j*53.5} 0 V66"/>' for j in range(1, 6)) + '</g>' + rect(0, 0, 321, 66, "none")
 bed += g(mX(955, 468, 110.5), sq)
 add(bed)
+
+
+# ---------- girl reading on the floor next to the bed ----------
+SK, HAIR, HL = "#F4C4A1", "#E8742A", "#F6D27A"
+def limb(d, w, col):
+    return f'<path d="{d}" stroke="{INK}" stroke-width="{w+5}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="{d}" stroke="{col}" stroke-width="{w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+girl = f'<g class="girl" transform="translate(822 950) scale(1.22)">'
+girl += '<ellipse cx="-10" cy="2" rx="128" ry="10" fill="#1F1B3A" opacity=".18"/>'
+# open book on the floor
+girl += (f'<path d="M-164 -2 L-134 -16 L-104 -4 L-134 7Z" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+         f'<path d="M-134 -16 L-134 7" stroke="{INK}" stroke-width="1.5"/><path d="M-166 0 L-134 9 L-102 -2" stroke="#E86A8E" stroke-width="4" fill="none"/>'
+         '<g stroke="#9C97AA" stroke-width="1.2"><path d="M-155 -3 l16 -7 M-152 0 l16 -7 M-129 -10 l16 6 M-127 -6 l16 6"/></g>')
+# far (right) arm with two small patchwork tattoos
+girl += limb("M-42 -36 L-52 -5 L-102 -9", 10, SK)
+girl += (f'<g stroke="{INK}" stroke-width="1"><rect x="-74" y="-11" width="6" height="6" fill="#F2543D" transform="rotate(8 -71 -8)"/><rect x="-71" y="-11" width="3" height="3" fill="#F8D65A" transform="rotate(8 -71 -8)"/>'
+         '<rect x="-88" y="-12" width="6" height="6" fill="#5B9BFF" transform="rotate(-6 -85 -9)"/><rect x="-88" y="-9" width="3" height="3" fill="#7FDBA8" transform="rotate(-6 -85 -9)"/></g>'
+         f'<circle cx="-104" cy="-9" r="6" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>')
+# legs, kicked up, mismatched socks, knee tattoo
+girl += limb("M30 -18 L94 -14 L110 -62", 14, SK)
+girl += limb("M110 -60 L106 -84", 11, "#7FDBA8") + '<path d="M106 -68 l9 1 M105 -76 l9 1" stroke="#F8D65A" stroke-width="3"/>'
+girl += limb("M36 -12 L98 -6 L86 -56", 15, SK)
+girl += limb("M86 -54 L78 -80", 12, "#FF6FAE") + '<path d="M80 -62 l10 3 M78 -70 l10 3" stroke="#FFFBF2" stroke-width="3"/>'
+girl += f'<path d="M97 -11 l2 4 4 0 -3 3 1 4 -4 -2 -4 2 1 -4 -3 -3 4 0Z" fill="{INK}"/>'
+# shorts and EAT THE RICH tee
+girl += f'<path d="M8 -36 L58 -30 L62 -4 L12 -2Z" fill="#3D57A6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M34 -33 L36 -3" stroke="#2C428A" stroke-width="2"/>'
+girl += (f'<path d="M-66 -50 C-40 -56 -2 -42 14 -36 L18 -3 C-10 -1 -42 -6 -60 -10Z" fill="#2B2733" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+         '<text x="-46" y="-17" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="10.5" fill="#FFFBF2" letter-spacing=".5" transform="rotate(7 -20 -20)">EAT THE RICH</text>')
+# head, orange hair with thick blonde highlights in a messy bun
+girl += (f'<circle cx="-70" cy="-74" r="11" fill="{HAIR}" stroke="{INK}" stroke-width="2.5"/>'
+         f'<circle cx="-86" cy="-52" r="17" fill="{SK}" stroke="{INK}" stroke-width="3"/>'
+         f'<path d="M-104 -56 C-104 -76 -72 -82 -66 -60 C-64 -50 -66 -42 -72 -36 C-72 -50 -84 -62 -104 -56Z" fill="{HAIR}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+         f'<path d="M-98 -64 C-90 -72 -80 -72 -74 -64 M-86 -70 C-78 -72 -72 -66 -70 -56 M-74 -80 C-68 -80 -64 -76 -64 -70" stroke="{HL}" stroke-width="4" fill="none" stroke-linecap="round"/>'
+         f'<path d="M-97 -52 q4 3 8 0" stroke="{INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M-102 -46 l-3 2" stroke="{INK}" stroke-width="1.8"/>'
+         f'<circle cx="-99" cy="-41" r="2" fill="#C2564A"/>')
+# near (left) arm: full sleeve, holding the joint
+girl += limb("M-60 -42 L-68 -5 L-90 -34", 11, SK)
+girl += ('<path d="M-60 -42 L-68 -5 L-90 -34" stroke="#2E9C96" stroke-width="11" fill="none" stroke-dasharray="5 3" stroke-linejoin="round"/>'
+         '<path d="M-60 -42 L-68 -5 L-90 -34" stroke="#F2543D" stroke-width="5" fill="none" stroke-dasharray="2 7" stroke-linejoin="round"/>'
+         '<path d="M-62 -30 l4 3 M-66 -16 l5 1 M-76 -16 l3 -4 M-84 -27 l4 -1" stroke="#1F1B3A" stroke-width="1.5"/>')
+girl += f'<circle cx="-91" cy="-36" r="6" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>'
+girl += (f'<path d="M-95 -38 L-114 -33 L-114 -30 L-95 -35Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.4"/>'
+         '<circle class="ember" cx="-115" cy="-31.5" r="2.2" fill="#FF7A2A"/>'
+         '<g class="smoke" transform="translate(-116 -34)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/></g>'
+         '<g class="exhale" transform="translate(-106 -44)"><circle cx="0" cy="0" r="5"/><circle cx="-8" cy="-6" r="7"/><circle cx="-18" cy="-14" r="9"/></g>')
+girl += '</g>'
+add(girl)
 
 # ---------- the cats ----------
 ax, ay = P(800, 250, 112)
