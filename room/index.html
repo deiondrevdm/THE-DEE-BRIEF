@@ -134,8 +134,13 @@ button{font:inherit;color:inherit}
 .cat.purring .leg,.cat.purring .walker,#catB.idle .leg,#catB.idle .walker{animation-play-state:paused}
 #catB.run .leg{animation-duration:.14s}#catB.run .walker{animation-duration:.14s}
 #catB .tail{animation-duration:1.4s}
-#catA .mad,#catA .paw{display:none}#catA.angry .paw{display:inline;transform-box:fill-box;transform-origin:100% 100%;animation:swipe .32s ease-in-out 4 alternate}
-@keyframes swipe{from{transform:rotate(38deg)}to{transform:rotate(-22deg)}}
+#catA .mad,#catA .paw,#catA .streaks{display:none}
+#catA.angry .paw{display:inline;transform-box:fill-box;transform-origin:100% 100%;animation:swipe .62s cubic-bezier(.2,.9,.2,1) .05s 2 both}
+@keyframes swipe{0%{transform:rotate(55deg) scale(.55);opacity:0}18%{transform:rotate(70deg) scale(.95);opacity:1}34%{transform:rotate(-34deg) scale(1.12)}44%{transform:rotate(-26deg) scale(1.06)}72%{transform:rotate(18deg) scale(.95);opacity:1}100%{transform:rotate(55deg) scale(.55);opacity:0}}
+#catA.angry .streaks{display:inline}
+#catA .streaks path{fill:none;stroke:#F2543D;stroke-width:4;stroke-linecap:round;stroke-dasharray:60;stroke-dashoffset:60;opacity:0;animation:streak .62s ease-out .05s 2}
+#catA .streaks path:nth-child(2){stroke-width:3.4}#catA .streaks path:nth-child(3){stroke-width:2.8}
+@keyframes streak{0%,26%{stroke-dashoffset:60;opacity:0}32%{opacity:1}48%{stroke-dashoffset:0;opacity:1}70%,100%{stroke-dashoffset:0;opacity:0}}
 #catA .mad{display:none}#catA.angry .mad{display:inline}#catA.angry .sleep{display:none}
 #catA .head{transform-box:fill-box;transform-origin:70% 60%}
 #catA.angry .head{animation:lunge .18s ease-out 4 alternate}
@@ -325,7 +330,8 @@ button{font:inherit;color:inherit}
 .tt.on .tarm{transform:rotate(22deg)}
 .ttbtn{position:absolute;right:6%;bottom:9%;width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);background:var(--sun);font-size:18px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .ttbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
-.crate{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.crate{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(100%,calc(100vh - 440px));justify-self:center}
+@media (max-width:760px){.crate{order:-1;width:min(100%,calc(100vh - 430px))}}
 .sleeve{text-align:left;border:3px solid var(--ink);background:var(--c);padding:0;min-height:0;gap:0;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden;box-shadow:3px 4px 0 rgba(42,30,34,.2);transition:transform .2s}
 .sleeve::before{content:"";position:absolute;right:-30%;bottom:-30%;width:80%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.22)}
 .sleeve.lift{transform:translateY(-6px) rotate(-2deg)}
@@ -602,6 +608,7 @@ button{font:inherit;color:inherit}
 </g>
 <g class="paw"><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#1F1B3A" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#F7A54E" stroke-width="11" fill="none" stroke-linecap="round"/>
 <circle cx="-106" cy="-2" r="8" fill="#FFF4DE" stroke="#1F1B3A" stroke-width="2.5"/><path d="M-112 -8 l-6 -4 M-114 -2 l-7 0 M-112 4 l-6 4" stroke="#1F1B3A" stroke-width="2" stroke-linecap="round"/></g>
+<g class="streaks"><path d="M-96 -42 Q-134 -24 -128 18"/><path d="M-110 -40 Q-146 -18 -138 22"/><path d="M-124 -34 Q-156 -10 -146 26"/></g>
 </g></g></g><text class="zz" x="1185.0" y="689.0" font-size="20">z</text><text class="zz" x="1197.0" y="679.0" font-size="15">z</text><g id="supraPos" transform="translate(483.2 896.0)"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">

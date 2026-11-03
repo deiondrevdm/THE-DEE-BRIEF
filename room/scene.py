@@ -558,6 +558,7 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 </g>
 <g class="paw"><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="{INK}" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#F7A54E" stroke-width="11" fill="none" stroke-linecap="round"/>
 <circle cx="-106" cy="-2" r="8" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/><path d="M-112 -8 l-6 -4 M-114 -2 l-7 0 M-112 4 l-6 4" stroke="{INK}" stroke-width="2" stroke-linecap="round"/></g>
+<g class="streaks"><path d="M-96 -42 Q-134 -24 -128 18"/><path d="M-110 -40 Q-146 -18 -138 22"/><path d="M-124 -34 Q-156 -10 -146 26"/></g>
 </g></g></g>""")
 add(f'<text class="zz" x="{f(ax-60)}" y="{f(ay-44)}" font-size="20">z</text><text class="zz" x="{f(ax-48)}" y="{f(ay-54)}" font-size="15">z</text>')
 cx_, cy_ = P(280, 560, 0)
