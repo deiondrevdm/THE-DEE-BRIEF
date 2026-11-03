@@ -30,7 +30,7 @@ def g(transform, inner, extra=""): return f'<g transform="{transform}" {extra}>{
 def rect(x, y, w, h, fill, sw=3, extra=""): return f'<rect x="{f(x)}" y="{f(y)}" width="{f(w)}" height="{f(h)}" fill="{fill}" stroke="{INK}" stroke-width="{sw}" stroke-linejoin="round" {extra}/>'
 def at(x, y, z): a, b = P(x, y, z); return f"translate({f(a)} {f(b)})"
 
-C = dict(wall="#7C98EC", wallL="#6E8BE6", ceil="#D9D3F5", floor="#A3AEC6", tuft="#8893AE",
+C = dict(wall="#7C98EC", wallL="#6E8BE6", ceil="#D9D3F5", floor="#C98F5E", tuft="#A8703F",
          woodT="#F2A867", woodF="#E28E50", woodS="#C9743D",
          lilT="#C9A6F7", lilF="#B08BEE", lilS="#9270DA", inner="#4A3A86",
          musT="#FAD06A", musF="#F2B640", musS="#D99B2A",
@@ -46,11 +46,30 @@ add(f'<polygon points="-200,-20 1800,-20 1800,240 {f(P(0,0,560)[0])},{f(P(0,0,56
 add(poly([(0,0,0),(1200,0,0),(1200,0,560),(0,0,560)], C["wall"]))
 add(poly([(0,0,0),(0,0,560),(0,1200,560),(0,1200,0)], C["wallL"]))
 add(poly([(0,0,0),(1200,0,0),(1200,1300,0),(0,1300,0)], C["floor"]))
-tufts = []
-for _ in range(110):
-    x, y = R.uniform(10, 1150), R.uniform(10, 1100); a, b = P(x, y, 0)
-    if 0 < a < 1600 and b < 1000: tufts.append(f"M{f(a)} {f(b)} q4 -4 8 0")
-add(f'<path d="{" ".join(tufts)}" stroke="{C["tuft"]}" stroke-width="2.5" fill="none" stroke-linecap="round"/>')
+# wallpaper (tone-on-tone print) on both walls
+add(g(mY(0, 0, 560), '<rect x="0" y="0" width="1200" height="560" fill="url(#wp)"/>', 'style="pointer-events:none"'))
+add(g(mX(0, 1200, 560), '<rect x="0" y="0" width="1200" height="560" fill="url(#wp)"/>', 'style="pointer-events:none"'))
+# floorboards
+fb = []
+for i, w in enumerate(range(0, 1300, 34)):
+    fb.append(f'M0 {w} H1200')
+    off = (i * 137) % 260
+    for u in range(off, 1200, 260): fb.append(f'M{u} {w} v34')
+grain = "".join(f'<path d="M{R.uniform(0,1150):.0f} {R.uniform(4,1290):.0f} h{R.uniform(30,90):.0f}" stroke="#DDA572" stroke-width="2" stroke-linecap="round" opacity=".55"/>' for _ in range(120))
+add(g(mZ(0, 0, 0), grain + f'<path d="{" ".join(fb)}" stroke="#9A633A" stroke-width="2.2" fill="none"/>', 'style="pointer-events:none"'))
+# soft shadows under furniture
+def shadow(pts, op=.26):
+    sp = " ".join(f"{f(a)},{f(b)}" for a, b in (P(x, y, 0) for x, y in pts))
+    return f'<polygon points="{sp}" fill="#1F1B3A" opacity="{op}" filter="url(#softsh)"/>'
+add('<g style="pointer-events:none">'
+    + shadow([(26, 0), (300, 0), (306, 100), (26, 100)])
+    + shadow([(316, 0), (548, 0), (554, 112), (316, 112)])
+    + shadow([(556, 0), (650, 0), (654, 92), (556, 92)])
+    + shadow([(650, 0), (972, 0), (980, 492), (650, 492)], .3)
+    + shadow([(0, 256), (150, 256), (154, 712), (0, 712)], .2)
+    + shadow([(0, 700), (138, 700), (142, 826), (0, 826)])
+    + shadow([(170, 400), (270, 400), (276, 500), (170, 500)], .2)
+    + '</g>')
 add(box(0, 8, 0, 8, 1200, 20, "#F6F1FF", "#E9E2FA", "#DDD4F5", 2.5))
 add(box(0, 0, 0, 1200, 8, 20, "#F6F1FF", "#E9E2FA", "#DDD4F5", 2.5))
 
@@ -60,7 +79,33 @@ for _ in range(24): win.append(f'<circle class="twinkle" cx="{f(R.uniform(10,350
 win.append('</g><g><circle cx="280" cy="60" r="22" fill="#FFF3D0" stroke="#1F1B3A" stroke-width="2.5"/><circle cx="292" cy="54" r="19" fill="#2A2766"/></g>')
 win.append('<rect id="skyDay" x="0" y="0" width="360" height="250" fill="url(#skyD)"/>')
 win.append('<g id="sun"><circle cx="90" cy="70" r="30" fill="#FFD36E" stroke="#1F1B3A" stroke-width="2.5"/><path d="M200 90 q10 -22 32 -12 q14 -16 30 0 q20 2 14 20 h-74 q-14 -4 -2 -8Z" fill="#fff" stroke="#1F1B3A" stroke-width="2.5"/></g>')
-win.append('<path d="M0 250 V170 q20 -30 46 -10 q10 -36 44 -22 q26 -24 46 8 q22 -6 26 18 q10 20 -6 36 V250Z" fill="#4FB86A" stroke="#1F1B3A" stroke-width="3"/><path d="M40 210 q14 -10 26 0 M100 196 q12 -8 22 2" stroke="#2F8C4A" stroke-width="3" fill="none"/>')
+def canal_house(x, w, top, col, kind, k):
+    h = []
+    body_top = top + (26 if kind != "flat" else 0)
+    if kind == "step":
+        st = w / 6
+        d = f"M{x} 232 V{body_top} h{st} v-8 h{st} v-8 h{st} v-10 h{st} v10 h{st} v8 h{st} v8 V232Z"
+    elif kind == "bell":
+        d = f"M{x} 232 V{body_top} q{w*.12} 0 {w*.2} -10 q{w*.08} -16 {w*.3} -16 q{w*.22} 0 {w*.3} 16 q{w*.08} 10 {w*.2} 10 V232Z"
+    elif kind == "point":
+        d = f"M{x} 232 V{body_top} L{x+w/2} {top} L{x+w} {body_top} V232Z"
+    else:
+        d = f"M{x} 232 V{body_top} h{w} V232Z"
+    h.append(f'<path d="{d}" fill="{col}" stroke="#1F1B3A" stroke-width="2.5" stroke-linejoin="round"/>')
+    h.append(f'<path d="M{x+w/2-2} {top+10 if kind!="flat" else body_top+4} h4 v6 h-4Z" fill="#1F1B3A" opacity=".6"/>')
+    cols = 2 if w < 54 else 3
+    ww = (w - 10) / cols - 4
+    rows = int((232 - body_top - 18) // 22)
+    for r in range(rows):
+        for c in range(cols):
+            lit = ((k * 7 + r * 3 + c * 5) % 4 == 0)
+            h.append(f'<rect class="cw{" lit" if lit else ""}" x="{x+7+c*(ww+4):.1f}" y="{body_top+10+r*22}" width="{ww:.1f}" height="13" fill="#AFC8E8" stroke="#1F1B3A" stroke-width="1.4"/>')
+    return "".join(h)
+houses = ""
+for k, (x, w, top, col, kind) in enumerate([(-6, 58, 96, "#8C3B3B", "step"), (52, 50, 112, "#3B4A7A", "bell"), (102, 62, 92, "#6B4A3A", "point"), (164, 52, 104, "#A65A3C", "step"), (216, 56, 116, "#2F5E5A", "bell"), (272, 50, 98, "#7A3550", "point"), (322, 50, 108, "#4A3A6E", "step")]):
+    houses += canal_house(x, w, top, col, kind, k)
+win.append(houses + '<rect x="0" y="230" width="360" height="20" fill="#2F4F86" stroke="#1F1B3A" stroke-width="2.5"/>'
+           '<path d="M20 240 h26 M90 244 h34 M170 239 h22 M240 244 h30 M300 240 h24" stroke="#8FB6FF" stroke-width="2" stroke-linecap="round" opacity=".8"/>')
 win.append('<rect id="skyGold" x="0" y="0" width="360" height="250" fill="url(#skyG)" opacity="0"/>')
 import random as _r
 _rr=_r.Random(5)
@@ -239,6 +284,31 @@ wcan = (f'<g class="wcan"><g transform="translate(58 -92)"><g class="wtilt">'
 bs.append('<g id="plant" class="hot" data-toggle="plant">' + g(at(80, 36, 470), plant + wcan) + '</g>')
 add(f'<g class="hot" data-go="books">{"".join(bs)}</g>')
 
+
+# ---------- lived-in bits: stickers, tote bag, hoodie, leaning sleeves ----------
+def star5(cx, cy, r, fill):
+    pts = []
+    for i in range(10):
+        a = -math.pi / 2 + i * math.pi / 5; rr = r if i % 2 == 0 else r * .45
+        pts.append(f"{cx + rr*math.cos(a):.1f},{cy + rr*math.sin(a):.1f}")
+    return f'<polygon points="{" ".join(pts)}" fill="{fill}" stroke="{INK}" stroke-width="1.8" stroke-linejoin="round"/>'
+stick_bs = ('<g>' + f'<circle cx="22" cy="40" r="13" fill="#FFFFFF" stroke="{INK}" stroke-width="1.6"/>' + star5(22, 40, 10, C["yellow"])
+            + f'<circle cx="52" cy="78" r="11" fill="{C["yellow"]}" stroke="{INK}" stroke-width="1.8"/><path d="M47 75 v2 M57 75 v2 M46 81 q6 5 12 0" stroke="{INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+            + f'<g transform="translate(26 112) rotate(-12)"><path d="M0 -14 q6 -2 10 -10" stroke="{INK}" stroke-width="1.6" fill="none"/><path d="M0 -14 q-8 -4 -10 -12" stroke="{INK}" stroke-width="1.6" fill="none"/><circle cx="10" cy="0" r="7" fill="#E8324A" stroke="{INK}" stroke-width="1.6"/><circle cx="-4" cy="2" r="7" fill="#E8324A" stroke="{INK}" stroke-width="1.6"/><path d="M8 -3 q2 -1 3 1" stroke="#fff" stroke-width="1.4"/></g>'
+            + '</g>')
+add(g(mX(290, 80, 250), stick_bs, 'style="pointer-events:none"'))
+add(g(mX(540, 95, 118), f'<g transform="translate(46 44) rotate(-8)"><circle r="20" fill="#FFF4DE" stroke="{INK}" stroke-width="2"/><circle r="15.5" fill="none" stroke="#C25E14" stroke-width="1.4"/>'
+      '<text y="-2" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="6.4" fill="#1F1B3A">COLD</text><text y="6" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="6.4" fill="#1F1B3A">COFFEE</text>'
+      '<path d="M-4 10 h8 l-1 5 h-6Z" fill="#8C5A33"/></g>', 'style="pointer-events:none"'))
+add(g(mX(140, 700, 140), star5(30, 30, 11, C["pink"]) + star5(52, 46, 7, C["sky"]), 'style="pointer-events:none"'))
+# tote bag hanging on the side of the bookshelf
+tote = (f'<circle cx="40" cy="0" r="3" fill="#C9C1D6" stroke="{INK}" stroke-width="1.5"/>'
+        f'<path d="M40 0 L22 30 M40 0 L58 30" stroke="{INK}" stroke-width="5" stroke-linecap="round"/><path d="M40 0 L22 30 M40 0 L58 30" stroke="#F4EAD2" stroke-width="2.6" stroke-linecap="round"/>'
+        f'<path d="M14 28 H66 L64 84 Q40 90 16 84Z" fill="#F4EAD2" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+        '<text x="40" y="52" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="9" fill="#1F1B3A">BOOKS</text>'
+        f'<text x="40" y="63" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="8" fill="{C["red"]}">&gt; PEOPLE</text>')
+add(g(mX(290, 76, 440), tote, 'style="pointer-events:none"'))
+
 # ---------- record cabinet, record player, wall shelf with sleeves ----------
 rc = []
 for (lx, ly) in [(326, 6), (528, 6), (326, 84), (528, 84)]: rc.append(box(lx, ly, 0, 8, 8, 18, "#3B3550", "#2C2840", "#221F33", 2))
@@ -301,6 +371,10 @@ for tx in (70, L - 70):
         sk += (f'<rect x="{tx-13}" y="{wy-8}" width="26" height="16" rx="7" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5"/>'
                f'<rect x="{tx-6}" y="{wy-4}" width="12" height="8" rx="3" fill="#FF6FAE" stroke="{INK}" stroke-width="1.4"/>')
 add(g(mY(2, 676, 462), sk))
+
+lean = (f'<g transform="rotate(-9 0 58)">' + rect(0, 0, 58, 58, C["pink"], 2.6) + f'<circle cx="29" cy="29" r="16" fill="#FFE27A" stroke="{INK}" stroke-width="2"/><circle cx="29" cy="29" r="4" fill="{INK}"/></g>'
+        + f'<g transform="translate(30 6) rotate(-4 0 58)">' + rect(0, 0, 58, 58, "#2A2440", 2.6) + f'<path d="M0 36 H58" stroke="{C["yellow"]}" stroke-width="7"/><path d="M0 46 H58" stroke="{C["coral"]}" stroke-width="4"/></g>')
+add(g(mY(118, 332, 62), lean, 'style="pointer-events:none"'))
 
 # ---------- nightstand + mushroom lamp ----------
 ns = box(560, 0, 0, 82, 80, 112, C["woodT"], C["woodF"], C["woodS"])
@@ -372,6 +446,11 @@ ch += box(166, 398, 92, 96, 92, 20, C["purple"], "#7A47B4", "#673A9C")
 ch += box(258, 404, 112, 16, 80, 120, C["purple"], "#7A47B4", "#673A9C")
 ch += g(mX(274, 484, 214), f'<path d="M6 16 q30 18 68 -4" stroke="{C["sky"]}" stroke-width="10" fill="none" stroke-linecap="round"/>')
 add(ch)
+hood = (f'<path d="M4 -6 C4 -14 76 -14 76 -6 L74 54 C64 60 58 58 52 50 L50 92 C48 100 38 100 36 92 L34 52 C24 60 12 58 6 52Z" fill="{C["mint"]}" stroke="{INK}" stroke-width="2.6" stroke-linejoin="round"/>'
+        f'<path d="M24 -8 Q40 14 56 -8" fill="#5FC98E" stroke="{INK}" stroke-width="2.2"/><path d="M34 6 v16 M46 6 v16" stroke="#FFFBF2" stroke-width="1.8" stroke-linecap="round"/>'
+        f'<path d="M14 30 q26 6 52 0" stroke="#5FC98E" stroke-width="2" fill="none"/>')
+add(g(mX(275, 484, 236), hood, 'style="pointer-events:none"'))
+add(poly([(257, 412, 234), (276, 412, 234), (276, 478, 234), (257, 478, 234)], C["mint"], 2.4))
 
 # ---------- old-school TV on a cabinet next to the desk ----------
 tv = box(6, 702, 0, 124, 112, 60, C["woodT"], C["woodF"], C["woodS"])
@@ -425,7 +504,10 @@ for k, y in enumerate(range(20, 270, 36)):
 zig = "M0 0 " + " ".join(f"l9 -9 l9 9" for _ in range(20))
 rug += f'<rect x="0" y="0" width="360" height="280" fill="none" stroke="{PINK}" stroke-width="22"/>'
 rug += f'<path d="{zig}" transform="translate(0 16)" fill="none" stroke="#FFFBF2" stroke-width="2.5"/><path d="{zig}" transform="translate(0 273)" fill="none" stroke="#FFFBF2" stroke-width="2.5"/>'
-rug += rect(0, 0, 360, 280, "none") + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
+rug += "".join(f'<path d="M{R.uniform(30,330):.0f} {R.uniform(30,250):.0f} q3 -4 6 0" stroke="#FFFFFF" stroke-width="2" fill="none" opacity=".22" stroke-linecap="round"/>' for _ in range(90))
+rug += rect(0, 0, 360, 280, "none")
+rug += "".join(f'<path d="M{x} 281 q{R.uniform(-3,3):.1f} 7 {R.uniform(-2,2):.1f} {R.uniform(11,15):.1f} M{x} -1 q{R.uniform(-3,3):.1f} -7 {R.uniform(-2,2):.1f} -{R.uniform(11,15):.1f}" stroke="{INK}" stroke-width="4.6" stroke-linecap="round" fill="none"/>' for x in range(6, 360, 9))
+rug += "".join(f'<path d="M{x} 281 q1 7 0 12 M{x} -1 q-1 -7 0 -12" stroke="#FFF4DE" stroke-width="2.4" stroke-linecap="round" fill="none"/>' for x in range(6, 360, 9))
 add(g(mZ(0.5, 200, 420), rug))
 def sock(c):
     return (f'<path d="M0 0 h18 v26 q0 6 6 6 h14 q8 0 8 8 q0 8 -8 8 h-26 q-12 0 -12 -12Z" fill="#FFFDF6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
@@ -711,9 +793,13 @@ add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#1B14
 add(f'<g style="pointer-events:none"><circle id="lampGlow" class="glow" cx="{f(gx)}" cy="{f(gy)}" r="320" fill="url(#warm)"/>'
     f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>'
     + g(mX(0, 250, 528), '<text class="neon" x="10" y="40" opacity=".4" style="mix-blend-mode:screen">dee\'s room</text>') + '</g>')
+add('<g class="motes" style="pointer-events:none">' + "".join(f'<circle cx="{f(gx+R.uniform(-120,120))}" cy="{f(gy+R.uniform(-90,110))}" r="{R.uniform(1,2.2):.1f}" fill="#FFF6D8" style="animation-delay:{-R.uniform(0,14):.1f}s;animation-duration:{R.uniform(10,18):.1f}s"/>' for _ in range(18)) + '</g>')
 add('<g id="fx" style="pointer-events:none"></g>')
 
 DEFS = f'''<defs>
+<pattern id="wp" width="70" height="70" patternUnits="userSpaceOnUse"><path d="M14 10 l2 5 5 .5 -4 3.5 1.2 5 -4.2 -2.7 -4.2 2.7 1.2 -5 -4 -3.5 5 -.5Z" fill="#FFFFFF" opacity=".13"/><path d="M42 44 q5 -6 10 0 t10 0" stroke="#1B2A6B" stroke-width="2.2" fill="none" opacity=".12" stroke-linecap="round"/><circle cx="52" cy="16" r="2.2" fill="#FFFFFF" opacity=".14"/><circle cx="20" cy="54" r="1.6" fill="#1B2A6B" opacity=".12"/></pattern>
+<filter id="softsh" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+<filter id="bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <pattern id="cane" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#F7D9A8"/><circle cx="7" cy="7" r="4" fill="none" stroke="#C99A5E" stroke-width="1.6"/><path d="M0 0 L14 14 M14 0 L0 14" stroke="#DDB27A" stroke-width="1"/></pattern>
 <pattern id="corkp" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#D9A86C"/><circle cx="2" cy="3" r=".9" fill="#A97A45"/><circle cx="6" cy="6" r=".7" fill="#EAC690"/></pattern>
 <linearGradient id="skyN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1C4E"/><stop offset=".6" stop-color="#4A3278"/><stop offset="1" stop-color="#E0726A"/></linearGradient>

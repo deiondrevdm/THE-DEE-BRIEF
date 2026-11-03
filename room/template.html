@@ -550,6 +550,60 @@ button{font:inherit;color:inherit}
   .desk .win{left:12px;right:12px;bottom:12px}
 }
 .brand .msn b{font:inherit;letter-spacing:inherit;color:#FFE6A8;margin:0;text-shadow:none}
+
+/* ---- design pass ---- */
+.book-card .why,.essay .sub,.wk-top,.mail label,.v0 .sp small,.v0 .cv small,.face .cvr small{font-family:var(--body)!important;font-style:normal!important}
+/* paper grain */
+.scene::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.32;mix-blend-mode:multiply;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .12 0 0 0 0 .1 0 0 0 0 .22 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* logo */
+.brand b.logo{position:relative;font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.01em;background:linear-gradient(180deg,#FFFFFF 0%,#FFE3F1 38%,#FF8FC6 52%,#FFC9E4 70%,#FFFFFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:1.2px #7A2E6A;text-shadow:none;filter:drop-shadow(0 2px 0 #4A1B4A) drop-shadow(0 0 10px rgba(255,111,174,.55));padding-right:16px}
+.logo .spark{position:absolute;right:0;top:-6px;font-style:normal;font-size:14px;color:#FFF6C8;-webkit-text-stroke:0;animation:spk 2.4s ease-in-out infinite}
+@keyframes spk{0%,100%{transform:scale(.6) rotate(0);opacity:.5}50%{transform:scale(1.15) rotate(25deg);opacity:1}}
+@media (max-width:760px){.brand b.logo{font-size:21px}}
+/* retro window title bars */
+.tbar{position:sticky;top:0;z-index:6;display:flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 10px;background:linear-gradient(90deg,#FF6FAE,#B57BFF 55%,#6FA8FF);border-bottom:3px solid var(--ink);color:#fff;font:800 13.5px/1 var(--display);letter-spacing:.02em;text-shadow:0 1px 0 var(--ink)}
+.tbico{width:16px;height:16px;border:2px solid var(--ink);border-radius:3px;background:linear-gradient(135deg,#FFE27A 50%,#7FDBA8 50%)}
+#tbName{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbbtns{display:flex;gap:5px}
+.tbbtns i{width:22px;height:20px;display:grid;place-items:center;font:700 12px/1 var(--body);font-style:normal;color:var(--ink);text-shadow:none;background:#EDE7F6;border:2px solid var(--ink);border-radius:4px;box-shadow:inset -2px -2px 0 #B6ACC9,inset 2px 2px 0 #fff}
+.tbar .back{width:30px;height:30px;font-size:21px;box-shadow:inset 0 -2px 0 rgba(255,255,255,.2);border:2px solid #fff;padding:0 0 2px;margin-left:2px}
+.pcard{border-radius:10px 10px 6px 6px}
+.panel.bare .phead{display:none}
+.panel.nobar .tbar{position:absolute;top:4px;right:4px;height:auto;padding:0;background:none;border:0}
+.panel.nobar .tbar>*:not(.back){display:none}
+.panel.nobar .tbar .back{width:44px;height:44px;font-size:28px;border:0;box-shadow:3px 3px 0 rgba(0,0,0,.25)}
+@media (max-width:760px){.tbbtns{display:none}.tbar{height:34px}.panel.nobar .tbar .back{width:38px;height:38px;font-size:24px}}
+/* night bloom */
+svg.night .bulb,svg.night .neon,svg.night #scrGlow,svg.night .lavablob,svg.night .cw.lit{filter:url(#bloom)}
+/* neon flicker */
+.neon.flick{animation:flick .9s steps(1) 1}
+@keyframes flick{0%{opacity:1}10%{opacity:.25}18%{opacity:1}30%{opacity:.4}38%{opacity:.95}52%{opacity:.2}60%{opacity:1}100%{opacity:1}}
+/* canal windows */
+.cw{fill:#AFC8E8}svg.night .cw.lit{fill:#FFD86A}svg.night .cw:not(.lit){fill:#3A3F66}
+/* dust motes */
+.motes circle{opacity:0;animation:mote 14s linear infinite}
+@keyframes mote{0%{opacity:0;transform:translate(0,0)}15%{opacity:.7}50%{transform:translate(14px,-22px)}85%{opacity:.6}100%{opacity:0;transform:translate(-8px,-48px)}}
+svg.lamp-off .motes{display:none}
+@media (prefers-reduced-motion:reduce){.motes{display:none}}
+/* comic float bubbles */
+.fbub{opacity:0;animation:prr 2.6s ease-out forwards;transform-box:fill-box}
+.fbub rect,.fbub path{fill:#FFFDF6;stroke:#1F1B3A;stroke-width:2.6;stroke-linejoin:round}
+.fbub text{font-family:var(--hand);font-size:21px;fill:#1F1B3A;stroke:none;paint-order:normal}
+.fbub.hiss rect,.fbub.hiss path{fill:#FFE27A}.fbub.hiss text{font-family:var(--display);font-weight:800;font-size:20px}
+/* glitter trail */
+.glit{position:fixed;z-index:30;pointer-events:none;width:12px;height:12px;margin:-6px 0 0 -6px;background:conic-gradient(from 45deg,transparent 0 10%,var(--gc) 10% 15%,transparent 15% 35%,var(--gc) 35% 40%,transparent 40% 60%,var(--gc) 60% 65%,transparent 65% 85%,var(--gc) 85% 90%,transparent 90%);border-radius:50%;animation:glit .7s ease-out forwards}
+.glit::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--gc)}
+@keyframes glit{to{transform:translateY(16px) scale(.2) rotate(120deg);opacity:0}}
+/* sticker nav */
+.nav{gap:10px 10px}
+.nav button{position:relative;display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:700;border:2.5px solid var(--ink);border-radius:12px;padding:6px 12px 7px;box-shadow:0 0 0 3px #FFFDF6,3px 4px 0 3px rgba(0,0,0,.35);transform:rotate(var(--r,-1.5deg));transition:transform .18s}
+.nav button:nth-of-type(1){background:#FFB3D6;--r:-2deg}.nav button:nth-of-type(2){background:#FFE27A;--r:1.5deg}.nav button:nth-of-type(3){background:#9FD4FF;--r:-1deg}.nav button:nth-of-type(4){background:#B6F0C9;--r:2deg}.nav button:nth-of-type(5){background:#E4D2FF;--r:-2deg}.nav button:nth-of-type(6){background:#FFC9A8;--r:1deg}.nav button:nth-of-type(7){background:#FFD59E;--r:-1.5deg}.nav button:nth-of-type(8){background:#FFFDF6;--r:2deg}
+.nav button:hover{background-color:#FFFDF6;color:var(--ink);transform:rotate(0) translateY(-3px) scale(1.05)}
+.nav button::before{content:attr(data-ico);font-size:14px;line-height:1}
+@media (max-width:760px){.nav{padding-block:10px 12px;padding-inline:14px}.nav button{padding:6px 11px}}
+/* starry backdrop */
+body{background:radial-gradient(1.2px 1.2px at 12% 18%,#FFF6D8 50%,transparent 51%),radial-gradient(1px 1px at 28% 72%,#FFF6D8 50%,transparent 51%),radial-gradient(1.4px 1.4px at 46% 12%,#FFE3F1 50%,transparent 51%),radial-gradient(1px 1px at 63% 84%,#FFF6D8 50%,transparent 51%),radial-gradient(1.2px 1.2px at 78% 26%,#D9E8FF 50%,transparent 51%),radial-gradient(1px 1px at 91% 62%,#FFF6D8 50%,transparent 51%),radial-gradient(1px 1px at 6% 90%,#FFF6D8 50%,transparent 51%),radial-gradient(1.3px 1.3px at 54% 48%,#FFF6D8 50%,transparent 51%),radial-gradient(circle at 20% 20%,#3B2A6B 0,transparent 45%),radial-gradient(circle at 80% 80%,#6B2A5A 0,transparent 45%),#1E1530;background-size:260px 260px,330px 330px,410px 410px,290px 290px,370px 370px,450px 450px,310px 310px,520px 520px,auto,auto,auto;background-attachment:fixed}
+.bar,.nav{background:transparent}
 </style>
 </head>
 <body>
@@ -566,7 +620,7 @@ button{font:inherit;color:inherit}
   </div>
 </div>
 <header class="bar">
-  <div class="brand"><b>Dee's room</b><span class="msn" id="msn" aria-live="off"></span></div>
+  <div class="brand"><b class="logo">Dee's room<i class="spark" aria-hidden="true">✦</i></b><span class="msn" id="msn" aria-live="off"></span></div>
   <div class="toggles"><button class="tg" id="tgLamp" aria-pressed="true">lamp</button><button class="tg" id="tgSound" aria-pressed="true">sound</button></div>
 </header>
 
@@ -585,7 +639,8 @@ button{font:inherit;color:inherit}
   <div class="bubble" id="bubble" hidden>I don't bother you in your bedroom..</div>
   <div class="panel" id="panel" hidden>
     <div class="pcard" role="dialog" aria-modal="true" aria-labelledby="pTitle">
-      <div class="phead"><div><h2 id="pTitle"></h2><p id="pSub"></p></div><button class="back" id="back" aria-label="Close" title="Close">×</button></div>
+      <div class="tbar"><span class="tbico" aria-hidden="true"></span><span id="tbName"></span><span class="tbbtns" aria-hidden="true"><i>_</i><i>▢</i></span><button class="back" id="back" aria-label="Close" title="Close">×</button></div>
+      <div class="phead"><div><h2 id="pTitle"></h2><p id="pSub"></p></div></div>
       <div class="pbody">
         <div class="view" id="v-books" hidden></div>
         <div class="view" id="v-records" hidden></div>
@@ -600,7 +655,7 @@ button{font:inherit;color:inherit}
 
 <nav class="nav" aria-label="Things in the room">
   <span>look at</span>
-  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">games</button><button data-go="laptop">laptop</button><button data-act="mirror">mirror</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
+  <button data-go="books" data-ico="📚">bookshelf</button><button data-go="records" data-ico="💿">records</button><button data-go="screen" data-ico="📺">tv</button><button data-go="games" data-ico="🎮">games</button><button data-go="laptop" data-ico="💻">laptop</button><button data-act="mirror" data-ico="🪞">mirror</button><button data-cat="catA" data-ico="🐈">Miata</button><button data-cat="catB" data-ico="🐾">Supra</button>
 </nav>
 
 <script>
@@ -646,7 +701,7 @@ new ResizeObserver(size).observe(stage);
 /* ---------- light, sound ---------- */
 let lampOn=true,night=true,sound=true,AC=null,phase="night",WX="";
 function lightsUp(){
-  svg.classList.toggle("lamp-off",!lampOn);
+  svg.classList.toggle("lamp-off",!lampOn);svg.classList.toggle("night",night);
   $("#nightTint").style.opacity=night?(lampOn?.16:.52):(lampOn?0:.12);
   $("#lampGlow").style.opacity=lampOn?(night?.85:.35):0;
   $("#lampShade").setAttribute("fill",lampOn?"#FF7A45":"#C8502A");
@@ -716,7 +771,13 @@ addEventListener("keydown",()=>{if(sound)ambStart()},{once:true});
 /* ---------- cats ---------- */
 function svgPt(cx,cy){const m=svg.getScreenCTM();if(!m)return{x:0,y:0};const p=svg.createSVGPoint();p.x=cx;p.y=cy;return p.matrixTransform(m.inverse())}
 function svgBox(node){const r=node.getBoundingClientRect(),a=svgPt(r.left,r.top),b=svgPt(r.right,r.bottom);return{x:a.x,y:a.y,width:b.x-a.x,height:b.y-a.y}}
-function floatText(words,bb,cls="prr"){const g=$("#fx");words.forEach((w,i)=>{const t=el("text",{x:bb.x+bb.width*(.1+i*.28),y:bb.y-4-i*20,class:cls,style:`animation-delay:${i*.35}s`},g);t.textContent=w;setTimeout(()=>t.remove(),3200)})}
+function floatText(words,bb,cls="prr"){const g=$("#fx");words.forEach((w,i)=>{
+  const grp=el("g",{class:"fbub "+cls,style:`animation-delay:${i*.35}s`},g),x=bb.x+bb.width*(.2+i*.32),y=bb.y-10-i*34;
+  const r=el("rect",{},grp),tl=el("path",{},grp),t=el("text",{x,y,"text-anchor":"middle"},grp);t.textContent=w;
+  let tb;try{tb=t.getBBox()}catch(e){tb={x:x-30,y:y-18,width:60,height:22}}
+  const px=9,py=5;r.setAttribute("x",tb.x-px);r.setAttribute("y",tb.y-py);r.setAttribute("width",tb.width+px*2);r.setAttribute("height",tb.height+py*2);r.setAttribute("rx",(tb.height+py*2)/2);
+  const by=tb.y+tb.height+py;tl.setAttribute("d",`M${x-8} ${by-1.5} L${x-12} ${by+11} L${x+4} ${by-1.5}`);
+  setTimeout(()=>grp.remove(),3200)})}
 function purr(id){
   const c=$("#"+id),cfg=CATS[id];if(!c)return;dismissHint();
   purrSound(cfg.rate,cfg.pitch);
@@ -918,7 +979,7 @@ function open(id){
   const bb=(document.querySelector(`#room [data-zoom="${id}"]`)||document.querySelector(`#room [data-go="${id}"]`)).getBBox();tween(fit({x:bb.x,y:bb.y,w:bb.width,h:bb.height}),900,()=>{
     $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;$("#pSub").hidden=!R.s;
     document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+id);
-    const p=$("#panel");p.classList.toggle("full",id==="laptop"||id==="screen");p.classList.toggle("bare",!R.t);p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
+    const p=$("#panel");p.classList.toggle("full",id==="laptop"||id==="screen");p.classList.toggle("bare",!R.t);p.classList.toggle("nobar",id==="laptop");$("#tbName").textContent={books:"my_bookshelf.doc",records:"mixtapes.wav",screen:"tv.exe",games:"games.exe",photos:"polaroids.jpg"}[id]||id;p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
     ENTER[id]&&ENTER[id]();
   });
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
@@ -1105,7 +1166,7 @@ const SHIRTS=[["EAT THE","RICH"],["TAX THE","RICH"],["HORSES","DON'T STOP"],["KY
 
 /* phones: the room is wider than the screen, so make panning obvious */
 (function(){const sc=$("#scroller"),st=$("#stage"),L=$("#edgeL"),R=$("#edgeR"),hint=$("#panHint");
-  function upd(){const pans=sc.scrollWidth>sc.clientWidth+4;st.classList.toggle("pans",pans);if(!pans)return;
+  function upd(){if(openId||scene.classList.contains("zoomed"))hint.classList.add("gone");const pans=sc.scrollWidth>sc.clientWidth+4;st.classList.toggle("pans",pans);if(!pans)return;
     L.classList.toggle("off",sc.scrollLeft<8||!!openId||scene.classList.contains("zoomed"));R.classList.toggle("off",sc.scrollLeft>sc.scrollWidth-sc.clientWidth-8||!!openId||scene.classList.contains("zoomed"))}
   sc.addEventListener("scroll",()=>{upd();if(!hint.classList.contains("gone")&&Math.abs(sc.scrollLeft-(sc._s0||0))>30)hint.classList.add("gone")},{passive:true});
   const step=()=>sc.clientWidth*.6;L.onclick=()=>sc.scrollBy({left:-step(),behavior:"smooth"});R.onclick=()=>sc.scrollBy({left:step(),behavior:"smooth"});
@@ -1115,6 +1176,24 @@ const SHIRTS=[["EAT THE","RICH"],["TAX THE","RICH"],["HORSES","DON'T STOP"],["KY
   let seen=false;try{seen=sessionStorage.getItem("dee-intro")==="1"}catch(e){}
   if(seen)setTimeout(showHint,700);else addEventListener("dee-in",()=>setTimeout(showHint,300),{once:true});
 })();
+
+/* neon flicker + buzz */
+(function(){if(reduce)return;const n=[...document.querySelectorAll(".neon")];
+  function buzz(){const a=audio();if(!a)return;const t=a.currentTime,o=a.createOscillator(),f=a.createBiquadFilter(),g=a.createGain();o.type="sawtooth";o.frequency.value=118;f.type="bandpass";f.frequency.value=900;f.Q.value=3;
+    g.gain.setValueAtTime(0,t);[0,.09,.18,.3,.38,.52,.6].forEach((d,i)=>g.gain.setValueAtTime(i%2?0:.025,t+d));g.gain.setValueAtTime(0,t+.9);o.connect(f).connect(g).connect(a.destination);o.start(t);o.stop(t+.95)}
+  (function next(){setTimeout(()=>{if(!document.hidden&&!openId){n.forEach(e=>{e.classList.remove("flick");void e.getBoundingClientRect();e.classList.add("flick")});buzz()}next()},7000+Math.random()*9000)})()})();
+/* glitter cursor trail (desktop) */
+(function(){if(reduce||!matchMedia("(pointer:fine)").matches)return;let last=0,n=0;const C=["#FFE27A","#FF8FC6","#9FD4FF","#FFFFFF","#B6F0C9"];
+  scene.addEventListener("pointermove",e=>{const now=performance.now();if(now-last<38||n>22)return;last=now;n++;
+    const d=document.createElement("i");d.className="glit";d.style.left=e.clientX+(Math.random()*10-5)+"px";d.style.top=e.clientY+(Math.random()*10-5)+"px";d.style.setProperty("--gc",C[Math.random()*C.length|0]);
+    document.body.appendChild(d);setTimeout(()=>{d.remove();n--},720)})})();
+/* idle camera: slow establishing-shot drift after 20 s of no input (desktop) */
+(function(){if(reduce)return;let idleT,drifting=false;const sc=$("#scroller");
+  function canDrift(){return !openId&&!scene.classList.contains("zoomed")&&!(sc.scrollWidth>sc.clientWidth+4)&&!document.hidden}
+  function arm(){clearTimeout(idleT);if(drifting){drifting=false;if(canDrift())tween(VB0,700)}idleT=setTimeout(()=>{if(!canDrift())return arm();drifting=true;
+    const k=.9,w=VB0.w*k,h=VB0.h*k,cx=VB0.x+VB0.w*(.5+(Math.random()-.5)*.12),cy=VB0.y+VB0.h*(.52+(Math.random()-.5)*.08);
+    tween({x:cx-w/2,y:cy-h/2,w,h},14000)},20000)}
+  ["pointermove","pointerdown","keydown","wheel","touchstart","scroll"].forEach(ev=>addEventListener(ev,arm,{passive:true,capture:true}));arm()})();
 
 /* ---------- what's inside each thing ---------- */
 const ENTER={},LEAVE={};
