@@ -305,7 +305,7 @@ button{font:inherit;color:inherit}
 .platter{position:absolute;left:6%;top:9%;width:66%;aspect-ratio:1;border-radius:50%;background:#2B2420;box-shadow:inset 0 0 0 4px #3B332D}
 .rec{position:absolute;inset:4%;border-radius:50%;background:repeating-radial-gradient(circle,#141010 0 2px,#1F1916 2px 4px);display:grid;place-items:center}
 .rec::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 10%,rgba(255,255,255,.12) 14%,transparent 20% 60%,rgba(255,255,255,.08) 64%,transparent 70%)}
-.lab{width:36%;aspect-ratio:1;border-radius:50%;background:var(--c,var(--sun));display:grid;place-items:center;text-align:center;padding:8%;font-family:var(--hand);font-size:clamp(12px,1.4vw,16px);line-height:1;position:relative;z-index:1}
+.lab{background-size:cover;background-position:center;width:36%;aspect-ratio:1;border-radius:50%;background:var(--c,var(--sun));display:grid;place-items:center;text-align:center;padding:8%;font-family:var(--hand);font-size:clamp(12px,1.4vw,16px);line-height:1;position:relative;z-index:1}
 .lab::after{content:"";position:absolute;width:8%;aspect-ratio:1;border-radius:50%;background:#eee;left:46%;top:46%}
 .tt.on .rec{animation:rot 1.8s linear infinite}
 .tarm{position:absolute;right:9%;top:8%;width:9%;aspect-ratio:1;border-radius:50%;background:#D9D2C5;box-shadow:0 2px 0 #8E857A;transform-origin:50% 50%;transition:transform 1s ease;transform:rotate(-8deg)}
@@ -314,12 +314,14 @@ button{font:inherit;color:inherit}
 .ttbtn{position:absolute;right:6%;bottom:9%;width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);background:var(--sun);font-size:18px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .ttbtn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .crate{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.sleeve{text-align:left;border:3px solid var(--ink);background:var(--c);padding:12px;min-height:150px;gap:10px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden;box-shadow:3px 4px 0 rgba(42,30,34,.2);transition:transform .2s}
+.sleeve{text-align:left;border:3px solid var(--ink);background:var(--c);padding:0;min-height:0;gap:0;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden;box-shadow:3px 4px 0 rgba(42,30,34,.2);transition:transform .2s}
 .sleeve::before{content:"";position:absolute;right:-30%;bottom:-30%;width:80%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.22)}
 .sleeve:hover{transform:translateY(-4px) rotate(-1deg)}
 .sleeve[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:3px}
-.sleeve b{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.8vw,21px);line-height:1;position:relative}
-.sleeve span{font-size:13px;line-height:1.3;position:relative}
+.sleeve .art{display:block;aspect-ratio:1;background:center/cover #2A2440;border-bottom:3px solid var(--ink)}
+.sleeve::before{display:none}
+.sleeve b{padding:8px 10px 10px;font-family:var(--display);font-weight:800;font-size:clamp(16px,1.8vw,21px);line-height:1;position:relative}
+.sleeve span:not(.art){font-size:13px;line-height:1.3;position:relative}
 .spot-host{margin-top:18px;min-height:152px}
 .spot-host iframe{display:block;width:100%;border:0;border-radius:12px}
 .small{font-family:var(--type);font-size:12px;color:var(--muted);margin-top:8px}
@@ -690,10 +692,10 @@ const BOOKS=[
 ];
 
 const PLAYLISTS=[
-  {"name": "nov faves 💫", "c": "var(--sun)", "spotify": "1FsmUtLiG7CN4HJE4x3Z3F", "mood": "What's on repeat this month. Updated as I go, so check back.", "tracks": []},
-  {"name": "evenings in maboneng", "c": "var(--tangerine)", "spotify": "6zfCkOMKZ07sPM5T8AbQXe", "mood": "Named after Maboneng in Joburg. For the hours after work.", "tracks": []},
-  {"name": "when houses were affordable", "c": "var(--mint)", "spotify": "41lY0eu1ID7GJzODbIrCZG", "mood": "Songs from back when a starter home didn't need three incomes. Sun-faded and a little wistful.", "tracks": []},
-  {"name": "what lava lamps sound like", "c": "var(--sky)", "spotify": "38ckP1y3sz6JzBgmUPqZmg", "mood": "Slow, warm and a little wobbly. Best with the lights low.", "tracks": []}
+  {"name": "nov faves 💫", "c": "var(--sun)", "spotify": "1FsmUtLiG7CN4HJE4x3Z3F", "mood": "What's on repeat this month. Updated as I go, so check back.", "tracks": [], "img": "https://mosaic.scdn.co/300/ab67616d00001e021e81bff9807a9e629fce5adeab67616d00001e022d6da1ee1b8d8fe70e1c43feab67616d00001e0284d4da751edd4c919d4aa732ab67616d00001e02fe6211303e796f3d5b7a0e02"},
+  {"name": "evenings in maboneng", "c": "var(--tangerine)", "spotify": "6zfCkOMKZ07sPM5T8AbQXe", "mood": "Named after Maboneng in Joburg. For the hours after work.", "tracks": [], "img": "https://mosaic.scdn.co/300/ab67616d00001e022f3eb17da55ed07665a66523ab67616d00001e023d5379f63010c413768022edab67616d00001e025df76dd47a789721d7857576ab67616d00001e02f4e8415741385f58b59202fb"},
+  {"name": "when houses were affordable", "c": "var(--mint)", "spotify": "41lY0eu1ID7GJzODbIrCZG", "mood": "Songs from back when a starter home didn't need three incomes. Sun-faded and a little wistful.", "tracks": [], "img": "https://mosaic.scdn.co/300/ab67616d00001e020e767887e304020cdbbe25e8ab67616d00001e027624d538b596bfdf565184a6ab67616d00001e02aaba065944cd82a6f15c86b6ab67616d00001e02dc60cf9a010f86354e6735dd"},
+  {"name": "what lava lamps sound like", "c": "var(--sky)", "spotify": "38ckP1y3sz6JzBgmUPqZmg", "mood": "Slow, warm and a little wobbly. Best with the lights low.", "tracks": [], "img": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da842446246042c3e8964779a8f4"}
 ];
 
 const WRITING=[
@@ -1108,13 +1110,13 @@ function setSpin(on){spOn=on;svg.classList.toggle("music",on);const t=$("#tt");t
 function rRecords(v){
   v.innerHTML=`<div class="hifi"><div><div class="tt" id="tt"><div class="platter"><div class="rec"><div class="lab" id="ttLab"></div></div></div><div class="tarm"></div><button class="ttbtn" id="ttPlay" aria-label="Play">▶</button></div>
     <p class="small" id="ttNote">Spotify plays a preview unless you're logged in to Spotify in this browser. <a id="spOpen" target="_blank" rel="noopener">Open in Spotify ↗</a></p></div>
-    <div class="crate">${PLAYLISTS.map((p,i)=>`<button class="sleeve" data-i="${i}" style="--c:${p.c}" aria-pressed="false"><b>${esc(p.name)}</b><span>${esc(p.mood)}</span></button>`).join("")}</div></div>
+    <div class="crate">${PLAYLISTS.map((p,i)=>`<button class="sleeve" data-i="${i}" style="--c:${p.c}" aria-pressed="false"><span class="art"${p.img?` style="background-image:url('${p.img}')"`:""}></span><b>${esc(p.name)}</b></button>`).join("")}</div></div>
     <div class="spot-host" id="spHost"></div>`;
   let cur=-1;
   function load(i,autoplay){
     cur=i;const p=PLAYLISTS[i];
     v.querySelectorAll(".sleeve").forEach(s=>s.setAttribute("aria-pressed",+s.dataset.i===i));
-    $("#ttLab").textContent=p.name;$("#spOpen").href="https://open.spotify.com/playlist/"+p.spotify;$("#ttLab").style.setProperty("--c",p.c);$("#recLabel").setAttribute("fill",getComputedStyle(document.documentElement).getPropertyValue(p.c.replace(/var\((.*)\)/,"$1")).trim()||"#F2B230");
+    $("#ttLab").textContent=p.img?"":p.name;$("#ttLab").style.backgroundImage=p.img?`url('${p.img}')`:"";$("#spOpen").href="https://open.spotify.com/playlist/"+p.spotify;$("#ttLab").style.setProperty("--c",p.c);$("#recLabel").setAttribute("fill",getComputedStyle(document.documentElement).getPropertyValue(p.c.replace(/var\((.*)\)/,"$1")).trim()||"#F2B230");
     setSpin(false);
     const host=$("#spHost");host.innerHTML='<div id="spSlot"></div>';
     spotApi().then(api=>{
