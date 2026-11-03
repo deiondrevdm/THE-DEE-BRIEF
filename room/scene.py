@@ -211,9 +211,9 @@ mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" strok
        '<rect x="30" y="69" width="24" height="9" fill="#ffffffaa"/>'
        '<text x="8" y="89" font-family="Permanent Marker, Patrick Hand, cursive" font-size="10" fill="#1F1B3A">to do:</text>'
        f'<g fill="none" stroke="{INK}" stroke-width="1.1"><rect x="7" y="99.5" width="5" height="5"/><rect x="7" y="112.5" width="5" height="5"/><rect x="7" y="125.5" width="5" height="5"/></g>'
-       f'<g class="todoDone"><path d="M7.5 114.5 l2 2.5 4 -6" stroke="#E8577E" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+       f'<g class="todoDone"><path d="M7.5 114.5 l2 2.5 4 -6" stroke="#E8577E" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>'
        '<text font-family="Patrick Hand, cursive" font-size="8.2" fill="#1F1B3A"><tspan x="15" y="105">tell Nicole I love her</tspan><tspan x="15" y="118">water plant</tspan><tspan x="15" y="131">punch a bigot in</tspan><tspan x="15" y="143">the guts</tspan></text>'
-       f'<path d="M15 115 H56" stroke="{INK}" stroke-width="1"/></g>'
+       f'<g class="todoDone"><path d="M15 115 H56" stroke="{INK}" stroke-width="1"/></g>'
        f'<path d="M78 136 c-3 -4 -8 -1 -4 3 l4 4 4 -4 c4 -4 -1 -7 -4 -3z" fill="#FF6FAE" stroke="{INK}" stroke-width=".9"/></g>'
        # pink note: kyk noord, fok voort
        f'<g transform="rotate(7 132 46)"><rect x="102" y="20" width="60" height="50" fill="#FFC1D3" stroke="{INK}" stroke-width="2"/>'
@@ -657,6 +657,7 @@ G += (f'<path d="M30 -48 L4 -36 L6 -28 L30 -40 L58 -32 L58 -40Z" fill="#3A3A42" 
 G += (limb(LEFT, 12, SK) + f'<path d="{LEFT}" stroke="#2E9C96" stroke-width="12" fill="none" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round"/>'
       f'<path d="{LEFT}" stroke="#F2543D" stroke-width="5" fill="none" stroke-dasharray="2 7" stroke-linecap="round"/>'
       f'<circle cx="20" cy="-36" r="6.5" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>')
+G += f'<path d="M-10 -136 C-16 -110 -30 -70 -6 -40 C6 -26 14 -20 18 -14" stroke="{INK}" stroke-width="2" fill="none"/>'
 G += '<g id="girlHead">'
 # neck + head, 3/4 view, looking down at the book; orange hair with thick blonde highlights in a messy bun
 G += (f'<rect x="-6" y="-134" width="14" height="14" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>'
@@ -675,8 +676,7 @@ G += (f'<rect x="-6" y="-134" width="14" height="14" fill="{SK}" stroke="{INK}" 
       f'<path d="M12 -137 q4 2 8 0" stroke="#C2564A" stroke-width="2.4" fill="none" stroke-linecap="round"/>'
       f'<circle cx="10" cy="-142" r="3" fill="#F2A0A0" opacity=".5"/>')
 # headphones over her hair, cord down to her shorts pocket
-G += (f'<path d="M-10 -136 C-16 -110 -30 -70 -6 -40 C6 -26 14 -20 18 -14" stroke="{INK}" stroke-width="2" fill="none"/>'
-      f'<path d="M-17 -152 C-17 -186 27 -190 29 -156" stroke="{INK}" stroke-width="7" fill="none" stroke-linecap="round"/>'
+G += (f'<path d="M-17 -152 C-17 -186 27 -190 29 -156" stroke="{INK}" stroke-width="7" fill="none" stroke-linecap="round"/>'
       f'<path d="M-17 -152 C-17 -186 27 -190 29 -156" stroke="#FF6FAE" stroke-width="3.5" fill="none" stroke-linecap="round"/>'
       f'<rect x="24" y="-164" width="9" height="18" rx="4" fill="#3B3550" stroke="{INK}" stroke-width="2"/>'
       f'<rect x="-19" y="-162" width="16" height="25" rx="7" fill="#3B3550" stroke="{INK}" stroke-width="2.5"/>'

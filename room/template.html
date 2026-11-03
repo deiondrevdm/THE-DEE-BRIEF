@@ -620,8 +620,9 @@ body{background:radial-gradient(1.2px 1.2px at 12% 18%,#FFF6D8 50%,transparent 5
 @keyframes chase{to{transform:rotate(360deg)}}
 #catB.yawn .breathe{animation:yawn 2.2s ease-in-out;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes yawn{40%,60%{transform:scale(1.14,.86)}}
-svg.music #girlHead{animation:headbob .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 95%}
-@keyframes headbob{from{transform:rotate(-2deg)}to{transform:rotate(4deg) translateY(1.5px)}}
+#girlHead{transform-box:fill-box;transform-origin:45% 100%}
+svg.music #girlHead{animation:headbob 1.04s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes headbob{0%,100%{transform:rotate(0) translateY(0)}25%{transform:rotate(2.2deg) translateY(.8px)}50%{transform:rotate(0) translateY(0)}75%{transform:rotate(-1.2deg) translateY(.8px)}}
 #torchC{transition:none}
 .build .piece{animation:drop .75s cubic-bezier(.25,1.55,.45,1) both}
 @keyframes drop{from{translate:0 -110px;opacity:0}60%{opacity:1}to{translate:0 0;opacity:1}}
