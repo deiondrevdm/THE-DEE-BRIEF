@@ -60,7 +60,7 @@ add(g(mZ(0, 0, 0), grain + f'<path d="{" ".join(fb)}" stroke="#9A633A" stroke-wi
 # soft shadows under furniture
 def shadow(pts, op=.26):
     sp = " ".join(f"{f(a)},{f(b)}" for a, b in (P(x, y, 0) for x, y in pts))
-    return f'<polygon points="{sp}" fill="#1F1B3A" opacity="{op}" filter="url(#softsh)"/>'
+    return f'<polygon points="{sp}" fill="url(#shG)" opacity="{op*1.6:.2f}"/>'
 add('<g style="pointer-events:none">'
     + shadow([(26, 0), (300, 0), (306, 100), (26, 100)])
     + shadow([(316, 0), (548, 0), (554, 112), (316, 112)])
@@ -796,8 +796,8 @@ add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g class="supz
 gx, gy = lamp_x, lamp_y - 90
 lvx, lvy = P(512, 50, 175)
 lpx, lpy = P(30, 444, 225)
-add('<rect id="goldTint" x="-50" y="-50" width="1700" height="1100" fill="#FF9F4A" style="mix-blend-mode:soft-light;pointer-events:none" opacity="0"/>')
-add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#1B1442" style="mix-blend-mode:multiply;pointer-events:none" opacity=".16"/>')
+add('<rect id="goldTint" x="-50" y="-50" width="1700" height="1100" fill="#FF9F4A" style="pointer-events:none" fill-opacity=".35" opacity="0"/>')
+add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#140F38" style="pointer-events:none" opacity=".16"/>')
 add(f'<g style="pointer-events:none"><circle id="lampGlow" class="glow" cx="{f(gx)}" cy="{f(gy)}" r="320" fill="url(#warm)"/>'
     f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>' + '</g>')
 add('<g class="motes" style="pointer-events:none">' + "".join(f'<circle cx="{f(gx+R.uniform(-120,120))}" cy="{f(gy+R.uniform(-90,110))}" r="{R.uniform(1,2.2):.1f}" fill="#FFF6D8" style="animation-delay:{-R.uniform(0,14):.1f}s;animation-duration:{R.uniform(10,18):.1f}s"/>' for _ in range(18)) + '</g>')
@@ -808,6 +808,7 @@ add('<g id="fx" style="pointer-events:none"></g>')
 DEFS = f'''<defs>
 <pattern id="wp" width="70" height="70" patternUnits="userSpaceOnUse"><path d="M14 10 l2 5 5 .5 -4 3.5 1.2 5 -4.2 -2.7 -4.2 2.7 1.2 -5 -4 -3.5 5 -.5Z" fill="#FFFFFF" opacity=".13"/><path d="M42 44 q5 -6 10 0 t10 0" stroke="#1B2A6B" stroke-width="2.2" fill="none" opacity=".12" stroke-linecap="round"/><circle cx="52" cy="16" r="2.2" fill="#FFFFFF" opacity=".14"/><circle cx="20" cy="54" r="1.6" fill="#1B2A6B" opacity=".12"/></pattern>
 <radialGradient id="torchG"><stop offset="0" stop-color="#000"/><stop offset=".55" stop-color="#000"/><stop offset="1" stop-color="#fff"/></radialGradient>
+<radialGradient id="shG" cx=".5" cy=".5" r=".62"><stop offset="0" stop-color="#1F1B3A" stop-opacity=".9"/><stop offset=".6" stop-color="#1F1B3A" stop-opacity=".55"/><stop offset="1" stop-color="#1F1B3A" stop-opacity="0"/></radialGradient>
 <filter id="softsh" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
 <filter id="bloom" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <pattern id="cane" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#F7D9A8"/><circle cx="7" cy="7" r="4" fill="none" stroke="#C99A5E" stroke-width="1.6"/><path d="M0 0 L14 14 M14 0 L0 14" stroke="#DDB27A" stroke-width="1"/></pattern>
