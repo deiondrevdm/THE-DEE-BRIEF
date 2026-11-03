@@ -865,7 +865,7 @@ function rBooks(el){
     const bc=$("#bc");bc.classList.add("fade");
     setTimeout(()=>{bc.innerHTML=`<div><span class="count">${esc(b.status||"Read")}${b.r?` · ${"★".repeat(b.r)}${"☆".repeat(5-b.r)}`:""}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why">${esc(b.rev||"")}</p></div><div class="verdict"><div class="taped"><small>Who it's for</small>${esc(b.yes||"")}</div><div class="taped"><small>Who it's not for</small>${esc(b.no||"")}</div></div>`;bc.classList.remove("fade")},reduce?0:200);
   }
-  items.forEach(x=>x.onclick=()=>{sel=+x.dataset.i;card()});
+  items.forEach(x=>x.onclick=()=>{sel=+x.dataset.i;if(window.SFX)SFX.page();card()});
   shelf.addEventListener("keydown",e=>{if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;e.preventDefault();e.stopPropagation();const k=order.indexOf(sel);sel=order[(k+(e.key==="ArrowRight"?1:-1)+order.length)%order.length];card()});
   const ro=new ResizeObserver(()=>{if(!shelf.isConnected)return ro.disconnect();layout()});ro.observe(shelf);
   layout();card();

@@ -137,16 +137,21 @@ car_hots = ""
 for k, x in [("f40", 680), ("r34", 772), ("e30", 864)]:
     car_hots += f'<g class="hot car" data-toggle="car" data-car="{k}">' + g(mY(12, x, 330), f'<g class="carbody">{car(k)}</g>') + '</g>'
 
-# ---------- corkboard ----------
-cork = [rect(0, 0, 200, 140, "#C97B45"), rect(10, 10, 180, 120, "url(#corkp)", 2)]
-cardc = ["#FFF4DE", "#9BE3B5", "#FFE6A8", "#FFC1D3", "#BFD4FF"]
-for i, (x, y, w, h, r) in enumerate([(20, 18, 50, 36, -6), (80, 16, 48, 40, 4), (138, 22, 42, 34, -3), (24, 70, 44, 50, 3), (82, 74, 52, 36, -4), (142, 66, 40, 46, 7)]):
-    inner = rect(x, y, w, h, cardc[i % 5] if i != 3 else "#FFFDF6", 2)
-    if i == 3: inner += rect(x+5, y+5, w-10, h-18, C["coral"], 1.5) + f'<circle cx="{x+w/2}" cy="{y+18}" r="7" fill="{C["yellow"]}"/>'
-    else: inner += "".join(f'<rect x="{x+6}" y="{y+9+j*8}" width="{(w-12)*(0.6 if j==2 else 1)}" height="2.5" fill="#1F1B3A55"/>' for j in range(3))
-    inner += f'<circle cx="{x+w/2}" cy="{y+3}" r="4" fill="{pick([C["red"],C["sky"],C["teal"],C["yellow"]])}" stroke="{INK}" stroke-width="1.5"/>'
-    cork.append(f'<g transform="rotate({r} {x+w/2} {y+h/2})">{inner}</g>')
-board_svg = g(mY(1, 330, 486), "".join(cork))
+# ---------- Y2K mirror covered in stickers (replaces the corkboard) ----------
+mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" stroke="{INK}" stroke-width="3"/>'
+       f'<rect x="12" y="12" width="176" height="116" rx="14" fill="url(#mirG)" stroke="{INK}" stroke-width="2.5"/>'
+       '<path d="M30 30 L70 22 M28 46 L98 30 M140 100 L176 92" stroke="#ffffffcc" stroke-width="5" stroke-linecap="round"/>'
+       f'<g stroke="{INK}" stroke-width="1.8" stroke-linejoin="round">'
+       '<path d="M28 106 l4 -10 4 10 -10 -6 h12Z" fill="#F8D65A"/>'
+       '<path d="M160 22 c0 -8 12 -8 12 0 c0 -8 12 -8 12 0 c0 8 -12 14 -12 18 c0 -4 -12 -10 -12 -18Z" fill="#FF6FAE"/>'
+       '<circle cx="168" cy="110" r="10" fill="#F8D65A"/><circle cx="165" cy="108" r="1.3" fill="#1F1B3A"/><circle cx="171" cy="108" r="1.3" fill="#1F1B3A"/><path d="M164 113 q4 3 8 0" fill="none"/>'
+       '<path d="M22 66 c-6 -10 4 -16 8 -8 c4 -8 14 -2 8 8 c-4 6 -8 8 -8 8 c0 0 -4 -2 -8 -8Z" fill="#B39BFF"/>'
+       '<rect x="112" y="18" width="34" height="14" rx="3" fill="#7FDBA8" transform="rotate(-6 129 25)"/>'
+       '<path d="M60 112 l6 -14 6 14 -12 -9 h12Z" fill="#8FD3F5"/>'
+       '<rect x="132" y="120" width="40" height="12" rx="2" fill="#FFFBF2" transform="rotate(4 152 126)"/></g>'
+       '<text x="129" y="29" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="10" fill="#1F1B3A" transform="rotate(-6 129 25)">xoxo</text>'
+       '<text x="152" y="130" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="9" fill="#1F1B3A" transform="rotate(4 152 126)">ur doing great</text>')
+board_svg = g(mY(1, 330, 486), mir)
 
 # glow-in-the-dark stars above the nightstand
 st = ""
@@ -520,6 +525,7 @@ DEFS = f'''<defs>
 <pattern id="corkp" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#D9A86C"/><circle cx="2" cy="3" r=".9" fill="#A97A45"/><circle cx="6" cy="6" r=".7" fill="#EAC690"/></pattern>
 <linearGradient id="skyN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1C4E"/><stop offset=".6" stop-color="#4A3278"/><stop offset="1" stop-color="#E0726A"/></linearGradient>
 <linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5DB8F5"/><stop offset="1" stop-color="#BFE8FB"/></linearGradient>
+<linearGradient id="mirG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEBFA"/><stop offset=".5" stop-color="#B9CDF0"/><stop offset="1" stop-color="#E6D7F7"/></linearGradient>
 <linearGradient id="lavaG" x1="0" y1="0" x2="0" y2="1"><stop id="lava0" offset="0" stop-color="#FFB36E"/><stop id="lava1" offset="1" stop-color="#FF5C8A"/></linearGradient>
 <linearGradient id="beamG" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFF6D8" stop-opacity=".6"/><stop offset="1" stop-color="#FFF6D8" stop-opacity=".06"/></linearGradient>
 <radialGradient id="warm"><stop offset="0" stop-color="#FFC870" stop-opacity=".75"/><stop offset=".45" stop-color="#FF9F4A" stop-opacity=".25"/><stop offset="1" stop-color="#FF9F4A" stop-opacity="0"/></radialGradient>

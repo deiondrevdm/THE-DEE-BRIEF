@@ -394,7 +394,7 @@ button{font:inherit;color:inherit}
 
 <nav class="nav" aria-label="Things in the room">
   <span>look at</span>
-  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">games</button><button data-go="laptop">laptop</button><button data-go="board">corkboard</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
+  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">games</button><button data-go="laptop">laptop</button><button data-go="board">mirror</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
 </nav>
 
 <script>
@@ -421,9 +421,9 @@ const ROOMS={
   screen:{t:"The TV",s:"What I've been watching."},
   games:{t:"What I've been playing",s:"Pick a game for my take and some gameplay."},
   laptop:{t:"The old Mac",s:"Still boots. My writing lives in the folder."},
-  board:{t:"The corkboard",s:"Newsletters I actually open. Pinned so I don't forget them."}
+  board:{t:"The mirror",s:"Newsletters I actually open. Stuck on the mirror so I don't forget them."}
 };
-const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
+const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the mirror","newsletters I read"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
 
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
 const rnd=Math.random;
@@ -460,6 +460,44 @@ function purrSound(rate,pitch,dur=2.6){
   for(let i=0;i<n;i++)d[i]=d[i]/mx*.7;
   const s=a.createBufferSource();s.buffer=buf;const lp=a.createBiquadFilter();lp.type="lowpass";lp.frequency.value=320*pitch;lp.Q.value=1.4;
   const g=a.createGain();g.gain.value=1.4;s.connect(lp).connect(g).connect(a.destination);s.start()}
+
+
+/* ---------- sound effects (all synthesised, only when sound is on) ---------- */
+window.SFX=null;const SFX={
+  noise(a,dur){const n=a.sampleRate*dur|0,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;const s=a.createBufferSource();s.buffer=b;return s},
+  env(a,t,peak,att,dec){const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(peak,t+att);g.gain.exponentialRampToValueAtTime(.0008,t+att+dec);return g},
+  tone(type,f0,f1,t0,dur,vol){const a=audio();if(!a)return;const t=a.currentTime+t0,o=a.createOscillator(),g=SFX.env(a,t,vol,.01,dur);o.type=type;o.frequency.setValueAtTime(f0,t);if(f1)o.frequency.exponentialRampToValueAtTime(f1,t+dur);o.connect(g).connect(a.destination);o.start(t);o.stop(t+dur+.05)},
+  needle(){const a=audio();if(!a)return;const t=a.currentTime;
+    SFX.tone("sine",90,45,0,.18,.5);
+    const s=SFX.noise(a,1.6),hp=a.createBiquadFilter();hp.type="highpass";hp.frequency.value=1800;const g=a.createGain();g.gain.value=0;
+    for(let k=0;k<26;k++){const tt=t+.12+Math.random()*1.4;g.gain.setValueAtTime(.35*Math.random(),tt);g.gain.setValueAtTime(0,tt+.006)}
+    const hiss=SFX.noise(a,1.6),lp=a.createBiquadFilter();lp.type="bandpass";lp.frequency.value=3500;const hg=SFX.env(a,t+.1,.035,.1,1.4);
+    s.connect(hp).connect(g).connect(a.destination);hiss.connect(lp).connect(hg).connect(a.destination);s.start(t);hiss.start(t)},
+  crt(){const a=audio();if(!a)return;const t=a.currentTime,o=a.createOscillator(),g=SFX.env(a,t,.05,.03,.9);o.type="sine";o.frequency.setValueAtTime(15700,t);o.connect(g).connect(a.destination);o.start(t);o.stop(t+1);
+    const s=SFX.noise(a,.5),bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=2400;bp.Q.value=.6;const sg=SFX.env(a,t,.25,.02,.42);s.connect(bp).connect(sg).connect(a.destination);s.start(t);
+    SFX.tone("square",70,40,0,.08,.12)},
+  ps2(){[[220,0],[330,.18],[440,.36],[659,.6]].forEach(([f,d],i)=>{SFX.tone("sine",f,null,d,1.4-d*.8,.12);SFX.tone("triangle",f*2,null,d,.9,.03)})},
+  mac(){[261.6,329.6,392,523.3].forEach(f=>{SFX.tone("triangle",f,null,0,1.6,.07);SFX.tone("sine",f/2,null,0,1.8,.05)})},
+  key(){const a=audio();if(!a)return;const t=a.currentTime,s=SFX.noise(a,.03),hp=a.createBiquadFilter();hp.type="highpass";hp.frequency.value=2500+Math.random()*1500;const g=SFX.env(a,t,.25,.002,.03);s.connect(hp).connect(g).connect(a.destination);s.start(t)},
+  page(){const a=audio();if(!a)return;const t=a.currentTime,s=SFX.noise(a,.35),bp=a.createBiquadFilter();bp.type="bandpass";bp.Q.value=.8;bp.frequency.setValueAtTime(900,t);bp.frequency.exponentialRampToValueAtTime(4200,t+.3);const g=SFX.env(a,t,.3,.08,.25);s.connect(bp).connect(g).connect(a.destination);s.start(t)},
+  lampClick(){SFX.tone("square",1800,600,0,.025,.18);SFX.tone("sine",140,60,0,.08,.4)},
+  ting(){SFX.tone("sine",2637,null,0,1.1,.12);SFX.tone("sine",3951,null,0,.7,.05)},
+  mrrp(){const a=audio();if(!a)return;const t=a.currentTime,o=a.createOscillator(),f=a.createBiquadFilter(),g=SFX.env(a,t,.16,.02,.28);o.type="sawtooth";o.frequency.setValueAtTime(420,t);o.frequency.linearRampToValueAtTime(760,t+.12);o.frequency.linearRampToValueAtTime(620,t+.26);f.type="lowpass";f.frequency.value=1500;f.Q.value=4;o.connect(f).connect(g).connect(a.destination);o.start(t);o.stop(t+.32)}
+};
+/* night crickets + room ambience */
+const AMB={on:false,nodes:[],timers:[]};
+function ambStop(){AMB.timers.forEach(clearInterval);AMB.timers=[];AMB.nodes.forEach(n=>{try{n.stop()}catch(e){}});AMB.nodes=[];AMB.on=false}
+function ambStart(){
+  const a=audio();if(!a||AMB.on)return;AMB.on=true;
+  const hum=a.createOscillator(),hg=a.createGain();hum.type="sine";hum.frequency.value=58;hg.gain.value=.012;hum.connect(hg).connect(a.destination);hum.start();AMB.nodes.push(hum);
+  const room=SFX.noise(a,4);room.loop=true;const lp=a.createBiquadFilter();lp.type="lowpass";lp.frequency.value=380;const rg=a.createGain();rg.gain.value=.018;room.connect(lp).connect(rg).connect(a.destination);room.start();AMB.nodes.push(room);
+  AMB.timers.push(setInterval(()=>{if(!sound||Math.random()<.55)return;const t=a.currentTime,s=SFX.noise(a,4),f=a.createBiquadFilter();f.type="lowpass";f.frequency.setValueAtTime(200,t);f.frequency.linearRampToValueAtTime(700,t+1.8);f.frequency.linearRampToValueAtTime(200,t+3.8);
+    const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05,t+1.8);g.gain.linearRampToValueAtTime(0,t+3.9);s.connect(f).connect(g).connect(a.destination);s.start(t)},9000));
+  AMB.timers.push(setInterval(()=>{if(!sound||!night)return;const t=a.currentTime;for(let k=0;k<3;k++){const o=a.createOscillator(),g=a.createGain(),tt=t+k*.09;o.type="sine";o.frequency.value=4300+Math.random()*200;g.gain.setValueAtTime(0,tt);g.gain.linearRampToValueAtTime(.018,tt+.01);g.gain.linearRampToValueAtTime(0,tt+.05);o.connect(g).connect(a.destination);o.start(tt);o.stop(tt+.06)}},1100));
+}
+window.SFX=SFX;
+addEventListener("pointerdown",()=>{if(sound)ambStart()},{once:true});
+addEventListener("keydown",()=>{if(sound)ambStart()},{once:true});
 
 /* ---------- cats ---------- */
 function svgPt(cx,cy){const m=svg.getScreenCTM();if(!m)return{x:0,y:0};const p=svg.createSVGPoint();p.x=cx;p.y=cy;return p.matrixTransform(m.inverse())}
@@ -499,7 +537,7 @@ function supFlee(px,py){
   let dx=SUP.x-px,dy=SUP.y-py,L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;
   let [tx,ty]=clampF(SUP.x+dx*230,SUP.y+dy*230);
   if(Math.hypot(tx-SUP.x,ty-SUP.y)<90){let best=null,bd=-1;for(let k=0;k<10;k++){const c=randF(),d=Math.hypot(c[0]-px,c[1]-py);if(d>bd){bd=d;best=c}}[tx,ty]=best}
-  SUP.tx=tx;SUP.ty=ty;SUP.state="run";SUP.flees++;hideTip();
+  if(SUP.state!=="run")SFX.mrrp();SUP.tx=tx;SUP.ty=ty;SUP.state="run";SUP.flees++;hideTip();
 }
 function supraPoke(){
   if(!supCat)return;dismissHint();
@@ -610,6 +648,7 @@ function open(id){
   lastFocus=document.activeElement;
   if(openId)closeView(openId);
   openId=id;scene.classList.add("zoomed");
+  ({games:SFX.ps2,laptop:SFX.mac,board:SFX.ting}[id]||(()=>{}))();
   if(!built[id]){BUILD[id]($("#v-"+id));built[id]=true}
   const bb=(document.querySelector(`#room [data-zoom="${id}"]`)||document.querySelector(`#room [data-go="${id}"]`)).getBBox();tween(fit({x:bb.x,y:bb.y,w:bb.width,h:bb.height}),900,()=>{
     $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;
@@ -636,7 +675,7 @@ addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(ROOMS[h])op
 function act(node){
   const go=node.dataset.go,cat=node.dataset.cat,tg=node.dataset.toggle;
   if(go){if(node.dataset.game!=null){GAMESEL=+node.dataset.game;if(openId==="games"&&ENTER.games)ENTER.games()}open(go)}else if(cat)pet(cat);
-  else if(tg==="lamp"){lampOn=!lampOn;click();lightsUp();dismissHint()}
+  else if(tg==="lamp"){lampOn=!lampOn;SFX.lampClick();lightsUp();dismissHint()}
   else if(tg==="win"){night=!night;click();lightsUp();dismissHint()}
   else if(tg==="lava")lava();
   else if(tg==="girl")girlTap();
@@ -654,8 +693,8 @@ document.querySelectorAll(".hot").forEach(h=>{
   h.addEventListener("pointerleave",hideTip);h.addEventListener("blur",hideTip);
 });
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{if(b.dataset.go)open(b.dataset.go);else{close();pet(b.dataset.cat)}});
-$("#tgLamp").onclick=()=>{lampOn=!lampOn;click();lightsUp()};
-$("#tgSound").onclick=()=>{sound=!sound;$("#tgSound").setAttribute("aria-pressed",sound)};
+$("#tgLamp").onclick=()=>{lampOn=!lampOn;SFX.lampClick();lightsUp()};
+$("#tgSound").onclick=()=>{sound=!sound;$("#tgSound").setAttribute("aria-pressed",sound);if(sound)ambStart();else ambStop()};
 lightsUp();
 
 /* ---------- what's inside each thing ---------- */
@@ -698,8 +737,8 @@ function rRecords(v){
         if(autoplay)c.play()})})
     .catch(()=>{host.innerHTML=`<iframe src="https://open.spotify.com/embed/playlist/${encodeURIComponent(p.spotify)}?utm_source=generator" height="352" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="${esc(p.name)} on Spotify"></iframe>`})
   }
-  v.querySelectorAll(".sleeve").forEach(s=>s.onclick=()=>load(+s.dataset.i,true));
-  $("#ttPlay").onclick=()=>{if(spCtl){spCtl.togglePlay();if(!spOn)setSpin(true)}else{setSpin(!spOn)}};
+  v.querySelectorAll(".sleeve").forEach(s=>s.onclick=()=>{SFX.needle();load(+s.dataset.i,true)});
+  $("#ttPlay").onclick=()=>{if(!spOn)SFX.needle();if(spCtl){if(spOn)spCtl.togglePlay();else setTimeout(()=>spCtl.togglePlay(),500);if(!spOn)setSpin(true)}else{setSpin(!spOn)}};
   load(0,false);
 }
 
@@ -714,7 +753,7 @@ function rScreen(v){
     <div class="chans">${TV.map((x,i)=>`<button class="chan" data-i="${i}" style="--c:${x.c}" aria-pressed="false"><i></i><span><small>ch ${i+1} · ${esc(x.cat)}</small><b>${esc(x.title)}</b></span></button>`).join("")}</div></div>
     <div class="tvinfo" id="tvInfo"></div>`;
   v.querySelectorAll(".chan").forEach(b=>b.onclick=()=>{
-    const x=TV[+b.dataset.i],scr=$("#tvScr");v.querySelectorAll(".chan").forEach(o=>o.setAttribute("aria-pressed",o===b));click();
+    const x=TV[+b.dataset.i],scr=$("#tvScr");v.querySelectorAll(".chan").forEach(o=>o.setAttribute("aria-pressed",o===b));SFX.crt();
     scr.classList.add("static");scr.innerHTML="";
     $("#tvInfo").innerHTML=`<h3>${esc(x.title)}</h3><span class="by">${esc(x.cat)} · ${esc(x.by)}</span><p>${esc(x.note)}</p><p class="out">Trailer not loading? <a href="https://www.youtube.com/watch?v=${encodeURIComponent(x.yt)}" target="_blank" rel="noopener">Watch it on YouTube ↗</a></p>`;
     setTimeout(()=>{scr.classList.remove("static");scr.innerHTML=`<iframe src="https://www.youtube.com/embed/${encodeURIComponent(x.yt)}?autoplay=1&rel=0&playsinline=1" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen title="${esc(x.title)} trailer"></iframe>`},reduce?0:450);
@@ -777,7 +816,7 @@ function rLaptop(v){
         <div class="gbox"><span id="gq"></span><i class="caret"></i></div>
         <div class="gbtns"><a href="${url}" target="_blank" rel="noopener">Google Search</a><a href="${url}" target="_blank" rel="noopener">I'm Feeling Lucky</a></div></div></div>`;
       const q=$("#gq");let k=0;clearInterval(show._t);if(reduce){q.textContent=MOZ_Q;return}
-      show._t=setInterval(()=>{q.textContent=MOZ_Q.slice(0,++k);if(k>=MOZ_Q.length)clearInterval(show._t)},85)}
+      show._t=setInterval(()=>{q.textContent=MOZ_Q.slice(0,++k);if(MOZ_Q[k-1]!==" ")SFX.key();if(k>=MOZ_Q.length)clearInterval(show._t)},85)}
     else if(id==="week"){T.textContent="this_week.txt";const d=DIGEST[0],TC={Watched:"#FFC1D3",Read:"#FFE6A8",Listened:"#BFD4FF",Played:"#9BE3B5"};
       B.innerHTML=`<p class="wk-top">${esc(d.top)}</p><ul class="wk">${d.items.map(x=>`<li><span class="ty" style="--c:${TC[x.type]||"#eee"}">${esc(x.type.toLowerCase())}</span><div><b>${esc(x.title)}</b> <span class="by">${esc(x.by)} · ${"★".repeat(x.r)}</span><p>${esc(x.note)}</p></div></li>`).join("")}</ul><p class="small">${esc(d.date)}</p>`}
     else{T.textContent="mailing list";B.innerHTML=`<form class="mail" id="mail"><label for="email">A letter now and then: what I'm reading, playing and watching.</label><div class="row"><input id="email" type="email" placeholder="you@example.com" autocomplete="email"><button>Sign me up</button></div><p class="small" id="mailNote" aria-live="polite"></p></form>`;
