@@ -360,10 +360,56 @@ button{font:inherit;color:inherit}
   #v-books .book-card h3{font-size:20px}
   #v-books .book-card .count{font-size:17px}
 }
+
+/* dial-up intro */
+.intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:radial-gradient(circle at 20% 20%,#3B2A6B 0,transparent 45%),radial-gradient(circle at 80% 80%,#6B2A5A 0,transparent 45%),#1E1530;transition:opacity .6s ease}
+.intro.out{opacity:0;pointer-events:none}
+.intro .stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#FFF6D8;animation:tw 2.6s ease-in-out infinite}
+.dwin{position:relative;width:min(440px,100%);background:#E9E3F2;border:3px solid var(--ink);border-radius:8px 8px 4px 4px;box-shadow:inset -3px -3px 0 #B6ACC9,inset 3px 3px 0 #fff,8px 9px 0 rgba(0,0,0,.4);font-family:var(--body);color:var(--ink);transition:transform .7s cubic-bezier(.6,-0.2,.7,1),opacity .7s}
+.intro.out .dwin{transform:translateY(70vh) scale(.08);opacity:0}
+.dtitle{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 10px;background:linear-gradient(90deg,#FF6FAE,#B39BFF 60%,#7FB2FF);color:#fff;font-weight:700;font-size:14px;text-shadow:1px 1px 0 var(--ink);border-bottom:3px solid var(--ink);border-radius:4px 4px 0 0}
+.dtitle span{flex:1}
+.dtitle b{width:22px;height:20px;display:grid;place-items:center;background:#E9E3F2;color:var(--ink);text-shadow:none;border:2px solid var(--ink);border-radius:3px;font-size:12px;line-height:1;box-shadow:inset -2px -2px 0 #B6ACC9}
+.dbody{display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;padding:18px 18px 10px}
+.modem{width:72px;height:58px;position:relative}
+.modem .box{position:absolute;left:0;right:0;bottom:4px;height:28px;background:#CFC6DE;border:2.5px solid var(--ink);border-radius:6px;box-shadow:inset -3px -3px 0 #A79DBB}
+.modem .box i{position:absolute;top:9px;width:7px;height:7px;border-radius:50%;background:#5A5470;border:1.5px solid var(--ink)}
+.modem .box i:nth-child(1){left:10px}.modem .box i:nth-child(2){left:22px}.modem .box i:nth-child(3){left:34px}
+.dialing .modem .box i{animation:led .32s steps(2) infinite}.dialing .modem .box i:nth-child(2){animation-delay:.11s}.dialing .modem .box i:nth-child(3){animation-delay:.21s}
+@keyframes led{50%{background:#7FDBA8}}
+.modem .ph{position:absolute;left:14px;top:0;width:44px;height:16px;border:2.5px solid var(--ink);border-radius:10px 10px 4px 4px;background:#FF8FC2}
+.dmsg h1{margin:0 0 4px;font-family:var(--display);font-weight:800;font-size:22px;line-height:1.05;text-wrap:balance}
+.dmsg p{margin:0;font-size:14px;line-height:1.4}
+.dfield{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;margin-top:12px;font-size:13px}
+.dfield code{font-family:"Courier New",monospace;background:#fff;border:2px solid var(--ink);box-shadow:inset 2px 2px 0 #CFC6DE;padding:3px 7px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dstatus{margin:10px 18px 0;font-size:13px;min-height:1.4em}
+.dbar{margin:8px 18px 0;height:24px;background:#fff;border:2px solid var(--ink);box-shadow:inset 2px 2px 0 #CFC6DE;padding:2px;overflow:hidden}
+.dbar div{height:100%;width:0;display:flex;gap:3px;transition:width .35s linear;overflow:hidden}
+.dbar div::before{content:"♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥";color:#FF6FAE;font-size:16px;line-height:18px;letter-spacing:2px;white-space:nowrap}
+.dbtns{display:flex;justify-content:flex-end;gap:10px;padding:14px 18px 16px}
+.dbtn{font:700 14px/1 var(--body);color:var(--ink);background:#E9E3F2;border:2.5px solid var(--ink);border-radius:4px;padding:9px 16px;cursor:pointer;box-shadow:inset -3px -3px 0 #B6ACC9,inset 3px 3px 0 #fff}
+.dbtn:active{box-shadow:inset 3px 3px 0 #B6ACC9}
+.dbtn.go{background:#FFE6A8}
+.dbtn[disabled]{opacity:.5;cursor:default}
+.dwin.welcome .dmsg h1{color:#E8577E}
+
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="dwin" id="dwin">
+    <div class="dtitle"><span>Dial-Up Connection</span><b aria-hidden="true">_</b><b aria-hidden="true">□</b><b aria-hidden="true">×</b></div>
+    <div class="dbody"><div class="modem" aria-hidden="true"><div class="ph"></div><div class="box"><i></i><i></i><i></i></div></div>
+      <div class="dmsg"><h1 id="dTitle">Connect to dee's room?</h1><p id="dSub">You need to be online to come in. Mind the cats.</p>
+        <div class="dfield"><span>User name:</span><code>guest_2001</code><span>Dial:</span><code>0800-DEES-ROOM</code></div></div></div>
+    <div class="dstatus" id="dStatus" aria-live="polite">Ready.</div>
+    <div class="dbar" aria-hidden="true"><div id="dBar"></div></div>
+    <div class="dbtns"><button class="dbtn" id="dSkip">Skip</button><button class="dbtn go" id="dGo">Connect</button></div>
+  </div>
+</div>
 <header class="bar">
   <div class="brand"><b>Dee's room</b></div>
   <div class="toggles"><a class="tg" href="/THE-DEE-BRIEF/classic/" style="text-decoration:none">classic site</a><button class="tg" id="tgLamp" aria-pressed="true">lamp</button><button class="tg" id="tgSound" aria-pressed="true">sound</button></div>
@@ -848,6 +894,49 @@ function rBoard(v){
   const C=["#FFF1D6","#9BE3B5","#FFE6A8","#FFC1D3","#BFD4FF"],P=["#F2542D","#3D57A6","#2E8A86","#F2B230"];
   v.innerHTML=`<div class="cork">${NEWSLETTERS.map((n,i)=>`<article class="card" style="--c:${C[i%C.length]};--r:${[-2,1.5,-1,2.2,-1.6][i%5]}deg;--pin:${P[i%P.length]}"><span class="stamp">${esc(n.tag)}</span><b>${esc(n.name)}</b><span class="by">${esc(n.by)} · ${esc(n.cad)}</span><p>${esc(n.why)}</p></article>`).join("")}</div>`;
 }
+
+
+/* ---------- dial-up intro ---------- */
+(function(){
+  const ov=$("#intro");if(!ov)return;
+  let seen=false;try{seen=sessionStorage.getItem("dee-intro")==="1"}catch(e){}
+  if(seen||ROOMS[location.hash.slice(1)]){ov.remove();return}
+  const st=ov.querySelector(".stars");for(let i=0;i<40;i++){const d=document.createElement("i");d.style.left=Math.random()*100+"%";d.style.top=Math.random()*100+"%";d.style.animationDelay=(-Math.random()*3)+"s";st.appendChild(d)}
+  const win=$("#dwin"),go=$("#dGo"),skip=$("#dSkip"),bar=$("#dBar"),msg=$("#dStatus");
+  let timers=[],nodes=[];
+  function stopSound(){nodes.forEach(n=>{try{n.stop()}catch(e){}});nodes=[]}
+  function done(){timers.forEach(clearTimeout);stopSound();try{sessionStorage.setItem("dee-intro","1")}catch(e){}
+    ov.classList.add("out");setTimeout(()=>ov.remove(),800);if(sound)ambStart()}
+  function dialSound(){
+    const a=audio();if(!a)return 0;const t0=a.currentTime+.05;
+    const osc=(f,t,d,v,type="sine")=>{const o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.setValueAtTime(v,t+d-.01);g.gain.linearRampToValueAtTime(0,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d+.02);nodes.push(o);return o};
+    osc(350,t0,.9,.07);osc(440,t0,.9,.07);                     // dial tone
+    const DT={0:[941,1336],8:[852,1336],D:[697,1633],E:[770,1633],S:[852,1477],R:[697,1209],O:[941,1336],M:[770,1336]};
+    "0800DEESROOM".split("").forEach((c,i)=>{const [l,h]=DT[c]||[770,1336],t=t0+1+i*.13;osc(l,t,.09,.08);osc(h,t,.09,.08)});
+    let t=t0+2.75;
+    osc(2100,t,1.1,.06);t+=1.2;                                 // answer tone
+    for(let k=0;k<4;k++){osc(980+k*120,t+k*.14,.11,.05,"square")}t+=.7;
+    osc(1650,t,.35,.05);osc(1850,t+.35,.35,.05);osc(1200,t+.7,.5,.05,"sawtooth");t+=1.25;
+    const n=a.sampleRate*2|0,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
+    const s=a.createBufferSource();s.buffer=b;const bp=a.createBiquadFilter();bp.type="bandpass";bp.Q.value=1.2;bp.frequency.setValueAtTime(1800,t);bp.frequency.linearRampToValueAtTime(2600,t+1.9);
+    const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.05);g.gain.setValueAtTime(.12,t+1.8);g.gain.linearRampToValueAtTime(0,t+2);
+    s.connect(bp).connect(g).connect(a.destination);s.start(t);s.stop(t+2.05);nodes.push(s);
+    osc(1500,t+.1,1.8,.035,"square");
+    return t+2-a.currentTime;
+  }
+  go.onclick=()=>{
+    go.disabled=true;win.classList.add("dialing");
+    const len=(dialSound()||5.6)*1000;
+    const steps=[[0,"Dialing 0800-DEES-ROOM…",8],[len*.33,"Verifying user name and password…",34],[len*.55,"Logging on to network…",58],[len*.78,"Feeding the cats…",82],[len,"Connected at 56.6 Kbps.",100]];
+    steps.forEach(([at,txt,p])=>timers.push(setTimeout(()=>{msg.textContent=txt;bar.style.width=p+"%"},at)));
+    timers.push(setTimeout(()=>{win.classList.remove("dialing");win.classList.add("welcome");
+      $("#dTitle").textContent="Welcome to dee's room!";$("#dSub").textContent="Make yourself at home. Don't touch Miata.";
+      skip.hidden=true;go.disabled=false;go.textContent="Come in";go.onclick=done;go.focus()},len+300));
+    timers.push(setTimeout(done,len+3200));
+  };
+  skip.onclick=done;
+  go.focus();
+})();
 
 const start=location.hash.slice(1);if(ROOMS[start])setTimeout(()=>open(start),300);
 </script>
