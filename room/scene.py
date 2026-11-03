@@ -449,6 +449,8 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <path d="M-60 9 h6 l-3 4 Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
 <g stroke="{INK}" stroke-width="1.4"><path d="M-72 14 l-18 -2 M-72 17 l-18 3 M-42 14 l18 -2 M-42 17 l18 3"/></g>
 </g>
+<g class="paw"><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="{INK}" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#F7A54E" stroke-width="11" fill="none" stroke-linecap="round"/>
+<circle cx="-106" cy="-2" r="8" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/><path d="M-112 -8 l-6 -4 M-114 -2 l-7 0 M-112 4 l-6 4" stroke="{INK}" stroke-width="2" stroke-linecap="round"/></g>
 </g></g></g>""")
 add(f'<text class="zz" x="{f(ax-50)}" y="{f(ay-36)}" font-size="18">z</text><text class="zz" x="{f(ax-40)}" y="{f(ay-44)}" font-size="13">z</text>')
 cx_, cy_ = P(280, 560, 0)

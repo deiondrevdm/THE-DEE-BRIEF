@@ -95,6 +95,8 @@ button{font:inherit;color:inherit}
 .cat.purring .leg,.cat.purring .walker,#catB.idle .leg,#catB.idle .walker{animation-play-state:paused}
 #catB.run .leg{animation-duration:.14s}#catB.run .walker{animation-duration:.14s}
 #catB .tail{animation-duration:1.4s}
+#catA .mad,#catA .paw{display:none}#catA.angry .paw{display:inline;transform-box:fill-box;transform-origin:100% 100%;animation:swipe .32s ease-in-out 4 alternate}
+@keyframes swipe{from{transform:rotate(38deg)}to{transform:rotate(-22deg)}}
 #catA .mad{display:none}#catA.angry .mad{display:inline}#catA.angry .sleep{display:none}
 #catA .head{transform-box:fill-box;transform-origin:70% 60%}
 #catA.angry .head{animation:lunge .18s ease-out 4 alternate}
@@ -350,6 +352,8 @@ button{font:inherit;color:inherit}
 .icon i{width:48px;height:40px;display:block;position:relative;font-style:normal}
 .icon.folder i{background:#9DB4F0;border:2.5px solid #1F1B3A;border-radius:3px 6px 4px 4px;margin-top:6px;height:34px}
 .icon.folder i::before{content:"";position:absolute;left:-2.5px;top:-9px;width:20px;height:8px;background:#9DB4F0;border:2.5px solid #1F1B3A;border-bottom:0;border-radius:4px 4px 0 0}
+.icon.goog i{width:44px;height:44px;border-radius:10px;border:2.5px solid #1F1B3A;background:#fff;display:grid;place-items:center}
+.icon.goog i::before{content:"G";font:700 30px/1 Georgia,"Times New Roman",serif;background:conic-gradient(from -45deg,#E0402F 0 25%,#F2B230 0 37%,#2E9C5A 0 62%,#3D6FE0 0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .icon.globe i{width:44px;height:44px;border-radius:50%;border:2.5px solid #1F1B3A;background:radial-gradient(circle at 35% 30%,#BFE8FB,#3D7BD9 60%,#24345C);overflow:hidden}
 .icon.globe i::before{content:"";position:absolute;inset:6px 4px;border:2px solid #7FDBA8;border-radius:50%;transform:rotate(-20deg)}
 .icon.globe i::after{content:"";position:absolute;left:-6px;right:-6px;top:17px;height:8px;border-radius:50%;border:2px solid #FFE6A8;transform:rotate(-14deg)}
@@ -479,6 +483,8 @@ button{font:inherit;color:inherit}
 <path d="M-60 9 h6 l-3 4 Z" fill="#E8577E" stroke="#1F1B3A" stroke-width="1.2"/>
 <g stroke="#1F1B3A" stroke-width="1.4"><path d="M-72 14 l-18 -2 M-72 17 l-18 3 M-42 14 l18 -2 M-42 17 l18 3"/></g>
 </g>
+<g class="paw"><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#1F1B3A" stroke-width="17" fill="none" stroke-linecap="round"/><path d="M-56 22 C-74 22 -92 12 -104 0" stroke="#F7A54E" stroke-width="11" fill="none" stroke-linecap="round"/>
+<circle cx="-106" cy="-2" r="8" fill="#FFF4DE" stroke="#1F1B3A" stroke-width="2.5"/><path d="M-112 -8 l-6 -4 M-114 -2 l-7 0 M-112 4 l-6 4" stroke="#1F1B3A" stroke-width="2" stroke-linecap="round"/></g>
 </g></g></g><text class="zz" x="1195.0" y="697.0" font-size="18">z</text><text class="zz" x="1205.0" y="689.0" font-size="13">z</text><g id="supraPos" transform="translate(483.2 896.0)"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.62)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">
@@ -661,7 +667,7 @@ function purrSound(rate,pitch,dur=2.6){
 /* ---------- cats ---------- */
 function svgPt(cx,cy){const m=svg.getScreenCTM();if(!m)return{x:0,y:0};const p=svg.createSVGPoint();p.x=cx;p.y=cy;return p.matrixTransform(m.inverse())}
 function svgBox(node){const r=node.getBoundingClientRect(),a=svgPt(r.left,r.top),b=svgPt(r.right,r.bottom);return{x:a.x,y:a.y,width:b.x-a.x,height:b.y-a.y}}
-function floatText(words,bb,cls="prr"){const g=$("#fx");words.forEach((w,i)=>{const t=el("text",{x:bb.x+bb.width*(.25+i*.35),y:bb.y-4,class:cls,style:`animation-delay:${i*.35}s`},g);t.textContent=w;setTimeout(()=>t.remove(),3200)})}
+function floatText(words,bb,cls="prr"){const g=$("#fx");words.forEach((w,i)=>{const t=el("text",{x:bb.x+bb.width*(.1+i*.28),y:bb.y-4-i*20,class:cls,style:`animation-delay:${i*.35}s`},g);t.textContent=w;setTimeout(()=>t.remove(),3200)})}
 function purr(id){
   const c=$("#"+id),cfg=CATS[id];if(!c)return;dismissHint();
   purrSound(cfg.rate,cfg.pitch);
@@ -673,11 +679,13 @@ function purr(id){
 function hissSound(){const a=audio();if(!a)return;const t=a.currentTime,n=a.sampleRate*.9|0,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;
   const s=a.createBufferSource();s.buffer=b;const hp=a.createBiquadFilter();hp.type="highpass";hp.frequency.value=2600;const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.5,t+.05);g.gain.exponentialRampToValueAtTime(.01,t+.9);s.connect(hp).connect(g).connect(a.destination);s.start(t);
   const o=a.createOscillator(),og=a.createGain();o.frequency.setValueAtTime(190,t+.05);o.frequency.exponentialRampToValueAtTime(60,t+.16);og.gain.setValueAtTime(.6,t+.05);og.gain.exponentialRampToValueAtTime(.001,t+.18);o.connect(og).connect(a.destination);o.start(t+.05);o.stop(t+.2)}
+function swish(){const a=audio();if(!a)return;const t=a.currentTime,n=a.sampleRate*.25|0,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/n);
+  const s=a.createBufferSource();s.buffer=b;const bp=a.createBiquadFilter();bp.type="bandpass";bp.Q.value=2;bp.frequency.setValueAtTime(600,t);bp.frequency.exponentialRampToValueAtTime(3200,t+.22);const g=a.createGain();g.gain.value=.5;s.connect(bp).connect(g).connect(a.destination);s.start(t)}
 let miataBusy=false;
 function miata(){
   const c=$("#catA");if(miataBusy||!c)return;miataBusy=true;dismissHint();
   hissSound();c.classList.add("angry");svg.classList.add("miata-mad");
-  floatText(["HSSSS!","*chomp*"],svgBox(c),"hiss");showTip(c,["Miata","told you"]);
+  floatText(["HSSSS!","*swipe*","*chomp*"],svgBox(c),"hiss");setTimeout(swish,180);setTimeout(swish,820);showTip(c,["Miata","told you"]);
   setTimeout(()=>{c.classList.remove("angry");svg.classList.remove("miata-mad");showTip(c,["Miata","back to sleep"]);setTimeout(hideTip,1400);miataBusy=false},1900);
 }
 function pet(id){if(id==="catA")miata();else supraPoke()}
@@ -944,7 +952,7 @@ const MOZ_Q="am I gay or bisexual";
 function rLaptop(v){
   const icons=[
     {id:"writing",label:"my writing",kind:"folder"},
-    {id:"web",label:"Mozilla",kind:"globe"},
+    {id:"web",label:"Google",kind:"goog"},
     {id:"week",label:"this week",kind:"doc"},
     {id:"mail",label:"mailing list",kind:"mail"}];
   v.innerHTML=`<div class="os"><div class="os-bar"><span class="menus"><b>✿</b><b>File</b><b>Edit</b><b>View</b><b>Special</b></span><span id="osClock"></span></div>
@@ -960,7 +968,7 @@ function rLaptop(v){
     if(id==="writing"){T.textContent="my writing";const list=[...WRITING].sort((a,b)=>b.d.localeCompare(a.d));
       const draw=()=>{B.innerHTML=list.map((w,j)=>{const dt=new Date(w.d+"T12:00:00");return `<article class="essay"><button aria-expanded="${j===open}" data-j="${j}"><span class="d">${dt.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</span><h3>${esc(w.t)}</h3><span class="rt">${w.min} min ${j===open?"−":"+"}</span></button><div class="body" ${j===open?"":"hidden"}><div class="tags">${w.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>${w.sub?`<p class="sub">${esc(w.sub)}</p>`:""}${w.p.map(p=>`<p>${esc(p)}</p>`).join("")}${w.u?`<p><a class="more" href="${w.u}" target="_blank" rel="noopener">Read the full piece on Substack ↗</a></p>`:""}</div></article>`}).join("");
         B.querySelectorAll(".essay > button").forEach(x=>x.onclick=()=>{const j=+x.dataset.j;open=open===j?-1:j;draw()})};draw()}
-    else if(id==="web"){T.textContent="Mozilla";const url="https://www.google.com/search?q="+encodeURIComponent(MOZ_Q);
+    else if(id==="web"){T.textContent="Google";const url="https://www.google.com/search?q="+encodeURIComponent(MOZ_Q);
       B.innerHTML=`<div class="moz"><div class="moz-bar"><span class="nb">◀</span><span class="nb">▶</span><span class="nb">↻</span><span class="addr">http://www.google.com/</span></div>
         <div class="gpage"><div class="glogo" aria-label="Google"><b>G</b><b>o</b><b>o</b><b>g</b><b>l</b><b>e</b></div>
         <div class="gbox"><span id="gq"></span><i class="caret"></i></div>
