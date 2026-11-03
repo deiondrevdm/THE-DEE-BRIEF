@@ -78,13 +78,15 @@ add(f'<g class="hot" data-toggle="win">{window_svg}</g>')
 
 # ashtray on the windowsill, joint resting in it, smoke drifting up
 ash_x, ash_y = P(14, 616, 238)
-add(f'<g transform="translate({f(ash_x)} {f(ash_y)})">'
+add(f'<g class="hot" data-toggle="ash" transform="translate({f(ash_x)} {f(ash_y)})">'
     f'<ellipse cx="0" cy="0" rx="18" ry="7" fill="#2E9C96" stroke="{INK}" stroke-width="2.5"/>'
     f'<ellipse cx="0" cy="-2" rx="12" ry="4" fill="#1E6E6A"/><circle cx="-4" cy="-2" r="1.5" fill="#9C97AA"/><circle cx="3" cy="-1" r="1.2" fill="#9C97AA"/>'
-    f'<path d="M-6 -3 L20 -11 L21 -8 L-5 0Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"/>'
+    f'<g id="joint" class="jointg"><path id="jointBody" d="M-6 -3 L20 -11 L21 -8 L-5 0Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"/>'
+    f'<g class="jface"><circle cx="6" cy="-6.3" r="1.1" fill="{INK}"/><circle cx="10.5" cy="-7.6" r="1.1" fill="{INK}"/><path d="M6.5 -4 q2.6 1.4 5 -1.4" stroke="{INK}" stroke-width=".9" fill="none" stroke-linecap="round"/></g>'
     f'<path d="M-6 -3 L-1 -4.6 L0 -1.6 L-5 0Z" fill="#D9C7A7"/>'
     f'<circle class="ember" cx="20.5" cy="-9.5" r="2.2" fill="#FF7A2A"/>'
     f'<g class="smoke" transform="translate(21 -12)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/><path d="M0 0 q-4 -9 3 -18 q5 -8 -2 -18"/></g>'
+    '</g>'
     '</g>')
 
 import base64
@@ -528,7 +530,7 @@ DEFS = f'''<defs>
 </defs>'''
 
 svg = ('<svg id="room" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="roomTitle">'
-       '<title id="roomTitle">Dee\'s bedroom, seen from the corner: a lilac bookshelf, a record player on a mustard cabinet, toy cars on a shelf over the bed, a ginger cat asleep on a patchwork quilt, a calico cat on the rug, a desk with a retro laptop under the window and an old TV beside it</title>'
+       '<desc id="roomTitle">Dee\'s bedroom, seen from the corner: a lilac bookshelf, a record player on a mustard cabinet, toy cars on a shelf over the bed, a ginger cat asleep on a checkerboard bedspread, a girl with headphones reading on the floor beside the bed, a calico cat on the rug, a desk with a retro laptop under the window and an old TV beside it</desc>'
        + DEFS + "".join(out) + "</svg>")
 (pathlib.Path(__file__).parent / "room.svg").write_text(svg)
 print("scene", len(svg))
