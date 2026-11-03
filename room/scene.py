@@ -137,20 +137,26 @@ car_hots = ""
 for k, x in [("f40", 680), ("r34", 772), ("e30", 864)]:
     car_hots += f'<g class="hot car" data-toggle="car" data-car="{k}">' + g(mY(12, x, 330), f'<g class="carbody">{car(k)}</g>') + '</g>'
 
-# ---------- Y2K mirror covered in stickers (replaces the corkboard) ----------
+# ---------- Y2K mirror with notes stuck to it ----------
 mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" stroke="{INK}" stroke-width="3"/>'
        f'<rect x="12" y="12" width="176" height="116" rx="14" fill="url(#mirG)" stroke="{INK}" stroke-width="2.5"/>'
-       '<path d="M30 30 L70 22 M28 46 L98 30 M140 100 L176 92" stroke="#ffffffcc" stroke-width="5" stroke-linecap="round"/>'
-       f'<g stroke="{INK}" stroke-width="1.8" stroke-linejoin="round">'
-       '<path d="M28 106 l4 -10 4 10 -10 -6 h12Z" fill="#F8D65A"/>'
-       '<path d="M160 22 c0 -8 12 -8 12 0 c0 -8 12 -8 12 0 c0 8 -12 14 -12 18 c0 -4 -12 -10 -12 -18Z" fill="#FF6FAE"/>'
-       '<circle cx="168" cy="110" r="10" fill="#F8D65A"/><circle cx="165" cy="108" r="1.3" fill="#1F1B3A"/><circle cx="171" cy="108" r="1.3" fill="#1F1B3A"/><path d="M164 113 q4 3 8 0" fill="none"/>'
-       '<path d="M22 66 c-6 -10 4 -16 8 -8 c4 -8 14 -2 8 8 c-4 6 -8 8 -8 8 c0 0 -4 -2 -8 -8Z" fill="#B39BFF"/>'
-       '<rect x="112" y="18" width="34" height="14" rx="3" fill="#7FDBA8" transform="rotate(-6 129 25)"/>'
-       '<path d="M60 112 l6 -14 6 14 -12 -9 h12Z" fill="#8FD3F5"/>'
-       '<rect x="132" y="120" width="40" height="12" rx="2" fill="#FFFBF2" transform="rotate(4 152 126)"/></g>'
-       '<text x="129" y="29" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="10" fill="#1F1B3A" transform="rotate(-6 129 25)">xoxo</text>'
-       '<text x="152" y="130" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="9" fill="#1F1B3A" transform="rotate(4 152 126)">ur doing great</text>')
+       '<path d="M24 26 L58 19 M24 40 L82 27" stroke="#ffffffcc" stroke-width="5" stroke-linecap="round"/>'
+       # yellow sticky: horses
+       f'<g transform="rotate(-6 54 82)"><rect x="22" y="52" width="66" height="60" fill="#FFE6A8" stroke="{INK}" stroke-width="2"/>'
+       '<rect x="44" y="47" width="22" height="9" fill="#ffffffaa"/>'
+       '<text font-family="Patrick Hand, cursive" font-size="10.5" fill="#1F1B3A" text-anchor="middle"><tspan x="55" y="68">horses don\'t</tspan><tspan x="55" y="81">stop, they</tspan><tspan x="55" y="94">keep going</tspan></text>'
+       f'<path d="M40 101 q4 -6 8 0 q4 6 8 0" stroke="{INK}" stroke-width="1.4" fill="none"/></g>'
+       # pink note: ACAB with a heart
+       f'<g transform="rotate(7 132 46)"><rect x="104" y="22" width="56" height="46" fill="#FFC1D3" stroke="{INK}" stroke-width="2"/>'
+       '<text x="132" y="46" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="14" fill="#1F1B3A">ACAB</text>'
+       f'<path d="M132 63 C124 57 124 51 128 51 C130 51 132 53 132 55 C132 53 134 51 136 51 C140 51 140 57 132 63Z" fill="#F2543D" stroke="{INK}" stroke-width="1.2"/></g>'
+       # movie ticket stub: White Chicks
+       f'<g transform="rotate(-4 140 100)"><path d="M104 84 H176 V92 a4 4 0 0 0 0 8 V116 H104 V100 a4 4 0 0 0 0 -8Z" fill="#BFD4FF" stroke="{INK}" stroke-width="2"/>'
+       '<path d="M158 85 V115" stroke="#1F1B3A" stroke-width="1.2" stroke-dasharray="2 2"/>'
+       '<text font-family="DM Sans, Arial, sans-serif" fill="#1F1B3A"><tspan x="108" y="93" font-size="5" font-weight="700" letter-spacing=".6">ADMIT ONE</tspan><tspan x="108" y="104" font-size="8.5" font-weight="800">WHITE</tspan><tspan x="108" y="113" font-size="8.5" font-weight="800">CHICKS</tspan></text>'
+       '<text x="167" y="100" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="5" font-weight="700" fill="#1F1B3A" transform="rotate(-90 167 100)">2004</text></g>'
+       # a couple of stickers
+       f'<g stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"><path d="M96 120 l3 -8 3 8 -8 -5 h10Z" fill="#F8D65A"/><path d="M92 24 l2.5 -6 2.5 6 -6 -4 h7Z" fill="#8FD3F5"/></g>')
 board_svg = g(mY(1, 330, 486), mir)
 
 # glow-in-the-dark stars above the nightstand
@@ -230,7 +236,7 @@ sl = (f'<g transform="rotate(-4 32 70)">{rect(0, 2, 64, 66, C["yellow"])}<circle
 rc.append(g(mY(16, 326, 318), sl))
 records_svg = "".join(rc)
 
-add(f'<g class="hot" data-go="board">{board_svg}</g>')
+add(f'<g id="mirror" class="hot" data-toggle="mirror">{board_svg}</g>')
 add(f'<g class="hot" data-go="records">{records_svg}</g>')
 add(f'<g class="hot" data-toggle="lava" transform="{at(512, 50, 130)}">{lava}</g>')
 add(cars_svg + car_hots)
@@ -343,12 +349,17 @@ bed += g(mY(20, 656, 240), rect(22, 18, 264, 120, "url(#cane)", 2.5))
 bed += box(660, 20, 0, 300, 450, 70, C["woodT"], C["woodF"], C["woodS"])
 bed += box(668, 22, 70, 286, 444, 40, C["cream"], "#EFE2C8", "#DCCCAE")
 def pillow(x0, col, line):
-    # propped upright against the headboard
-    t = mY(42, x0, 186)
-    return (f'<g transform="{t}"><rect x="0" y="0" width="124" height="78" rx="24" fill="{col}" stroke="{INK}" stroke-width="3"/>'
-            f'<path d="M22 26 l12 8 12 -8 12 8 M62 46 l12 8 12 -8 12 8" stroke="{line}" stroke-width="4" fill="none"/>'
-            f'<path d="M10 70 q52 9 104 0" stroke="{line}" stroke-width="3" fill="none"/></g>')
-bed += pillow(684, C["pink"], "#D2558C") + pillow(818, C["yellow"], "#CFA92F")
+    # big, plump pillows propped against the headboard
+    t = mY(40, x0, 214)
+    body = "M14 18 C30 2 104 0 128 12 C142 20 144 40 140 60 C138 82 142 98 128 104 C100 114 34 114 12 104 C0 96 4 80 4 60 C4 40 0 28 14 18Z"
+    return (f'<g transform="{t}">'
+            f'<path d="{body}" transform="translate(4 6)" fill="{line}" stroke="{INK}" stroke-width="3"/>'
+            f'<path d="{body}" fill="{col}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+            f'<path d="M30 22 C60 14 96 14 120 22" stroke="#ffffff88" stroke-width="7" fill="none" stroke-linecap="round"/>'
+            f'<path d="M20 40 C46 56 98 56 124 40 M22 78 C50 66 96 66 122 80" stroke="{line}" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>'
+            f'<path d="M14 18 l-8 -6 M128 12 l8 -7 M12 104 l-8 6 M128 104 l9 6" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>'
+            f'</g>')
+bed += pillow(676, C["pink"], "#D2558C") + pillow(810, C["yellow"], "#CFA92F")
 patch = ["#F2543D", C["teal"], C["yellow"], C["pink"], C["mint"], C["cream"], C["lilT"], "#FF9F1C", C["sky"]]
 q = []
 for i in range(7):

@@ -404,10 +404,10 @@ button{font:inherit;color:inherit}
     <div class="dtitle"><span>Dial-Up Connection</span><b aria-hidden="true">_</b><b aria-hidden="true">□</b><b aria-hidden="true">×</b></div>
     <div class="dbody"><div class="modem" aria-hidden="true"><div class="ph"></div><div class="box"><i></i><i></i><i></i></div></div>
       <div class="dmsg"><h1 id="dTitle">Connect to dee's room?</h1><p id="dSub">You need to be online to come in. Mind the cats.</p>
-        <div class="dfield"><span>User name:</span><code>guest_2001</code><span>Dial:</span><code>0800-DEES-ROOM</code></div></div></div>
+        <div class="dfield"><span>User name:</span><code>guest_1999</code><span>Dial:</span><code>0800-DEES-ROOM</code></div></div></div>
     <div class="dstatus" id="dStatus" aria-live="polite">Ready.</div>
     <div class="dbar" aria-hidden="true"><div id="dBar"></div></div>
-    <div class="dbtns"><button class="dbtn" id="dSkip">Skip</button><button class="dbtn go" id="dGo">Connect</button></div>
+    <div class="dbtns"><button class="dbtn go" id="dGo">Connect</button></div>
   </div>
 </div>
 <header class="bar">
@@ -431,7 +431,6 @@ button{font:inherit;color:inherit}
         <div class="view" id="v-records" hidden></div>
         <div class="view" id="v-screen" hidden></div>
         <div class="view" id="v-laptop" hidden></div>
-        <div class="view" id="v-board" hidden></div>
         <div class="view" id="v-games" hidden></div>
       </div>
     </div>
@@ -440,7 +439,7 @@ button{font:inherit;color:inherit}
 
 <nav class="nav" aria-label="Things in the room">
   <span>look at</span>
-  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">games</button><button data-go="laptop">laptop</button><button data-go="board">mirror</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
+  <button data-go="books">bookshelf</button><button data-go="records">records</button><button data-go="screen">tv</button><button data-go="games">games</button><button data-go="laptop">laptop</button><button data-act="mirror">mirror</button><button data-cat="catA">Miata</button><button data-cat="catB">Supra</button>
 </nav>
 
 <script>
@@ -466,10 +465,9 @@ const ROOMS={
   records:{t:"Records",s:"Pick a sleeve, drop the needle. It keeps playing while you walk around the room."},
   screen:{t:"The TV",s:"What I've been watching."},
   games:{t:"What I've been playing",s:"Pick a game for my take and some gameplay."},
-  laptop:{t:"The old Mac",s:"Still boots. My writing lives in the folder."},
-  board:{t:"The mirror",s:"Newsletters I actually open. Stuck on the mirror so I don't forget them."}
+  laptop:{t:"The old Mac",s:"Still boots. My writing lives in the folder."}
 };
-const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the mirror","newsletters I read"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
+const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],mirror:["the mirror","read the notes"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
 
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
 const rnd=Math.random;
@@ -665,6 +663,16 @@ function jointTalk(node){
       tween(VB0,750,()=>{scene.classList.remove("zoomed");jointBusy=false})}),380);
   });
 }
+let mirrorOn=false,mirrorT=0;
+function mirrorZoom(){
+  const m=$("#mirror");if(mirrorOn||girlBusy||jointBusy||openId||!m)return;mirrorOn=true;hideTip();SFX.ting();
+  const b=svgBox(m);scene.classList.add("zoomed");
+  tween(fit({x:b.x+b.width*.02,y:b.y+b.height*.02,w:b.width*.96,h:b.height*.96}),800,()=>{mirrorT=setTimeout(mirrorOut,9000)});
+}
+function mirrorOut(){if(!mirrorOn)return;clearTimeout(mirrorT);tween(VB0,750,()=>{scene.classList.remove("zoomed");mirrorOn=false})}
+stage.addEventListener("click",e=>{if(mirrorOn&&!e.target.closest(".hot"))mirrorOut()});
+scene.addEventListener("click",e=>{if(mirrorOn&&e.target.closest("#mirror")&&vb.w<1000)mirrorOut()},true);
+addEventListener("keydown",e=>{if(e.key==="Escape")mirrorOut()});
 function vroom(node){
   node.classList.remove("vroom");void node.getBoundingClientRect();node.classList.add("vroom");dismissHint();
   const ac=audio();if(!ac)return;const t=ac.currentTime,o=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain();
@@ -694,7 +702,7 @@ function open(id){
   lastFocus=document.activeElement;
   if(openId)closeView(openId);
   openId=id;scene.classList.add("zoomed");
-  ({games:SFX.ps2,laptop:SFX.mac,board:SFX.ting}[id]||(()=>{}))();
+  ({games:SFX.ps2,laptop:SFX.mac}[id]||(()=>{}))();
   if(!built[id]){BUILD[id]($("#v-"+id));built[id]=true}
   const bb=(document.querySelector(`#room [data-zoom="${id}"]`)||document.querySelector(`#room [data-go="${id}"]`)).getBBox();tween(fit({x:bb.x,y:bb.y,w:bb.width,h:bb.height}),900,()=>{
     $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;
@@ -726,6 +734,7 @@ function act(node){
   else if(tg==="lava")lava();
   else if(tg==="girl")girlTap();
   else if(tg==="ash")jointTalk(node);
+  else if(tg==="mirror")mirrorZoom();
   else if(tg==="car")vroom(node);
 }
 document.querySelectorAll(".hot").forEach(h=>{
@@ -738,7 +747,7 @@ document.querySelectorAll(".hot").forEach(h=>{
   h.addEventListener("focus",()=>{if(!openId)showTip(h,label)});
   h.addEventListener("pointerleave",hideTip);h.addEventListener("blur",hideTip);
 });
-document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{if(b.dataset.go)open(b.dataset.go);else{close();pet(b.dataset.cat)}});
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{if(b.dataset.go)open(b.dataset.go);else if(b.dataset.act==="mirror"){close();mirrorZoom()}else{close();pet(b.dataset.cat)}});
 $("#tgLamp").onclick=()=>{lampOn=!lampOn;SFX.lampClick();lightsUp()};
 $("#tgSound").onclick=()=>{sound=!sound;$("#tgSound").setAttribute("aria-pressed",sound);if(sound)ambStart();else ambStop()};
 lightsUp();
@@ -750,7 +759,6 @@ const BUILD={
   records:rRecords,
   screen:rScreen,
   laptop:rLaptop,
-  board:rBoard,
   games:rGames
 };
 
@@ -902,7 +910,7 @@ function rBoard(v){
   let seen=false;try{seen=sessionStorage.getItem("dee-intro")==="1"}catch(e){}
   if(seen||ROOMS[location.hash.slice(1)]){ov.remove();return}
   const st=ov.querySelector(".stars");for(let i=0;i<40;i++){const d=document.createElement("i");d.style.left=Math.random()*100+"%";d.style.top=Math.random()*100+"%";d.style.animationDelay=(-Math.random()*3)+"s";st.appendChild(d)}
-  const win=$("#dwin"),go=$("#dGo"),skip=$("#dSkip"),bar=$("#dBar"),msg=$("#dStatus");
+  const win=$("#dwin"),go=$("#dGo"),bar=$("#dBar"),msg=$("#dStatus");
   let timers=[],nodes=[];
   function stopSound(){nodes.forEach(n=>{try{n.stop()}catch(e){}});nodes=[]}
   function done(){timers.forEach(clearTimeout);stopSound();try{sessionStorage.setItem("dee-intro","1")}catch(e){}
@@ -931,10 +939,9 @@ function rBoard(v){
     steps.forEach(([at,txt,p])=>timers.push(setTimeout(()=>{msg.textContent=txt;bar.style.width=p+"%"},at)));
     timers.push(setTimeout(()=>{win.classList.remove("dialing");win.classList.add("welcome");
       $("#dTitle").textContent="Welcome to dee's room!";$("#dSub").textContent="Make yourself at home. Don't touch Miata.";
-      skip.hidden=true;go.disabled=false;go.textContent="Come in";go.onclick=done;go.focus()},len+300));
+      go.disabled=false;go.textContent="Come in";go.onclick=done;go.focus()},len+300));
     timers.push(setTimeout(done,len+3200));
   };
-  skip.onclick=done;
   go.focus();
 })();
 
