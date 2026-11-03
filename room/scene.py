@@ -257,6 +257,7 @@ lt += g(mY(508, 30, 188), f'<path d="M14 0 C14 24 66 24 66 0" fill="none" stroke
 lt += box(20, 384, 186, 12, 124, 100, TAN, TANF, TANS, 2.5)
 os9 = (f'<rect x="6" y="6" width="112" height="88" rx="10" fill="#F7F2EA" stroke="{INK}" stroke-width="2"/>'
        f'<rect x="14" y="13" width="96" height="70" rx="3" fill="#6F7FC6" stroke="{INK}" stroke-width="2"/>'
+       f'<rect x="15" y="14" width="94" height="68" fill="#E7B4E0"/><ellipse cx="46" cy="68" rx="16" ry="8" fill="#F09A3E" stroke="{INK}" stroke-width="1.2"/><circle cx="34" cy="66" r="6" fill="#F7A54E" stroke="{INK}" stroke-width="1.2"/><path d="M66 74 C64 60 70 54 76 54 C82 54 88 60 86 74Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.2"/><circle cx="77" cy="50" r="6" fill="#FFFBF2" stroke="{INK}" stroke-width="1.2"/><path d="M68 62 q4 -4 8 2" stroke="#F0923A" stroke-width="3" fill="none"/>'
        f'<rect x="14" y="13" width="96" height="7" fill="#F4F2F0"/><path d="M14 20 H110" stroke="{INK}" stroke-width="1"/>'
        + rect(26, 28, 58, 40, "#E6E3DE", 1.5) + '<g stroke="#9C98A8" stroke-width="1">' + "".join(f'<path d="M27 {y} H83"/>' for y in (31, 33, 35)) + '</g>'
        + rect(32, 40, 46, 24, "#FFFDF6", 1.2) + f'<g fill="#1F1B3A55"><rect x="36" y="45" width="30" height="2.5"/><rect x="36" y="51" width="36" height="2.5"/><rect x="36" y="57" width="22" height="2.5"/></g>'
@@ -295,10 +296,6 @@ add(f'<g class="hot" data-go="screen">{tv}</g>')
 rug = rect(0, 0, 360, 280, "#8FD3F5") + "".join(f'<path d="M{x} 6 V274" stroke="#B9E5FA" stroke-width="7"/>' for x in range(20, 360, 26)) + rect(0, 0, 360, 280, "none") \
       + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
 add(g(mZ(0.5, 200, 420), rug))
-add(box(548, 250, 0, 92, 66, 14, C["yellow"], "#E9C143", "#CFA92F", 2.5) + box(554, 254, 14, 80, 58, 12, C["mint"], "#69C893", "#56B07E", 2.5) + box(552, 250, 26, 86, 62, 10, C["coral"], "#E97C59", "#D46A48", 2.5))
-for i in range(3):
-    add(box(430, 250 + i * 3, i * 12, 76, 44, 12, "#3B3550", "#2C2840", "#221F33", 2.5))
-    add(g(mY(294 + i * 3, 430, (i + 1) * 12), f'<rect x="10" y="3" width="40" height="6" fill="{[C["yellow"],C["pink"],C["sky"]][i]}"/>'))
 def sock(c):
     return (f'<path d="M0 0 h18 v26 q0 6 6 6 h14 q8 0 8 8 q0 8 -8 8 h-26 q-12 0 -12 -12Z" fill="#FFFDF6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
             f'<path d="M0 6 h18 M0 12 h18" stroke="{c}" stroke-width="3"/><path d="M30 32 q8 0 8 8 q0 8 -8 8 h-4 v-16Z" fill="{c}" stroke="{INK}" stroke-width="2.5"/>')

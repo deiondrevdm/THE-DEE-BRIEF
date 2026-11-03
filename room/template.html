@@ -240,6 +240,40 @@ button{font:inherit;color:inherit}
 .os{background:#6F7FC6;border:16px solid #FF8A2A;border-radius:30px;box-shadow:inset 0 0 0 6px #F7F2EA,0 0 0 3px var(--ink),6px 8px 0 rgba(42,30,34,.3);padding:6px;font-family:var(--body);overflow:hidden}
 .os-bar{display:flex;justify-content:space-between;gap:12px;background:#F4F2F0;color:var(--ink);font:600 13px/1 -apple-system,"Helvetica Neue",Arial,sans-serif;padding:7px 12px;border-bottom:2px solid var(--ink);border-radius:10px 10px 0 0}
 .os-bar .menus{display:flex;gap:14px}.os-bar .menus b:first-child{font-weight:800}
+.desk{position:relative;height:min(58vh,480px);min-height:340px;overflow:hidden;border-radius:0 0 10px 10px}
+.desk .wall{position:absolute;inset:0;width:100%;height:100%;display:block}
+.icons{position:absolute;top:14px;right:14px;display:grid;gap:10px;z-index:1}
+.icon{width:96px;background:none;border:0;cursor:pointer;display:grid;justify-items:center;gap:4px;padding:6px 2px;border-radius:6px;color:#fff;font:600 12.5px/1.15 -apple-system,"Helvetica Neue",Arial,sans-serif;text-shadow:0 1px 0 #1F1B3A,0 0 4px #1F1B3A}
+.icon span{padding:1px 5px;border-radius:3px}
+.icon[aria-pressed="true"] span{background:#1F1B3A;color:#fff}
+.icon i{width:48px;height:40px;display:block;position:relative;font-style:normal}
+.icon.folder i{background:#9DB4F0;border:2.5px solid #1F1B3A;border-radius:3px 6px 4px 4px;margin-top:6px;height:34px}
+.icon.folder i::before{content:"";position:absolute;left:-2.5px;top:-9px;width:20px;height:8px;background:#9DB4F0;border:2.5px solid #1F1B3A;border-bottom:0;border-radius:4px 4px 0 0}
+.icon.globe i{width:44px;height:44px;border-radius:50%;border:2.5px solid #1F1B3A;background:radial-gradient(circle at 35% 30%,#BFE8FB,#3D7BD9 60%,#24345C);overflow:hidden}
+.icon.globe i::before{content:"";position:absolute;inset:6px 4px;border:2px solid #7FDBA8;border-radius:50%;transform:rotate(-20deg)}
+.icon.globe i::after{content:"";position:absolute;left:-6px;right:-6px;top:17px;height:8px;border-radius:50%;border:2px solid #FFE6A8;transform:rotate(-14deg)}
+.icon.doc i{width:36px;height:44px;background:#FFFDF6;border:2.5px solid #1F1B3A;border-radius:2px 10px 2px 2px;background-image:repeating-linear-gradient(transparent 0 7px,#BDB8C6 7px 8px);background-position:0 8px}
+.icon.mail i{width:48px;height:34px;margin-top:6px;background:#FFE6A8;border:2.5px solid #1F1B3A;border-radius:3px}
+.icon.mail i::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom right,transparent 49%,#1F1B3A 49% 53%,transparent 53%) left/50% 100% no-repeat,linear-gradient(to bottom left,transparent 49%,#1F1B3A 49% 53%,transparent 53%) right/50% 100% no-repeat}
+.desk .win{position:absolute;left:16px;top:14px;right:126px;bottom:16px;display:flex;flex-direction:column;z-index:2;box-shadow:4px 5px 0 rgba(31,27,58,.35)}
+.desk .win[hidden]{display:none}
+.desk .win-b{flex:1;max-height:none;overflow:auto}
+.close{width:14px;height:14px;border:2px solid #1F1B3A;background:#E6E3DE;padding:0;cursor:pointer;flex:none}
+.close:hover{background:#F2543D}
+.moz{display:flex;flex-direction:column;height:100%;margin:-14px -18px -18px}
+.moz-bar{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#E6E3DE;border-bottom:2px solid #1F1B3A;font:12px/1 -apple-system,"Helvetica Neue",Arial,sans-serif}
+.moz-bar .nb{width:22px;height:20px;display:grid;place-items:center;border:1.5px solid #1F1B3A;border-radius:3px;background:#F4F2F0;font-size:10px}
+.moz-bar .addr{flex:1;min-width:0;background:#fff;border:1.5px solid #1F1B3A;padding:4px 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.gpage{flex:1;display:grid;align-content:center;justify-items:center;gap:18px;padding:24px 16px;background:#fff}
+.glogo{font:700 clamp(40px,6vw,60px)/1 Georgia,"Times New Roman",serif;letter-spacing:-1px}
+.glogo b:nth-child(1),.glogo b:nth-child(4){color:#3D6FE0}.glogo b:nth-child(2),.glogo b:nth-child(6){color:#E0402F}.glogo b:nth-child(3){color:#F2B230}.glogo b:nth-child(5){color:#2E9C5A}
+.gbox{width:min(100%,420px);border:1.5px solid #9C97AA;padding:8px 10px;font:16px/1.2 Arial,sans-serif;color:#1F1B3A;text-align:left;box-shadow:inset 1px 1px 2px rgba(0,0,0,.15)}
+.caret{display:inline-block;width:1.5px;height:17px;background:#1F1B3A;vertical-align:-3px;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.gbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.gbtns a{font:13px/1 Arial,sans-serif;color:#1F1B3A;text-decoration:none;background:#F4F2F0;border:1.5px solid #9C97AA;padding:7px 12px;border-radius:2px}
+.gbtns a:hover{border-color:#1F1B3A}
+@media (max-width:760px){.icons{top:auto;bottom:10px;right:10px;left:10px;grid-template-columns:repeat(4,1fr)}.icon{width:auto}.desk .win{right:16px;bottom:96px}}
 .os-main{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:14px}
 .os-apps{display:flex;flex-direction:column;gap:10px}
 .app{background:none;border:0;cursor:pointer;display:grid;justify-items:center;gap:4px;padding:8px 4px;font:600 13px/1.2 -apple-system,"Helvetica Neue",Arial,sans-serif;color:#fff;text-shadow:0 1px 0 #000;border-radius:4px}
@@ -361,7 +395,7 @@ const ROOMS={
   records:{t:"Records",s:"Pick a sleeve, drop the needle. It keeps playing while you walk around the room."},
   screen:{t:"The TV",s:"What I've been watching."},
   games:{t:"What I've been playing",s:"Pick a game for my take and some gameplay."},
-  laptop:{t:"The old Mac",s:"Still boots. Essays from my Substack, this week's notes and the mailing list."},
+  laptop:{t:"The old Mac",s:"Still boots. My writing lives in the folder."},
   board:{t:"The corkboard",s:"Newsletters I actually open. Pinned so I don't forget them."}
 };
 const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],board:["the corkboard","newsletters"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
@@ -624,23 +658,71 @@ function rScreen(v){
 LEAVE.screen=()=>{const s=$("#tvScr");if(s){s.classList.remove("static");s.innerHTML=`<div><b>NO SIGNAL</b><span>turn the dial →</span></div>`}svg.classList.remove("movie");document.querySelectorAll(".chan").forEach(o=>o.setAttribute("aria-pressed","false"))};
 
 /* laptop */
+const WALL=`<svg class="wall" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC1D3"/><stop offset=".55" stop-color="#C9A6F7"/><stop offset="1" stop-color="#8FD3F5"/></linearGradient></defs>
+<rect width="400" height="250" fill="url(#wg)"/>
+<g fill="#ffffff55"><circle cx="40" cy="40" r="3"/><circle cx="360" cy="30" r="2"/><circle cx="330" cy="200" r="3"/><circle cx="70" cy="210" r="2"/><circle cx="200" cy="24" r="2"/></g>
+<ellipse cx="200" cy="214" rx="150" ry="22" fill="#F6F0E2" stroke="#1F1B3A" stroke-width="3"/>
+<g transform="translate(150 186)">
+ <ellipse cx="0" cy="0" rx="62" ry="30" fill="#F09A3E" stroke="#1F1B3A" stroke-width="3"/>
+ <g stroke="#B85C1A" stroke-width="4" fill="none" stroke-linecap="round"><path d="M-6 -28 q6 12 0 22"/><path d="M12 -28 q6 12 0 22"/><path d="M30 -24 q5 10 0 18"/></g>
+ <path d="M54 8 C58 28 22 36 -10 30 C-30 27 -46 22 -52 16" stroke="#1F1B3A" stroke-width="19" fill="none" stroke-linecap="round"/><path d="M54 8 C58 28 22 36 -10 30 C-30 27 -46 22 -52 16" stroke="#F09A3E" stroke-width="13" fill="none" stroke-linecap="round"/>
+ <path d="M-72 -10 L-68 -40 L-50 -22Z" fill="#F7A54E" stroke="#1F1B3A" stroke-width="2.5" stroke-linejoin="round"/>
+ <path d="M-46 -24 L-38 -32 L-34 -29 L-30 -32 L-27 -12Z" fill="#F7A54E" stroke="#1F1B3A" stroke-width="2.5" stroke-linejoin="round"/>
+ <circle cx="-50" cy="0" r="25" fill="#F7A54E" stroke="#1F1B3A" stroke-width="3"/>
+ <ellipse cx="-49" cy="10" rx="10" ry="7" fill="#FFF4DE"/>
+ <g stroke="#1F1B3A" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M-64 -2 q4 4 9 0"/><path d="M-45 -2 q4 4 9 0"/></g>
+ <path d="M-52 6 h5 l-2.5 3.5Z" fill="#E8577E"/>
+</g>
+<g transform="translate(272 200)">
+ <path d="M-30 -20 C-52 -24 -58 -46 -48 -62" stroke="#1F1B3A" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M-30 -20 C-52 -24 -58 -46 -48 -62" stroke="#F0923A" stroke-width="7" fill="none" stroke-linecap="round"/>
+ <path d="M-34 0 C-38 -40 -20 -62 0 -62 C20 -62 38 -40 34 0Z" fill="#FFFBF2" stroke="#1F1B3A" stroke-width="3"/>
+ <path d="M-30 -30 C-20 -40 -6 -36 -4 -20 C-14 -12 -26 -14 -32 -18Z" fill="#F0923A"/><path d="M10 -40 C22 -44 30 -30 26 -16 C18 -20 12 -28 10 -40Z" fill="#2B2733"/>
+ <path d="M-12 -84 L-10 -106 L2 -90Z" fill="#2B2733" stroke="#1F1B3A" stroke-width="2.5" stroke-linejoin="round"/><path d="M8 -90 L20 -106 L22 -82Z" fill="#F0923A" stroke="#1F1B3A" stroke-width="2.5" stroke-linejoin="round"/>
+ <circle cx="5" cy="-76" r="19" fill="#FFFBF2" stroke="#1F1B3A" stroke-width="3"/>
+ <path d="M-13 -80 C-6 -92 2 -90 4 -82 C0 -76 -8 -74 -13 -76Z" fill="#2B2733"/><path d="M10 -92 C20 -92 25 -84 23 -76 C16 -78 12 -84 10 -92Z" fill="#F0923A"/>
+ <circle cx="-1" cy="-77" r="2.8" fill="#1F1B3A"/><circle cx="12" cy="-77" r="2.8" fill="#1F1B3A"/>
+ <path d="M4 -71 h5 l-2.5 3.5Z" fill="#E8577E"/><path d="M6.5 -67 q-3 3 -6 1 M6.5 -67 q3 3 6 1" stroke="#1F1B3A" stroke-width="1.4" fill="none"/>
+ <ellipse cx="-14" cy="2" rx="9" ry="5" fill="#FFFBF2" stroke="#1F1B3A" stroke-width="2.5"/><ellipse cx="14" cy="2" rx="9" ry="5" fill="#FFFBF2" stroke="#1F1B3A" stroke-width="2.5"/>
+</g>
+</svg>`;
+const MOZ_Q="am I gay or bisexual";
 function rLaptop(v){
-  const apps=[["writing","✎","var(--sun)"],["this week","☼","var(--pink)"],["mailing list","✉","var(--mint)"]];
-  v.innerHTML=`<div class="os"><div class="os-bar"><span class="menus"><b>✿</b><b>File</b><b>Edit</b><b>View</b><b>Special</b></span><span id="osClock"></span></div><div class="os-main"><nav class="os-apps">${apps.map((a,i)=>`<button class="app" data-i="${i}" aria-pressed="${i===0}"><i style="--c:${a[2]}">${a[1]}</i>${a[0]}</button>`).join("")}</nav>
-    <div class="win"><div class="win-t"><i></i><span id="winT"></span></div><div class="win-b" id="winB"></div></div></div></div>`;
+  const icons=[
+    {id:"writing",label:"my writing",kind:"folder"},
+    {id:"web",label:"Mozilla",kind:"globe"},
+    {id:"week",label:"this week",kind:"doc"},
+    {id:"mail",label:"mailing list",kind:"mail"}];
+  v.innerHTML=`<div class="os"><div class="os-bar"><span class="menus"><b>✿</b><b>File</b><b>Edit</b><b>View</b><b>Special</b></span><span id="osClock"></span></div>
+    <div class="desk">${WALL}
+      <nav class="icons">${icons.map(i=>`<button class="icon ${i.kind}" data-id="${i.id}" aria-pressed="false"><i aria-hidden="true"></i><span>${esc(i.label)}</span></button>`).join("")}</nav>
+      <div class="win" id="osWin" hidden><div class="win-t"><button class="close" id="winX" aria-label="Close window"></button><span id="winT"></span></div><div class="win-b" id="winB"></div></div>
+    </div></div>`;
   let open=0;
-  const show=i=>{v.querySelectorAll(".app").forEach(a=>a.setAttribute("aria-pressed",+a.dataset.i===i));$("#winT").textContent=["cold_coffee_hot_takes.txt","this_week.txt","mailing_list.app"][i];
-    const b=$("#winB");
-    if(i===0){const list=[...WRITING].sort((a,b)=>b.d.localeCompare(a.d));
-      const draw=()=>{b.innerHTML=list.map((w,j)=>{const dt=new Date(w.d+"T12:00:00");return `<article class="essay"><button aria-expanded="${j===open}" data-j="${j}"><span class="d">${dt.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</span><h3>${esc(w.t)}</h3><span class="rt">${w.min} min ${j===open?"−":"+"}</span></button><div class="body" ${j===open?"":"hidden"}><div class="tags">${w.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>${w.sub?`<p class="sub">${esc(w.sub)}</p>`:""}${w.p.map(p=>`<p>${esc(p)}</p>`).join("")}${w.u?`<p><a class="more" href="${w.u}" target="_blank" rel="noopener">Read the full piece on Substack ↗</a></p>`:""}</div></article>`}).join("");
-        b.querySelectorAll(".essay > button").forEach(x=>x.onclick=()=>{const j=+x.dataset.j;open=open===j?-1:j;draw()})};draw()}
-    else if(i===1){const d=DIGEST[0],TC={Watched:"#FFC1D3",Read:"#FFE6A8",Listened:"#BFD4FF",Played:"#9BE3B5"};
-      b.innerHTML=`<p class="wk-top">${esc(d.top)}</p><ul class="wk">${d.items.map(x=>`<li><span class="ty" style="--c:${TC[x.type]||"#eee"}">${esc(x.type.toLowerCase())}</span><div><b>${esc(x.title)}</b> <span class="by">${esc(x.by)} · ${"★".repeat(x.r)}</span><p>${esc(x.note)}</p></div></li>`).join("")}</ul><p class="small">${esc(d.date)}</p>`}
-    else{b.innerHTML=`<form class="mail" id="mail"><label for="email">A letter now and then: what I'm reading, playing and watching.</label><div class="row"><input id="email" type="email" placeholder="you@example.com" autocomplete="email"><button>Sign me up</button></div><p class="small" id="mailNote" aria-live="polite"></p></form>`;
-      $("#mail").onsubmit=e=>{e.preventDefault();const val=$("#email").value.trim();$("#mailNote").textContent=/^\S+@\S+\.\S+$/.test(val)?"Thanks! (This form isn't connected to a newsletter tool yet, so nothing was sent.)":"Add an email address with an @ and a domain."}}};
-  v.querySelectorAll(".app").forEach(a=>a.onclick=()=>show(+a.dataset.i));show(0);
+  const W=$("#osWin"),T=$("#winT"),B=$("#winB");
+  const press=id=>v.querySelectorAll(".icon").forEach(x=>x.setAttribute("aria-pressed",x.dataset.id===id));
+  function show(id){
+    press(id);W.hidden=false;W.className="win "+id;click();
+    if(id==="writing"){T.textContent="my writing";const list=[...WRITING].sort((a,b)=>b.d.localeCompare(a.d));
+      const draw=()=>{B.innerHTML=list.map((w,j)=>{const dt=new Date(w.d+"T12:00:00");return `<article class="essay"><button aria-expanded="${j===open}" data-j="${j}"><span class="d">${dt.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</span><h3>${esc(w.t)}</h3><span class="rt">${w.min} min ${j===open?"−":"+"}</span></button><div class="body" ${j===open?"":"hidden"}><div class="tags">${w.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>${w.sub?`<p class="sub">${esc(w.sub)}</p>`:""}${w.p.map(p=>`<p>${esc(p)}</p>`).join("")}${w.u?`<p><a class="more" href="${w.u}" target="_blank" rel="noopener">Read the full piece on Substack ↗</a></p>`:""}</div></article>`}).join("");
+        B.querySelectorAll(".essay > button").forEach(x=>x.onclick=()=>{const j=+x.dataset.j;open=open===j?-1:j;draw()})};draw()}
+    else if(id==="web"){T.textContent="Mozilla";const url="https://www.google.com/search?q="+encodeURIComponent(MOZ_Q);
+      B.innerHTML=`<div class="moz"><div class="moz-bar"><span class="nb">◀</span><span class="nb">▶</span><span class="nb">↻</span><span class="addr">http://www.google.com/</span></div>
+        <div class="gpage"><div class="glogo" aria-label="Google"><b>G</b><b>o</b><b>o</b><b>g</b><b>l</b><b>e</b></div>
+        <div class="gbox"><span id="gq"></span><i class="caret"></i></div>
+        <div class="gbtns"><a href="${url}" target="_blank" rel="noopener">Google Search</a><a href="${url}" target="_blank" rel="noopener">I'm Feeling Lucky</a></div></div></div>`;
+      const q=$("#gq");let k=0;clearInterval(show._t);if(reduce){q.textContent=MOZ_Q;return}
+      show._t=setInterval(()=>{q.textContent=MOZ_Q.slice(0,++k);if(k>=MOZ_Q.length)clearInterval(show._t)},85)}
+    else if(id==="week"){T.textContent="this_week.txt";const d=DIGEST[0],TC={Watched:"#FFC1D3",Read:"#FFE6A8",Listened:"#BFD4FF",Played:"#9BE3B5"};
+      B.innerHTML=`<p class="wk-top">${esc(d.top)}</p><ul class="wk">${d.items.map(x=>`<li><span class="ty" style="--c:${TC[x.type]||"#eee"}">${esc(x.type.toLowerCase())}</span><div><b>${esc(x.title)}</b> <span class="by">${esc(x.by)} · ${"★".repeat(x.r)}</span><p>${esc(x.note)}</p></div></li>`).join("")}</ul><p class="small">${esc(d.date)}</p>`}
+    else{T.textContent="mailing list";B.innerHTML=`<form class="mail" id="mail"><label for="email">A letter now and then: what I'm reading, playing and watching.</label><div class="row"><input id="email" type="email" placeholder="you@example.com" autocomplete="email"><button>Sign me up</button></div><p class="small" id="mailNote" aria-live="polite"></p></form>`;
+      $("#mail").onsubmit=e=>{e.preventDefault();const val=$("#email").value.trim();$("#mailNote").textContent=/^\S+@\S+\.\S+$/.test(val)?"Thanks! (This form isn't connected to a newsletter tool yet, so nothing was sent.)":"Add an email address with an @ and a domain."}}
+  }
+  v.querySelectorAll(".icon").forEach(x=>x.onclick=()=>show(x.dataset.id));
+  $("#winX").onclick=()=>{W.hidden=true;press("");clearInterval(show._t)};
   const tick=()=>{const c=$("#osClock");if(c)c.textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})};tick();setInterval(tick,30000);
 }
+LEAVE.laptop=()=>{const w=$("#osWin");if(w)w.hidden=true;document.querySelectorAll("#v-laptop .icon").forEach(x=>x.setAttribute("aria-pressed","false"))};
 
 /* corkboard */
 /* PS2 games */
