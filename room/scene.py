@@ -616,6 +616,28 @@ cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
 add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g class="supz"><text class="zz" x="30" y="-70" font-size="18">z</text><text class="zz" x="42" y="-80" font-size="13">z</text></g><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
+<g class="napcat">
+<path d="M-40 -10 C-54 6 -14 14 22 4" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/>
+<ellipse cx="0" cy="-22" rx="46" ry="23" fill="{W}"/>
+<clipPath id="calNap"><ellipse cx="0" cy="-22" rx="46" ry="23"/></clipPath>
+<g clip-path="url(#calNap)"><path d="M-48 -44 C-30 -36 -24 -22 -6 -26 C6 -30 10 -42 0 -48Z" fill="{O}"/><path d="M6 -48 C10 -34 24 -30 32 -36 C38 -42 32 -48 20 -50Z" fill="{B}"/><path d="M-48 -20 C-40 -10 -30 -4 -22 0 L-48 4Z" fill="{B}"/></g>
+<ellipse cx="0" cy="-22" rx="46" ry="23" fill="none" stroke="{INK}" stroke-width="3.5"/>
+<path d="M-34 -8 C-28 -30 -4 -32 2 -12" stroke="{INK}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M-40 -10 C-54 6 -14 14 22 4" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/>
+<path d="M10 3.5 C16 3 20 4 22 4" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/>
+<ellipse cx="26" cy="-4" rx="9" ry="5.5" fill="{W}" stroke="{INK}" stroke-width="2.6"/>
+<ellipse cx="40" cy="-3" rx="9" ry="5.5" fill="{W}" stroke="{INK}" stroke-width="2.6"/>
+<path d="M28 -40 L28 -62 L42 -46Z" fill="{B}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M31 -45 L31 -56 L38 -47Z" fill="#F6B7C4"/>
+<path d="M50 -46 L62 -62 L64 -38Z" fill="{O}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M53 -45 L61 -56 L62 -42Z" fill="#F6B7C4"/>
+<circle cx="46" cy="-26" r="18" fill="{W}"/>
+<clipPath id="calNapH"><circle cx="46" cy="-26" r="18"/></clipPath>
+<g clip-path="url(#calNapH)"><path d="M26 -48 L44 -46 L40 -30 C34 -28 28 -32 26 -38Z" fill="{B}"/><path d="M50 -48 C52 -34 58 -28 68 -30 L68 -48Z" fill="{O}"/></g>
+<circle cx="46" cy="-26" r="18" fill="none" stroke="{INK}" stroke-width="3.5"/>
+<g stroke="{INK}" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M37 -28 q4 3 8 0 M50 -28 q4 3 8 0"/></g>
+<path d="M45 -22 h6 l-3 4Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
+<path d="M48 -18 q-3 3 -6 1.5 M48 -18 q3 3 6 1.5" stroke="{INK}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<g stroke="{INK}" stroke-width="1.2"><path d="M38 -20 l-14 -1 M38 -18 l-14 3 M58 -20 l14 -1 M58 -18 l14 3"/></g>
+</g>
 <g class="walker"><g class="breathe">
 <g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
 <g class="leg b"><rect x="-34" y="-34" width="11" height="34" rx="5" fill="{W}" stroke="{INK}" stroke-width="3"/></g>

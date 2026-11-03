@@ -465,8 +465,10 @@ button{font:inherit;color:inherit}
 @keyframes snowF{0%{transform:translate(0,0)}50%{transform:translate(-14px,135px)}100%{transform:translate(6px,272px)}}
 @media (prefers-reduced-motion:reduce){.rainl,.snowf{animation-duration:0s!important}}
 .supz{display:none}#supraPos.nap .supz{display:inline}
-#supraPos.nap .walker{transform:translateY(24px)}#supraPos.nap .leg{opacity:0}
-.eyec{display:none}#supraPos.nap .eyec{display:inline}#supraPos.nap .eyeo{display:none}
+.napcat{display:none}#supraPos.nap .napcat{display:inline}#supraPos.nap .walker{display:none}
+.napcat{transform-box:fill-box;transform-origin:50% 100%;animation:napbreathe 3.6s ease-in-out infinite}
+@keyframes napbreathe{50%{transform:scale(1.025,1.05)}}
+#catB.purring .napcat{animation:purr .07s linear infinite}
 .bdayhat{display:none}svg.s-bday .bdayhat{display:inline}
 .bar{min-width:0}.brand{display:flex;align-items:baseline;min-width:0;gap:0}
 .msn{font-family:var(--type);font-size:12.5px;letter-spacing:.02em;text-transform:none;color:#CDBBD0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;transition:opacity .35s}
