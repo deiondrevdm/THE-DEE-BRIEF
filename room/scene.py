@@ -253,7 +253,7 @@ rug = rect(0, 0, 360, 280, "#8FD3F5") + "".join(f'<path d="M{x} 6 V274" stroke="
       + "".join(f'<path d="M{x} 280 v12 M{x} 0 v-12" stroke="{INK}" stroke-width="2"/>' for x in range(8, 360, 14))
 add(g(mZ(0.5, 200, 420), rug))
 add(g(mZ(0.5, 120, 620), rect(0, 0, 70, 44, "#3B3550", 2.5) + rect(8, 8, 54, 16, C["yellow"], 2) + f'<circle cx="22" cy="32" r="5" fill="#E6E1F0" stroke="{INK}" stroke-width="2"/><circle cx="48" cy="32" r="5" fill="#E6E1F0" stroke="{INK}" stroke-width="2"/>'))
-add(box(380, 470, 0, 92, 66, 14, C["yellow"], "#E9C143", "#CFA92F", 2.5) + box(386, 474, 14, 80, 58, 12, C["mint"], "#69C893", "#56B07E", 2.5) + box(384, 470, 26, 86, 62, 10, C["coral"], "#E97C59", "#D46A48", 2.5))
+add(box(548, 250, 0, 92, 66, 14, C["yellow"], "#E9C143", "#CFA92F", 2.5) + box(554, 254, 14, 80, 58, 12, C["mint"], "#69C893", "#56B07E", 2.5) + box(552, 250, 26, 86, 62, 10, C["coral"], "#E97C59", "#D46A48", 2.5))
 for i in range(3):
     add(box(430, 250 + i * 3, i * 12, 76, 44, 12, "#3B3550", "#2C2840", "#221F33", 2.5))
     add(g(mY(294 + i * 3, 430, (i + 1) * 12), f'<rect x="10" y="3" width="40" height="6" fill="{[C["yellow"],C["pink"],C["sky"]][i]}"/>'))
@@ -295,7 +295,7 @@ bed += g(mX(955, 468, 110.5), sq)
 add(bed)
 
 # ---------- the cats ----------
-ax, ay = P(770, 330, 112)
+ax, ay = P(800, 250, 112)
 add(f'''<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.9)"><g class="breathe">
 <ellipse cx="0" cy="0" rx="74" ry="36" fill="#F09A3E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-12 -34 q7 14 0 26"/><path d="M8 -35 q7 14 0 26"/><path d="M28 -31 q7 12 0 22"/><path d="M46 -24 q6 10 0 18"/></g>
@@ -303,7 +303,7 @@ add(f'''<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <g stroke="#B85C1A" stroke-width="4"><path d="M40 30 v10"/><path d="M14 33 v10"/><path d="M-14 31 v10"/></g></g>
 <ellipse cx="-28" cy="30" rx="13" ry="7" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/>
 <path d="M-84 -10 L-80 -44 L-58 -24 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-80 -16 L-78 -34 L-66 -24 Z" fill="#F6B7C4"/>
-<path d="M-52 -26 L-32 -46 L-30 -14 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-47 -24 L-35 -37 L-34 -18 Z" fill="#F6B7C4"/>
+<path d="M-52 -26 L-42 -36 L-38 -33 L-34 -36 L-30 -14 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-47 -24 L-41 -31 L-37 -29 L-34 -31 L-33 -18 Z" fill="#F6B7C4"/>
 <circle cx="-58" cy="2" r="29" fill="#F7A54E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="3" stroke-linecap="round"><path d="M-64 -24 v8"/><path d="M-57 -26 v9"/><path d="M-50 -24 v8"/></g>
 <ellipse cx="-57" cy="14" rx="12" ry="8" fill="#FFF4DE"/>
@@ -312,22 +312,31 @@ add(f'''<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <g stroke="{INK}" stroke-width="1.4"><path d="M-72 14 l-18 -2 M-72 17 l-18 3 M-42 14 l18 -2 M-42 17 l18 3"/></g>
 </g></g></g>''')
 add(f'<text class="zz" x="{f(ax-74)}" y="{f(ay-52)}" font-size="24">z</text><text class="zz" x="{f(ax-58)}" y="{f(ay-62)}" font-size="17">z</text>')
-bx, by = P(870, 190, 112)
-add(f'''<g id="catB" class="hot cat" data-cat="catB"><g transform="translate({f(bx)} {f(by)}) scale(.9)"><g class="breathe">
-<g class="tail"><path d="M-80 8 C-100 14 -104 34 -92 46" stroke="{INK}" stroke-width="20" fill="none" stroke-linecap="round"/><path d="M-80 8 C-100 14 -104 34 -92 46" stroke="#2E2A38" stroke-width="13" fill="none" stroke-linecap="round"/></g>
-<ellipse cx="0" cy="0" rx="86" ry="30" fill="#2E2A38" stroke="{INK}" stroke-width="3.5"/>
-<path d="M-50 -16 q50 -16 100 -6" stroke="#4A4458" stroke-width="6" fill="none" stroke-linecap="round"/>
-<ellipse cx="-58" cy="22" rx="22" ry="10" fill="#2E2A38" stroke="{INK}" stroke-width="3"/>
-<ellipse cx="66" cy="26" rx="14" ry="7" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/><ellipse cx="94" cy="24" rx="13" ry="7" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/>
-<path d="M66 -26 L62 -60 L88 -40 Z" fill="#2E2A38" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M68 -32 L66 -50 L80 -40 Z" fill="#E8577E"/>
-<path d="M98 -40 L118 -58 L118 -24 Z" fill="#2E2A38" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M104 -38 L114 -48 L114 -32 Z" fill="#E8577E"/>
-<circle cx="90" cy="-12" r="28" fill="#2E2A38" stroke="{INK}" stroke-width="3.5"/>
-<path d="M68 6 Q90 18 112 6" stroke="{INK}" stroke-width="8" fill="none"/><path d="M68 6 Q90 18 112 6" stroke="{C["red"]}" stroke-width="5" fill="none"/><circle cx="90" cy="15" r="5" fill="{C["yellow"]}" stroke="{INK}" stroke-width="2"/>
-<ellipse cx="90" cy="0" rx="11" ry="7" fill="#FFF4DE"/>
-<g stroke="#D6CFE6" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M74 -14 q5 4 10 0"/><path d="M96 -14 q5 4 10 0"/></g>
-<path d="M87 -5 h6 l-3 4 Z" fill="#E8577E"/>
-<g stroke="#D6CFE6" stroke-width="1.3"><path d="M78 0 l-20 -3 M78 3 l-20 3 M102 0 l20 -3 M102 3 l20 3"/></g>
-</g></g></g>''')
+cx_, cy_ = P(280, 560, 0)
+O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
+add(f"""<g transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat stroll" data-cat="catB">
+<ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
+<g class="walker"><g class="breathe">
+<g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
+<g class="leg b"><rect x="-34" y="-34" width="11" height="34" rx="5" fill="{W}" stroke="{INK}" stroke-width="3"/></g>
+<g class="leg"><rect x="20" y="-34" width="11" height="34" rx="5" fill="{W}" stroke="{INK}" stroke-width="3"/></g>
+<ellipse cx="0" cy="-38" rx="44" ry="19" fill="{W}"/>
+<clipPath id="calClip"><ellipse cx="0" cy="-38" rx="44" ry="19"/></clipPath>
+<g clip-path="url(#calClip)"><path d="M-46 -60 C-30 -50 -26 -38 -8 -42 C4 -46 10 -58 0 -62Z" fill="{O}"/><path d="M8 -62 C10 -48 24 -44 30 -50 C36 -56 30 -62 20 -64Z" fill="{B}"/><path d="M-46 -40 C-38 -30 -30 -26 -24 -22 L-46 -18Z" fill="{B}"/><path d="M14 -30 C20 -26 30 -26 36 -22 L20 -16Z" fill="{O}"/></g>
+<ellipse cx="0" cy="-38" rx="44" ry="19" fill="none" stroke="{INK}" stroke-width="3.5"/>
+<g class="leg"><rect x="-26" y="-32" width="11" height="32" rx="5" fill="{W}" stroke="{INK}" stroke-width="3"/></g>
+<g class="leg b"><rect x="28" y="-32" width="11" height="32" rx="5" fill="{W}" stroke="{INK}" stroke-width="3"/></g>
+<path d="M36 -66 L38 -90 L52 -72Z" fill="{B}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M39 -71 L40 -84 L48 -73Z" fill="#F6B7C4"/>
+<path d="M58 -72 L70 -90 L72 -64Z" fill="{O}" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M61 -70 L69 -83 L70 -67Z" fill="#F6B7C4"/>
+<circle cx="54" cy="-58" r="19" fill="{W}"/>
+<clipPath id="calHead"><circle cx="54" cy="-58" r="19"/></clipPath>
+<g clip-path="url(#calHead)"><path d="M34 -80 L52 -78 L48 -62 C42 -60 36 -64 34 -70Z" fill="{B}"/><path d="M58 -80 C60 -66 66 -60 76 -62 L76 -80Z" fill="{O}"/></g>
+<circle cx="54" cy="-58" r="19" fill="none" stroke="{INK}" stroke-width="3.5"/>
+<circle cx="50" cy="-61" r="3" fill="{INK}"/><circle cx="64" cy="-61" r="3" fill="{INK}"/><circle cx="51" cy="-62" r="1" fill="#fff"/><circle cx="65" cy="-62" r="1" fill="#fff"/>
+<path d="M54 -54 h6 l-3 4Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
+<path d="M57 -50 q-3 4 -7 2 M57 -50 q3 4 7 2" stroke="{INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<g stroke="{INK}" stroke-width="1.3"><path d="M46 -52 l-16 -2 M46 -50 l-16 3 M68 -52 l16 -2 M68 -50 l16 3"/></g>
+</g></g></g></g>""")
 
 # ---------- light ----------
 gx, gy = lamp_x, lamp_y - 90

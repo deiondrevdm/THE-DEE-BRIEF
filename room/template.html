@@ -68,10 +68,19 @@ button{font:inherit;color:inherit}
 .blob.b2{animation-duration:12s;animation-delay:-4s}
 @keyframes lava{50%{transform:translateY(-46px) scale(1.15,.9)}}
 .breathe{transform-box:fill-box;transform-origin:50% 100%;animation:breathe 3.6s ease-in-out infinite}
-#catB .breathe{animation-duration:4.4s}
 @keyframes breathe{50%{transform:scale(1.02,1.05)}}
 .cat.purring .breathe{animation:purr .07s linear infinite}
 @keyframes purr{50%{transform:translate(.6px,-.6px) scale(1.01,1.03)}}
+.stroll{transform-box:fill-box;transform-origin:50% 100%;animation:stroll 22s linear infinite}
+@keyframes stroll{0%{transform:translate(0,0) scaleX(1)}46%{transform:translate(250px,50px) scaleX(1)}50%{transform:translate(250px,50px) scaleX(-1)}96%{transform:translate(0,0) scaleX(-1)}100%{transform:translate(0,0) scaleX(1)}}
+.leg{transform-box:fill-box;transform-origin:50% 0;animation:step .5s ease-in-out infinite alternate}
+.leg.b{animation-delay:-.5s}
+@keyframes step{from{transform:rotate(16deg)}to{transform:rotate(-16deg)}}
+.walker{animation:bob .5s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-2px)}}
+#catB .breathe{animation:none}
+.cat.stroll.purring,.cat.purring .leg,.cat.purring .walker{animation-play-state:paused}
+#catB.purring .breathe{animation:purr .07s linear infinite}
 .cat .tail{transform-box:fill-box;transform-origin:100% 50%;animation:swish 5s ease-in-out infinite}
 @keyframes swish{50%{transform:rotate(-6deg)}}
 .zz{font-family:var(--hand);fill:#FFF1D6;opacity:0;animation:zz 6s ease-out infinite}
@@ -174,6 +183,9 @@ button{font:inherit;color:inherit}
 .essay h3{margin:0;font-family:"IM Fell English",Georgia,serif;font-weight:400;font-size:21px;line-height:1.15}
 .essay .body{padding:0 0 12px;max-width:62ch}
 .essay .body p{margin:0 0 8px}
+.essay .sub{font-family:"IM Fell English",Georgia,serif;font-style:italic;font-size:17px}
+.essay .more{font-family:var(--type);font-size:13px;font-weight:700;color:var(--ink);background:var(--sun);border:2px solid var(--ink);padding:4px 10px;display:inline-block;text-decoration:none;box-shadow:2px 2px 0 var(--ink)}
+.essay .more:hover{background:var(--pink)}
 .tags{display:flex;gap:6px;margin-bottom:8px}.tags span{font-family:var(--type);font-size:11px;border:1px solid var(--ink);padding:1px 7px;border-radius:999px}
 .wk-top{font-family:"IM Fell English",Georgia,serif;font-style:italic;font-size:18px;margin:0 0 12px;max-width:62ch}
 .wk{list-style:none;margin:0;padding:0;display:grid;gap:12px}
@@ -248,7 +260,7 @@ const NS="http://www.w3.org/2000/svg";
 const svg=$("#room"),scene=$("#scene"),stage=$("#stage"),scroller=$("#scroller");
 
 /* Rename the cats here. */
-const CATS={catA:{name:"Miso",rate:23,pitch:1},catB:{name:"Pepper",rate:27,pitch:1.25}};
+const CATS={catA:{name:"Miso",rate:23,pitch:1},catB:{name:"Pepper",rate:27,pitch:1.25}}; /* catA: the ginger on the bed. catB: the calico walking on the floor. */
 
 const ROOMS={
   books:{t:"The bookshelf",s:"Tap a spine and it turns to face you. Each one says who it's for, and who should skip it."},
@@ -437,10 +449,10 @@ function rLaptop(v){
   v.innerHTML=`<div class="os"><div class="os-bar"><span>dee.os</span><span id="osClock"></span></div><div class="os-main"><nav class="os-apps">${apps.map((a,i)=>`<button class="app" data-i="${i}" aria-pressed="${i===0}"><i style="--c:${a[2]}">${a[1]}</i>${a[0]}</button>`).join("")}</nav>
     <div class="win"><div class="win-t"><i></i><span id="winT"></span></div><div class="win-b" id="winB"></div></div></div></div>`;
   let open=0;
-  const show=i=>{v.querySelectorAll(".app").forEach(a=>a.setAttribute("aria-pressed",+a.dataset.i===i));$("#winT").textContent=["writing.txt","this_week.txt","mailing_list.app"][i];
+  const show=i=>{v.querySelectorAll(".app").forEach(a=>a.setAttribute("aria-pressed",+a.dataset.i===i));$("#winT").textContent=["cold_coffee_hot_takes.txt","this_week.txt","mailing_list.app"][i];
     const b=$("#winB");
     if(i===0){const list=[...WRITING].sort((a,b)=>b.d.localeCompare(a.d));
-      const draw=()=>{b.innerHTML=list.map((w,j)=>{const dt=new Date(w.d+"T12:00:00");return `<article class="essay"><button aria-expanded="${j===open}" data-j="${j}"><span class="d">${dt.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</span><h3>${esc(w.t)}</h3><span class="rt">${w.min} min ${j===open?"−":"+"}</span></button><div class="body" ${j===open?"":"hidden"}><div class="tags">${w.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>${w.p.map(p=>`<p>${esc(p)}</p>`).join("")}</div></article>`}).join("");
+      const draw=()=>{b.innerHTML=list.map((w,j)=>{const dt=new Date(w.d+"T12:00:00");return `<article class="essay"><button aria-expanded="${j===open}" data-j="${j}"><span class="d">${dt.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</span><h3>${esc(w.t)}</h3><span class="rt">${w.min} min ${j===open?"−":"+"}</span></button><div class="body" ${j===open?"":"hidden"}><div class="tags">${w.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>${w.sub?`<p class="sub">${esc(w.sub)}</p>`:""}${w.p.map(p=>`<p>${esc(p)}</p>`).join("")}${w.u?`<p><a class="more" href="${w.u}" target="_blank" rel="noopener">Read the full piece on Substack ↗</a></p>`:""}</div></article>`}).join("");
         b.querySelectorAll(".essay > button").forEach(x=>x.onclick=()=>{const j=+x.dataset.j;open=open===j?-1:j;draw()})};draw()}
     else if(i===1){const d=DIGEST[0],TC={Watched:"#FFC1D3",Read:"#FFE6A8",Listened:"#BFD4FF",Played:"#9BE3B5"};
       b.innerHTML=`<p class="wk-top">${esc(d.top)}</p><ul class="wk">${d.items.map(x=>`<li><span class="ty" style="--c:${TC[x.type]||"#eee"}">${esc(x.type.toLowerCase())}</span><div><b>${esc(x.title)}</b> <span class="by">${esc(x.by)} · ${"★".repeat(x.r)}</span><p>${esc(x.note)}</p></div></li>`).join("")}</ul><p class="small">${esc(d.date)}</p>`}
