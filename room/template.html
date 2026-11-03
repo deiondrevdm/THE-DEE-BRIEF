@@ -68,6 +68,12 @@ button{font:inherit;color:inherit}
 .exhale circle:nth-child(2){animation-delay:.25s}.exhale circle:nth-child(3){animation-delay:.5s}
 @keyframes exhale{0%,62%{opacity:0;transform:translate(0,0) scale(.4)}68%{opacity:.75}100%{opacity:0;transform:translate(-26px,-30px) scale(2.2)}}
 .girl{pointer-events:none}
+.exhale2 circle{fill:#F4F0FA;opacity:0;transform-box:fill-box;transform-origin:center;animation:exhale2 12s ease-out infinite}
+.exhale2 circle:nth-child(2){animation-delay:.2s}.exhale2 circle:nth-child(3){animation-delay:.4s}
+@keyframes exhale2{0%,34%{opacity:0;transform:translate(0,0) scale(.4)}39%{opacity:.8}54%,100%{opacity:0;transform:translate(10px,-34px) scale(2.3)}}
+.ash circle{fill:#9C97AA;opacity:0;animation:ashfall 12s linear infinite}
+.ash circle:nth-child(2){animation-delay:.1s}.ash circle:nth-child(3){animation-delay:.2s}
+@keyframes ashfall{0%,57%{opacity:0;transform:translateY(0)}58%{opacity:1}66%{opacity:1;transform:translateY(12px)}70%,100%{opacity:0;transform:translateY(12px)}}
 @keyframes ember{50%{fill:#FFB04A}}
 @keyframes tw{50%{opacity:.55}}
 .steam path{animation:steam 3.5s ease-in-out infinite;opacity:0}
@@ -470,8 +476,8 @@ const SUP={x:300,y:560,tx:300,ty:560,state:"pause",wait:1,flees:0,tiredAt:0,last
 const supPos=$("#supraPos"),supCat=$("#catB"),supFlip=supCat&&supCat.querySelector(".flip");
 const toScr=(x,y)=>[640+x-.78*y,560+.2*x+.5*y];
 const toFloor=(sx,sy)=>{const a=sx-640,b=sy-560,y=(b-.2*a)/.656;return[a+.78*y,y]};
-const clampF=(x,y)=>{x=Math.max(280,Math.min(470,x));y=Math.max(470,Math.min(790-.4*x,y));return[x,y]};
-const randF=()=>clampF(280+Math.random()*190,470+Math.random()*220);
+const clampF=(x,y)=>{x=Math.max(280,Math.min(430,x));y=Math.max(470,Math.min(790-.4*x,y));return[x,y]};
+const randF=()=>clampF(280+Math.random()*150,470+Math.random()*220);
 let ptr=null;
 function supFlee(px,py){
   let dx=SUP.x-px,dy=SUP.y-py,L=Math.hypot(dx,dy)||1;dx/=L;dy/=L;

@@ -363,50 +363,66 @@ bed += g(mX(955, 468, 110.5), sq)
 add(bed)
 
 
-# ---------- girl reading on the floor next to the bed ----------
+# ---------- girl lying on her back on the floor in front of the bed ----------
 SK, HAIR, HL = "#F4C4A1", "#E8742A", "#F6D27A"
 def limb(d, w, col):
     return f'<path d="{d}" stroke="{INK}" stroke-width="{w+5}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="{d}" stroke="{col}" stroke-width="{w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
-girl = f'<g class="girl" transform="translate(822 950) scale(1.22)">'
-girl += '<ellipse cx="-10" cy="2" rx="128" ry="10" fill="#1F1B3A" opacity=".18"/>'
-# open book on the floor
-girl += (f'<path d="M-164 -2 L-134 -16 L-104 -4 L-134 7Z" fill="#FFFBF2" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
-         f'<path d="M-134 -16 L-134 7" stroke="{INK}" stroke-width="1.5"/><path d="M-166 0 L-134 9 L-102 -2" stroke="#E86A8E" stroke-width="4" fill="none"/>'
-         '<g stroke="#9C97AA" stroke-width="1.2"><path d="M-155 -3 l16 -7 M-152 0 l16 -7 M-129 -10 l16 6 M-127 -6 l16 6"/></g>')
-# far (right) arm with two small patchwork tattoos
-girl += limb("M-42 -36 L-52 -5 L-102 -9", 10, SK)
-girl += (f'<g stroke="{INK}" stroke-width="1"><rect x="-74" y="-11" width="6" height="6" fill="#F2543D" transform="rotate(8 -71 -8)"/><rect x="-71" y="-11" width="3" height="3" fill="#F8D65A" transform="rotate(8 -71 -8)"/>'
-         '<rect x="-88" y="-12" width="6" height="6" fill="#5B9BFF" transform="rotate(-6 -85 -9)"/><rect x="-88" y="-9" width="3" height="3" fill="#7FDBA8" transform="rotate(-6 -85 -9)"/></g>'
-         f'<circle cx="-104" cy="-9" r="6" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>')
-# legs, kicked up, mismatched socks, knee tattoo
-girl += limb("M30 -18 L94 -14 L110 -62", 14, SK)
-girl += limb("M110 -60 L106 -84", 11, "#7FDBA8") + '<path d="M106 -68 l9 1 M105 -76 l9 1" stroke="#F8D65A" stroke-width="3"/>'
-girl += limb("M36 -12 L98 -6 L86 -56", 15, SK)
-girl += limb("M86 -54 L78 -80", 12, "#FF6FAE") + '<path d="M80 -62 l10 3 M78 -70 l10 3" stroke="#FFFBF2" stroke-width="3"/>'
-girl += f'<path d="M97 -11 l2 4 4 0 -3 3 1 4 -4 -2 -4 2 1 -4 -3 -3 4 0Z" fill="{INK}"/>'
-# shorts and EAT THE RICH tee
-girl += f'<path d="M8 -36 L58 -30 L62 -4 L12 -2Z" fill="#3D57A6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M34 -33 L36 -3" stroke="#2C428A" stroke-width="2"/>'
-girl += (f'<path d="M-66 -50 C-40 -56 -2 -42 14 -36 L18 -3 C-10 -1 -42 -6 -60 -10Z" fill="#2B2733" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
-         '<text x="-46" y="-17" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="10.5" fill="#FFFBF2" letter-spacing=".5" transform="rotate(7 -20 -20)">EAT THE RICH</text>')
-# head, orange hair with thick blonde highlights in a messy bun
-girl += (f'<circle cx="-70" cy="-74" r="11" fill="{HAIR}" stroke="{INK}" stroke-width="2.5"/>'
-         f'<circle cx="-86" cy="-52" r="17" fill="{SK}" stroke="{INK}" stroke-width="3"/>'
-         f'<path d="M-104 -56 C-104 -76 -72 -82 -66 -60 C-64 -50 -66 -42 -72 -36 C-72 -50 -84 -62 -104 -56Z" fill="{HAIR}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
-         f'<path d="M-98 -64 C-90 -72 -80 -72 -74 -64 M-86 -70 C-78 -72 -72 -66 -70 -56 M-74 -80 C-68 -80 -64 -76 -64 -70" stroke="{HL}" stroke-width="4" fill="none" stroke-linecap="round"/>'
-         f'<path d="M-97 -52 q4 3 8 0" stroke="{INK}" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M-102 -46 l-3 2" stroke="{INK}" stroke-width="1.8"/>'
-         f'<circle cx="-99" cy="-41" r="2" fill="#C2564A"/>')
-# near (left) arm: full sleeve, holding the joint
-girl += limb("M-60 -42 L-68 -5 L-90 -34", 11, SK)
-girl += ('<path d="M-60 -42 L-68 -5 L-90 -34" stroke="#2E9C96" stroke-width="11" fill="none" stroke-dasharray="5 3" stroke-linejoin="round"/>'
-         '<path d="M-60 -42 L-68 -5 L-90 -34" stroke="#F2543D" stroke-width="5" fill="none" stroke-dasharray="2 7" stroke-linejoin="round"/>'
-         '<path d="M-62 -30 l4 3 M-66 -16 l5 1 M-76 -16 l3 -4 M-84 -27 l4 -1" stroke="#1F1B3A" stroke-width="1.5"/>')
-girl += f'<circle cx="-91" cy="-36" r="6" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>'
-girl += (f'<path d="M-95 -38 L-114 -33 L-114 -30 L-95 -35Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.4"/>'
-         '<circle class="ember" cx="-115" cy="-31.5" r="2.2" fill="#FF7A2A"/>'
-         '<g class="smoke" transform="translate(-116 -34)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/></g>'
-         '<g class="exhale" transform="translate(-106 -44)"><circle cx="0" cy="0" r="5"/><circle cx="-8" cy="-6" r="7"/><circle cx="-18" cy="-14" r="9"/></g>')
-girl += '</g>'
-add(girl)
+gl = ""
+# floor shadow (on the floor plane), then the side-on figure on a vertical plane facing the viewer
+gl += g(mZ(0.6, 462, 500), '<ellipse cx="190" cy="22" rx="200" ry="26" fill="#1F1B3A" opacity=".16"/>')
+fig = ""
+# pillow + hair fanned out on it
+fig += f'<rect x="-4" y="-28" width="92" height="28" rx="13" fill="#F6C9D0" stroke="{INK}" stroke-width="3"/><path d="M12 -26 v24 M30 -27 v26 M48 -27 v26 M66 -27 v26" stroke="#EE9FB0" stroke-width="3"/>'
+fig += (f'<path d="M4 -30 C2 -50 18 -66 40 -66 C30 -58 26 -46 28 -32Z" fill="{HAIR}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+        f'<path d="M8 -36 C10 -48 18 -56 28 -60 M16 -32 C18 -42 22 -50 30 -54" stroke="{HL}" stroke-width="4" fill="none" stroke-linecap="round"/>')
+# far (right) arm raised, holding the book over her face; two patchwork tattoos
+fig += limb("M80 -54 L98 -110 L60 -134", 11, SK)
+fig += (f'<g stroke="{INK}" stroke-width="1"><rect x="80" y="-126" width="7" height="7" fill="#F2543D" transform="rotate(-30 83 -122)"/><rect x="83" y="-126" width="3.5" height="3.5" fill="#F8D65A" transform="rotate(-30 83 -122)"/>'
+        '<rect x="68" y="-133" width="7" height="7" fill="#5B9BFF" transform="rotate(-30 71 -129)"/><rect x="68" y="-129" width="3.5" height="3.5" fill="#7FDBA8" transform="rotate(-30 71 -129)"/></g>')
+# the book, open, pages facing down at her
+fig += (f'<path d="M58 -142 L16 -128 L18 -122 L58 -134 L98 -124 L100 -130Z" fill="#3A3A42" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+        f'<path d="M20 -124 L58 -135 L96 -125 L58 -131Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.5"/>')
+fig += f'<circle cx="58" cy="-134" r="6.5" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>'
+# far leg (behind), knee up, green sock
+fig += limb("M236 -30 L290 -98 L326 -14", 17, "#E8B595")
+fig += limb("M326 -14 L346 -8", 13, "#7FDBA8") + '<path d="M332 -16 v8 M339 -15 v8" stroke="#F8D65A" stroke-width="3"/>'
+# torso in the EAT THE RICH tee, shorts
+fig += (f'<path d="M62 -54 C90 -66 150 -64 206 -54 L208 -4 L64 -4 C58 -20 58 -40 62 -54Z" fill="#2B2733" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+        '<text x="124" y="-24" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="12.5" fill="#FFFBF2" letter-spacing=".5">EAT THE RICH</text>')
+fig += f'<path d="M200 -54 L250 -46 L254 -4 L202 -4Z" fill="#3D57A6" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M226 -50 L228 -4" stroke="#2C428A" stroke-width="2"/>'
+# near leg, knee up, star tattoo on the knee, pink sock
+fig += limb("M240 -24 L300 -104 L340 -16", 19, SK)
+fig += limb("M340 -16 L362 -8", 14, "#FF6FAE") + '<path d="M346 -19 v9 M353 -17 v9" stroke="#FFFBF2" stroke-width="3"/>'
+fig += f'<path d="M298 -108 l2.4 5 5.4 .5 -4 3.6 1.2 5.3 -5 -2.8 -5 2.8 1.2 -5.3 -4 -3.6 5.4 -.5Z" fill="{INK}"/>'
+# head in profile, face up, looking at the book
+fig += (f'<circle cx="40" cy="-44" r="22" fill="{SK}" stroke="{INK}" stroke-width="3"/>'
+        f'<path d="M36 -66 l4 -7 l5 6" fill="{SK}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
+        f'<path d="M24 -50 C22 -64 34 -72 44 -68 C36 -64 30 -58 28 -48Z" fill="{HAIR}" stroke="{INK}" stroke-width="2" stroke-linejoin="round"/>'
+        f'<path d="M28 -62 C32 -66 36 -68 40 -68" stroke="{HL}" stroke-width="3" fill="none" stroke-linecap="round"/>'
+        f'<circle cx="49" cy="-58" r="2.2" fill="{INK}"/><path d="M45 -63 l7 -2" stroke="{INK}" stroke-width="1.8" stroke-linecap="round"/>'
+        f'<path d="M53 -52 l5 2" stroke="#C2564A" stroke-width="2.4" stroke-linecap="round"/>'
+        f'<ellipse cx="32" cy="-42" rx="4" ry="5" fill="#E8B595" stroke="{INK}" stroke-width="1.5"/>')
+# ashtray on the floor by her shoulder, ash falling when she taps
+fig += (f'<ellipse cx="82" cy="-3" rx="15" ry="5" fill="#2E9C96" stroke="{INK}" stroke-width="2.5"/><ellipse cx="82" cy="-5" rx="9" ry="2.6" fill="#1E6E6A"/>'
+        '<g class="ash"><circle cx="80" cy="-16" r="1.6"/><circle cx="84" cy="-18" r="1.3"/><circle cx="82" cy="-20" r="1.1"/></g>')
+# near (left) arm: full sleeve; forearm swings between mouth and ashtray
+SLEEVE = lambda d: (f'<path d="{d}" stroke="#2E9C96" stroke-width="12" fill="none" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round"/>'
+                    f'<path d="{d}" stroke="#F2543D" stroke-width="5" fill="none" stroke-dasharray="2 7" stroke-linecap="round"/>')
+fig += limb("M94 -44 L120 -36", 12, SK) + SLEEVE("M94 -44 L120 -36")
+fore = (limb("M0 0 L-58 -20", 12, SK) + SLEEVE("M0 0 L-58 -20")
+        + f'<circle cx="-60" cy="-21" r="6.5" fill="{SK}" stroke="{INK}" stroke-width="2.5"/>'
+        + f'<path d="M-62 -25 L-52 -42 L-49 -41 L-59 -24Z" fill="#FFFBF2" stroke="{INK}" stroke-width="1.4"/>'
+        + '<circle class="ember" cx="-50" cy="-43" r="2.4" fill="#FF7A2A"/>'
+        + '<g class="smoke" transform="translate(-50 -46)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/></g>')
+fig += ('<g transform="translate(120 -36)"><g>'
+        '<animateTransform attributeName="transform" type="rotate" dur="12s" repeatCount="indefinite" '
+        'values="0;0;-28;-28;-56;-60;-56;-56;0;0" keyTimes="0;.3;.38;.46;.54;.58;.62;.68;.78;1" calcMode="spline" '
+        'keySplines=".4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.5 0 .5 1;.5 0 .5 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1"/>'
+        + fore + '</g></g>')
+# exhale from the mouth
+fig += '<g class="exhale2" transform="translate(56 -58)"><circle cx="0" cy="0" r="5"/><circle cx="4" cy="-9" r="7"/><circle cx="10" cy="-20" r="9"/></g>'
+gl += g(mY(520, 462, 0), fig)
+add(f'<g class="girl">{gl}</g>')
 
 # ---------- the cats ----------
 ax, ay = P(800, 250, 112)

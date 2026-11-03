@@ -298,6 +298,35 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .arts-ctl button{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center}
 .arts-ctl button:hover{background:var(--ink);color:var(--white)}
 .cv.img{background-size:cover;background-position:center}.cv.img b,.cv.img small{visibility:hidden}
+/* bookshelf by status: reading now (face-out), read (spines), want to read (stacked) */
+.shelf2{--s:1;position:relative;display:flex;align-items:flex-end;gap:calc(26px*var(--s) + 8px);padding:16px 18px 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+  background:linear-gradient(transparent calc(100% - 14px),#C9743D calc(100% - 14px));border:1.5px solid var(--ink);border-bottom-width:3px}
+.zone{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-bottom:14px;flex:none}
+.zlabel{font-family:var(--hand);font-size:clamp(16px,2vw,20px);line-height:1;color:var(--ink);background:#FFFDF6;border:1.5px solid var(--ink);padding:2px 8px 3px;transform:rotate(-2deg)}
+.zrow{display:flex;align-items:flex-end;gap:3px}
+.zone.now .zrow{gap:14px}
+.face{position:relative;border:0;padding:0;background:none;cursor:pointer;height:calc(var(--h)*1px*var(--s));aspect-ratio:.68;transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.face:nth-child(odd){transform:rotate(-2.5deg)}.face:nth-child(even){transform:rotate(2deg)}
+.face .cvr{display:grid;align-content:space-between;width:100%;height:100%;background:var(--bk);color:var(--fg);border:2.5px solid var(--ink);padding:10%;text-align:left;overflow:hidden;animation:nowglow 2.6s ease-in-out infinite}
+.face .cvr.img{padding:0}.face .cvr img{width:100%;height:100%;object-fit:cover;display:block}
+.face .cvr b{font-family:"IM Fell English",Georgia,serif;font-weight:400;text-transform:uppercase;font-size:calc(17px*var(--s) + 4px);line-height:.95}
+.face .cvr small{font-family:"IM Fell English",Georgia,serif;font-style:italic;font-size:calc(11px*var(--s) + 3px)}
+.face .ribbon{position:absolute;right:18%;bottom:-20px;width:13px;height:34px;background:#F2543D;border:1.5px solid var(--ink);border-top:0;clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);font:700 8px/1 var(--type);color:#FFFDF6;writing-mode:vertical-rl;display:grid;place-items:center}
+.face.sel{transform:translateY(-10px) rotate(0)}
+@keyframes nowglow{0%,100%{box-shadow:0 0 0 0 rgba(255,214,120,0),4px 6px 0 rgba(36,27,22,.25)}50%{box-shadow:0 0 22px 6px rgba(255,214,120,.85),4px 6px 0 rgba(36,27,22,.25)}}
+.shelf2 .bslot{perspective:1500px}
+.shelf2 .bslot.sel .bk{transform:rotateY(0)}
+.shelf2 .bslot:not(.sel) .bk{transform:rotateY(90deg)}
+.shelf2 .bslot:not(.sel):hover .bk{transform:translateY(-8px) rotateY(90deg)}
+.shelf2 .bslot.sel{width:var(--cw)}
+.foil{display:block;writing-mode:horizontal-tb;font-size:9px;line-height:1.05;letter-spacing:-1px;color:#F7CD46;text-shadow:0 0 3px rgba(255,240,180,.9),0 1px 0 #8A6A10;margin:auto 0 6px;width:10px;word-break:break-all;text-align:center}
+.zone.next{padding-bottom:14px;margin-right:12px}
+.zlabel.nextup{background:#FFE6A8;transform:rotate(4deg)}
+.stack{display:flex;flex-direction:column-reverse;align-items:center;gap:0}
+.lay{display:block;width:calc(var(--h)*1px*var(--s)*.78);height:calc(var(--w)*1px*var(--s)*.9);min-height:24px;background:var(--bk);color:var(--fg);border:2px solid var(--ink);border-radius:2px;padding:0 8px;cursor:pointer;text-align:left;font:700 calc(9px*var(--s) + 3px)/1 var(--type);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:transform .25s}
+.lay:nth-child(even){transform:translateX(6px) rotate(-1.5deg)}.lay:nth-child(odd){transform:rotate(1deg)}
+.lay.sel{transform:translateX(16px)!important;outline:2px dashed var(--ink);outline-offset:2px}
+.sticky{position:absolute;top:auto;bottom:calc(30px*var(--s) + 22px);right:-26px;background:#FFE6A8;color:var(--ink);font-family:var(--hand);font-size:18px;line-height:1;padding:5px 10px;transform:rotate(7deg);box-shadow:2px 3px 0 rgba(0,0,0,.2);white-space:nowrap}
 .book-card{transition:opacity .3s,transform .3s cubic-bezier(.3,1.4,.5,1)}.book-card.fade{opacity:0;transform:translateY(10px) scale(.97)}
 .book-card{margin-top:44px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:start}
 .book-card .count{font-family:var(--hand);font-size:24px;color:var(--muted)}
@@ -544,17 +573,17 @@ const BOOKS=[
   {"t": "Rassie: Stories of Life and Rugby", "a": "Rassie Erasmus", "c": "#1F3C6B", "h": 262, "w": 50, "status": "Currently reading", "rev": "The Springbok boss in his own words, from the Eastern Cape to two World Cup wins.", "yes": "Rugby fans who want the story behind the trophies.", "no": "Anyone who thinks rugby is just large men running into each other."},
   {"t": "Dungeon Crawler Carl", "a": "Matt Dinniman", "c": "#F4C21A", "h": 276, "w": 60, "status": "Read", "r": 4, "note": "Had time of my life despite never hearing the word ‘LitRPG’ in my life.", "img": "https://covers.openlibrary.org/b/id/15143022-L.jpg", "rev": "Had time of my life despite never hearing the word ‘LitRPG’ in my life.", "yes": "Gamers, and anyone who likes their apocalypse funny and filthy.", "no": "Readers who want their fantasy serious."},
   {"t": "The Elements of Style", "a": "William Strunk Jr.", "c": "#D9D6CF", "h": 206, "w": 30, "status": "Want to read", "img": "https://covers.openlibrary.org/b/id/10515358-L.jpg", "rev": "The tiny classic on writing clearly. Omit needless words, apparently.", "yes": "Writers who want rules to follow, or to break on purpose.", "no": "Anyone allergic to being told what to do."},
-  {"t": "Vasmora", "a": "Keri Lake", "c": "#1A1712", "h": 284, "w": 56, "status": "On the shelf", "rev": "Gothic, witchy and very dark. Keri Lake doesn't do gentle.", "yes": "Fans of dark romance and gothic fantasy.", "no": "Anyone after a soft, cosy read."},
-  {"t": "Yesteryear", "a": "Caro Claire Burke", "c": "#8FD3C2", "h": 262, "w": 50, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15234864-L.jpg", "rev": "A tradwife influencer gets the old-fashioned life she sells online, for real.", "yes": "Anyone who has ever hate-watched a homesteading video.", "no": "Readers who want gentle historical fiction."},
-  {"t": "Daggermouth", "a": "H.M. Wolfe", "c": "#1B1B1E", "h": 280, "w": 54, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15177710-L.jpg", "rev": "Romantasy with teeth: blades, banter and a lot of tension.", "yes": "Romantasy readers who like it sharp.", "no": "Anyone who skips the romance subplot."},
-  {"t": "Brimstone", "a": "Callie Hart", "c": "#2A120C", "h": 286, "w": 58, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15146289-L.jpg", "rev": "Callie Hart goes full dark romantasy: fire, vengeance and a slow, slow burn.", "yes": "Readers who like their heroes morally grey.", "no": "Anyone who wants a quick, light read."},
-  {"t": "Quicksilver", "a": "Callie Hart", "c": "#5E6B78", "h": 290, "w": 64, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15227615-L.jpg", "rev": "A thief, a fae warrior and a portal she really shouldn't have opened.", "yes": "Fans of fae romantasy who want it spicier.", "no": "Readers who like their books under 600 pages."},
-  {"t": "Open Throat", "a": "Henry Hoke", "c": "#F5EFE4", "h": 228, "w": 34, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/14564366-L.jpg", "rev": "Told by a lonely mountain lion living under the Hollywood sign. Short, strange and tender.", "yes": "Anyone who loves a weird narrator and a short book.", "no": "Readers who need a conventional plot."},
-  {"t": "Hell Bent", "a": "Leigh Bardugo", "c": "#BFBFC2", "h": 278, "w": 52, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/14357966-L.jpg", "rev": "Alex Stern breaks into hell to bring Darlington back. Yale, magic and very bad decisions.", "yes": "Anyone who finished Ninth House and needed more.", "no": "Readers who haven't started Ninth House yet."},
-  {"t": "Ninth House", "a": "Leigh Bardugo", "c": "#141414", "h": 278, "w": 54, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/12667414-L.jpg", "rev": "Yale's secret societies run on dark magic, and a girl who sees ghosts is sent to watch them.", "yes": "Dark academia fans who don't mind it getting grim.", "no": "Readers who want a cosy campus mystery."},
-  {"t": "Down the Drain", "a": "Julia Fox", "c": "#9EA3A8", "h": 256, "w": 44, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/14748770-L.jpg", "rev": "Julia Fox's memoir: New York, addiction, Uncut Gems and surviving all of it.", "yes": "Memoir readers who like it raw and unfiltered.", "no": "Anyone expecting a light celebrity read."},
-  {"t": "Discontent", "a": "Beatriz Serrano", "c": "#2E5FA8", "h": 244, "w": 40, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15158277-L.jpg", "rev": "A burnt-out marketing exec in Madrid who is very good at looking busy. Office satire that hits close.", "yes": "Anyone who has cried in a work bathroom.", "no": "People who genuinely love their job."},
-  {"t": "Girl Dinner", "a": "Olivie Blake", "c": "#9FE3CF", "h": 264, "w": 50, "status": "On the shelf", "img": "https://covers.openlibrary.org/b/id/15142832-L.jpg", "rev": "Dark, hungry satire about women, appetite and the price of fitting in.", "yes": "Fans of horror-tinged literary fiction.", "no": "Squeamish readers."}
+  {"t": "Vasmora", "a": "Keri Lake", "c": "#1A1712", "h": 284, "w": 56, "status": "Read", "rev": "Gothic, witchy and very dark. Keri Lake doesn't do gentle.", "yes": "Fans of dark romance and gothic fantasy.", "no": "Anyone after a soft, cosy read."},
+  {"t": "Yesteryear", "a": "Caro Claire Burke", "c": "#8FD3C2", "h": 262, "w": 50, "status": "Read", "img": "https://covers.openlibrary.org/b/id/15234864-L.jpg", "rev": "A tradwife influencer gets the old-fashioned life she sells online, for real.", "yes": "Anyone who has ever hate-watched a homesteading video.", "no": "Readers who want gentle historical fiction."},
+  {"t": "Daggermouth", "a": "H.M. Wolfe", "c": "#1B1B1E", "h": 280, "w": 54, "status": "Read", "img": "https://covers.openlibrary.org/b/id/15177710-L.jpg", "rev": "Romantasy with teeth: blades, banter and a lot of tension.", "yes": "Romantasy readers who like it sharp.", "no": "Anyone who skips the romance subplot."},
+  {"t": "Brimstone", "a": "Callie Hart", "c": "#2A120C", "h": 286, "w": 58, "status": "Read", "img": "https://covers.openlibrary.org/b/id/15146289-L.jpg", "rev": "Callie Hart goes full dark romantasy: fire, vengeance and a slow, slow burn.", "yes": "Readers who like their heroes morally grey.", "no": "Anyone who wants a quick, light read."},
+  {"t": "Quicksilver", "a": "Callie Hart", "c": "#5E6B78", "h": 290, "w": 64, "status": "Read", "img": "https://covers.openlibrary.org/b/id/15227615-L.jpg", "rev": "A thief, a fae warrior and a portal she really shouldn't have opened.", "yes": "Fans of fae romantasy who want it spicier.", "no": "Readers who like their books under 600 pages."},
+  {"t": "Open Throat", "a": "Henry Hoke", "c": "#F5EFE4", "h": 228, "w": 34, "status": "Read", "img": "https://covers.openlibrary.org/b/id/14564366-L.jpg", "rev": "Told by a lonely mountain lion living under the Hollywood sign. Short, strange and tender.", "yes": "Anyone who loves a weird narrator and a short book.", "no": "Readers who need a conventional plot."},
+  {"t": "Hell Bent", "a": "Leigh Bardugo", "c": "#BFBFC2", "h": 278, "w": 52, "status": "Read", "img": "https://covers.openlibrary.org/b/id/14357966-L.jpg", "rev": "Alex Stern breaks into hell to bring Darlington back. Yale, magic and very bad decisions.", "yes": "Anyone who finished Ninth House and needed more.", "no": "Readers who haven't started Ninth House yet."},
+  {"t": "Ninth House", "a": "Leigh Bardugo", "c": "#141414", "h": 278, "w": 54, "status": "Read", "img": "https://covers.openlibrary.org/b/id/12667414-L.jpg", "rev": "Yale's secret societies run on dark magic, and a girl who sees ghosts is sent to watch them.", "yes": "Dark academia fans who don't mind it getting grim.", "no": "Readers who want a cosy campus mystery."},
+  {"t": "Down the Drain", "a": "Julia Fox", "c": "#9EA3A8", "h": 256, "w": 44, "status": "Read", "img": "https://covers.openlibrary.org/b/id/14748770-L.jpg", "rev": "Julia Fox's memoir: New York, addiction, Uncut Gems and surviving all of it.", "yes": "Memoir readers who like it raw and unfiltered.", "no": "Anyone expecting a light celebrity read."},
+  {"t": "Discontent", "a": "Beatriz Serrano", "c": "#2E5FA8", "h": 244, "w": 40, "status": "Read", "img": "https://covers.openlibrary.org/b/id/15158277-L.jpg", "rev": "A burnt-out marketing exec in Madrid who is very good at looking busy. Office satire that hits close.", "yes": "Anyone who has cried in a work bathroom.", "no": "People who genuinely love their job."},
+  {"t": "Girl Dinner", "a": "Olivie Blake", "c": "#9FE3CF", "h": 264, "w": 50, "status": "Read", "img": "https://covers.openlibrary.org/b/id/15142832-L.jpg", "rev": "Dark, hungry satire about women, appetite and the price of fitting in.", "yes": "Fans of horror-tinged literary fiction.", "no": "Squeamish readers."}
 ];
 
 const STRATEGY={
@@ -809,48 +838,37 @@ function rNews(el){
 }
 
 function rBooks(el){
-  const N=BOOKS.length,GAP=4,DUR=900,M=["#F2542D","#23324A","#241B16","#3B474B"];
+  const M=["#F2542D","#23324A","#241B16","#3B474B"];
   const fg=c=>{if(c[0]==="#"){const n=parseInt(c.slice(1),16),l=(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255));return l<150?"#FFFDF6":"#241B16"}return M.some(x=>c.includes(x))||/tomato/.test(c)?"#FFFDF6":"#241B16"};
-  let v=N,auto=!reduce,snapT=null,autoT=null,hover=false;
-  el.innerHTML=`<div class="arts" tabindex="-1">
-    <div class="arts-top"><span>The Dee Brief · Shelf</span><nav class="arts-pg" aria-label="Pick a book">${BOOKS.map((b,i)=>`<button data-i="${i}" aria-label="${esc(b.t)}">${i+1}</button>`).join("")}</nav></div>
-    <h2 class="arts-h"><small>Chapter<sup>3</sup></small>On the shelf</h2>
-    <div class="arts-vp"><div class="arts-row">${Array.from({length:3*N},(_,k)=>{const i=k%N,b=BOOKS[i],mid=k>=N&&k<2*N;
-      return `<button class="bslot v${i%3}" data-k="${k}" style="--bk:${b.c};--fg:${fg(b.c)}" ${mid?`aria-label="${esc(b.t)} by ${esc(b.a)}"`:`tabindex="-1" aria-hidden="true"`}><div class="bk">
-        <div class="sp"><b>${esc(b.t)}</b><small>${esc(b.a.split(" ").pop())}</small></div>
-        <div class="cv${b.img?" img":""}"${b.img?` style="background-image:url('${b.img}')"`:""}><b>${esc(b.t)}</b><small>${esc(b.a)}</small></div></div></button>`}).join("")}</div></div>
-    <div class="arts-ctl"><span id="artsN" aria-live="polite"></span><div><button data-d="-1" aria-label="Previous book">←</button><button data-d="1" aria-label="Next book">→</button></div></div>
+  const zoneOf=b=>/currently/i.test(b.status||"")?"now":/want/i.test(b.status||"")?"next":"read";
+  const Z={now:[],read:[],next:[]};BOOKS.forEach((b,i)=>Z[zoneOf(b)].push(i));
+  const order=[...Z.now,...Z.read,...Z.next];
+  let sel=order[0];
+  const st=(b,i)=>`style="--bk:${b.c};--fg:${fg(b.c)};--h:${b.h};--w:${b.w}"`;
+  const lab=b=>`${esc(b.t)} by ${esc(b.a)}, ${esc((b.status||"read").toLowerCase())}`;
+  el.innerHTML=`<div class="shelf2" tabindex="0" aria-label="Bookshelf. Use the arrow keys to browse.">
+    ${Z.now.length?`<div class="zone now"><span class="zlabel">reading now</span><div class="zrow">${Z.now.map(i=>{const b=BOOKS[i];return `<button class="face" data-i="${i}" ${st(b)} aria-label="${lab(b)}"><span class="cvr${b.img?" img":""}">${b.img?`<img src="${b.img}" alt="" loading="lazy">`:`<b>${esc(b.t)}</b><small>${esc(b.a)}</small>`}</span><span class="ribbon">${b.pct!=null?esc(b.pct)+"%":""}</span></button>`}).join("")}</div></div>`:""}
+    <div class="zone read"><span class="zlabel">read</span><div class="zrow">${Z.read.map(i=>{const b=BOOKS[i];return `<button class="bslot v${i%3}" data-i="${i}" ${st(b)} aria-label="${lab(b)}"><div class="bk"><div class="sp"><b>${esc(b.t)}</b>${b.r?`<span class="foil">${"★".repeat(b.r)}</span>`:""}<small>${esc(b.a.split(" ").pop())}</small></div><div class="cv${b.img?" img":""}"${b.img?` style="background-image:url('${b.img}')"`:""}><b>${esc(b.t)}</b><small>${esc(b.a)}</small></div></div></button>`}).join("")}</div></div>
+    ${Z.next.length?`<div class="zone next"><span class="zlabel nextup">next up!</span><div class="stack">${Z.next.map(i=>{const b=BOOKS[i];return `<button class="lay" data-i="${i}" ${st(b)} aria-label="${lab(b)}"><b>${esc(b.t)}</b></button>`}).join("")}</div></div>`:""}
   </div><div class="book-card" id="bc"></div>`;
-  const arts=el.querySelector(".arts"),vp=el.querySelector(".arts-vp"),row=el.querySelector(".arts-row"),slots=[...row.children];
+  const shelf=el.querySelector(".shelf2"),items=[...shelf.querySelectorAll("[data-i]")];
   function layout(){
-    const s=Math.max(.6,Math.min(1.05,vp.clientWidth/920));let x=0,cw=0,maxH=0;
-    slots.forEach((d,k)=>{const b=BOOKS[k%N],H=Math.round(b.h*s*1.12),t=Math.round(b.w*s),c=Math.round(H*.7);
-      d.style.setProperty("--H",H+"px");d.style.setProperty("--t",t+"px");d.style.setProperty("--cw",c+"px");
-      d.classList.toggle("on",k===v);if(k<v)x+=t+GAP;if(k===v)cw=c;maxH=Math.max(maxH,H)});
-    vp.style.height=maxH+52+"px";
-    row.style.transform=`translateX(${Math.round(vp.clientWidth/2-x-cw/2)}px)`;
+    const s=Math.max(.42,Math.min(1,(innerHeight-520)/290,((shelf.clientWidth||900)-40)/1180));
+    shelf.style.setProperty("--s",s);
+    shelf.querySelectorAll(".bslot").forEach(d=>{const b=BOOKS[+d.dataset.i],H=Math.round(b.h*s),t=Math.round(b.w*s*.9);
+      d.style.setProperty("--H",H+"px");d.style.setProperty("--t",t+"px");d.style.setProperty("--cw",Math.round(H*.68)+"px")});
   }
-  function info(){
-    const i=v%N,b=BOOKS[i];arts.style.setProperty("--bg",b.c);
-    el.querySelectorAll(".arts-pg button").forEach(x=>x.setAttribute("aria-current",+x.dataset.i===i));
-    $("#artsN").textContent=`${String(i+1).padStart(2,"0")} / ${String(N).padStart(2,"0")} · ${b.t}`;
+  function card(){
+    const b=BOOKS[sel];
+    items.forEach(x=>{const on=+x.dataset.i===sel;x.classList.toggle("on",on);x.classList.toggle("sel",on);x.setAttribute("aria-pressed",on)});
+    const it=items.find(x=>+x.dataset.i===sel);if(it&&it.scrollIntoView&&shelf.scrollWidth>shelf.clientWidth+4)it.scrollIntoView({block:"nearest",inline:"center",behavior:reduce?"auto":"smooth"});
     const bc=$("#bc");bc.classList.add("fade");
-    setTimeout(()=>{bc.innerHTML=`<div><span class="count">${esc(b.status||"On the shelf")}${b.r?` · ${"★".repeat(b.r)}${"☆".repeat(5-b.r)}`:""}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why">${esc(b.rev||"")}</p></div><div class="verdict"><div class="taped"><small>Who it's for</small>${esc(b.yes||"")}</div><div class="taped"><small>Who it's not for</small>${esc(b.no||"")}</div></div>`;bc.classList.remove("fade")},reduce?0:220);
+    setTimeout(()=>{bc.innerHTML=`<div><span class="count">${esc(b.status||"Read")}${b.r?` · ${"★".repeat(b.r)}${"☆".repeat(5-b.r)}`:""}</span><h3>${esc(b.t)}</h3><div class="by">${esc(b.a)}</div><p class="why">${esc(b.rev||"")}</p></div><div class="verdict"><div class="taped"><small>Who it's for</small>${esc(b.yes||"")}</div><div class="taped"><small>Who it's not for</small>${esc(b.no||"")}</div></div>`;bc.classList.remove("fade")},reduce?0:200);
   }
-  function snap(){ // jump back to the middle copy without animating, so the loop never ends
-    if(v>=N&&v<2*N)return;row.classList.add("snap");v=v%N+N;layout();void row.offsetWidth;row.classList.remove("snap")}
-  function go(i){snap();let d=((i-v%N)%N+N)%N;if(d>N/2)d-=N;if(!d)return;v+=d;layout();info();clearTimeout(snapT);snapT=setTimeout(snap,DUR+50)}
-  function user(){auto=false;clearTimeout(autoT)}
-  function tick(){clearTimeout(autoT);if(!auto)return;autoT=setTimeout(()=>{if(!arts.isConnected)return;if(!hover&&!document.hidden)go(v%N+1);tick()},4800)}
-  slots.forEach(d=>d.onclick=()=>{user();go(+d.dataset.k%N)});
-  el.querySelectorAll(".arts-pg button").forEach(b=>b.onclick=()=>{user();go(+b.dataset.i)});
-  el.querySelectorAll(".arts-ctl button").forEach(b=>b.onclick=()=>{user();go(v%N+ +b.dataset.d)});
-  arts.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();e.stopPropagation();user();go(v%N+(e.key==="ArrowRight"?1:-1))}});
-  arts.addEventListener("pointerenter",()=>hover=true);arts.addEventListener("pointerleave",()=>hover=false);
-  let px=null;vp.addEventListener("pointerdown",e=>{px=e.clientX});
-  vp.addEventListener("pointerup",e=>{if(px===null)return;const dx=e.clientX-px;px=null;if(Math.abs(dx)>40){user();go(v%N+(dx<0?1:-1))}});
-  const ro=new ResizeObserver(()=>{if(!arts.isConnected)return ro.disconnect();row.classList.add("snap");layout();void row.offsetWidth;row.classList.remove("snap")});ro.observe(vp);
-  row.classList.add("snap");layout();void row.offsetWidth;row.classList.remove("snap");info();tick();
+  items.forEach(x=>x.onclick=()=>{sel=+x.dataset.i;card()});
+  shelf.addEventListener("keydown",e=>{if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;e.preventDefault();e.stopPropagation();const k=order.indexOf(sel);sel=order[(k+(e.key==="ArrowRight"?1:-1)+order.length)%order.length];card()});
+  const ro=new ResizeObserver(()=>{if(!shelf.isConnected)return ro.disconnect();layout()});ro.observe(shelf);
+  layout();card();
 }
 
 function rStrat(el){
