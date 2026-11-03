@@ -710,10 +710,10 @@ let GAMESEL=null;
 const CATS={catA:{name:"Miata",rate:23,pitch:1,tip:"do not touch"},catB:{name:"Supra",rate:27,pitch:1.25,tip:"catch her if you can"}}; /* catA: ginger on the bed (bites). catB: calico on the floor (runs, then purrs). */
 
 const ROOMS={
-  books:{t:"What I've been reading",s:"Books I've read. Tap a spine and it turns to face you."},
+  books:{t:"What I've been reading",s:""},
   records:{t:"Records",s:"Pick a sleeve, drop the needle. It keeps playing while you walk around the room."},
   screen:{t:"The TV",s:"What I've been watching."},
-  games:{t:"What I've been playing",s:"Pick a game for my take and some gameplay."},
+  games:{t:"What I've been playing",s:""},
   laptop:{t:"",s:""}
 };
 const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],mirror:["the mirror","read the notes"],candles:["the candles","light them"],notebook:["my notebook","private"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
@@ -972,7 +972,7 @@ function open(id){
   ({games:SFX.ps2,laptop:SFX.mac}[id]||(()=>{}))();
   if(!built[id]){BUILD[id]($("#v-"+id));built[id]=true}
   const bb=(document.querySelector(`#room [data-zoom="${id}"]`)||document.querySelector(`#room [data-go="${id}"]`)).getBBox();tween(fit({x:bb.x,y:bb.y,w:bb.width,h:bb.height}),900,()=>{
-    $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;
+    $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;$("#pSub").hidden=!R.s;
     document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+id);
     const p=$("#panel");p.classList.toggle("full",id==="laptop"||id==="screen");p.classList.toggle("bare",!R.t);p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
     ENTER[id]&&ENTER[id]();
