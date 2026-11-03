@@ -190,18 +190,6 @@ for (x, y, s) in [(10, 20, 1), (50, 60, .7), (20, 110, .8), (70, 140, 1.1), (30,
 st += f'<path transform="translate(60 92)" d="M0 -14 a14 14 0 1 0 10 24 a11 11 0 1 1 -10 -24Z" fill="#FFF07A" stroke="{INK}" stroke-width="2"/>'
 add(g(mY(1, 556, 520), st))
 
-# ---------- backstage pass (about me) ----------
-pass_svg = (f'<circle cx="22" cy="0" r="3.2" fill="#FF6FAE" stroke="{INK}" stroke-width="1.5"/>'
-            f'<path d="M22 1 L6 20 M22 1 L38 20" stroke="{INK}" stroke-width="5" stroke-linecap="round"/><path d="M22 1 L6 20 M22 1 L38 20" stroke="#B57BFF" stroke-width="2.8" stroke-linecap="round"/>'
-            f'<rect x="0" y="18" width="44" height="60" rx="4" fill="#FFFDF6" stroke="{INK}" stroke-width="2.5"/>'
-            f'<rect x="1.3" y="19.3" width="41.4" height="9" rx="3" fill="#FF6FAE"/><path d="M1.3 28.3 H42.7" stroke="{INK}" stroke-width="1.5"/>'
-            '<text x="22" y="26" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="5.6" fill="#1F1B3A" letter-spacing=".4">ALL ACCESS</text>'
-            f'<rect x="7" y="31" width="30" height="27" rx="2" fill="#BFD4FF" stroke="{INK}" stroke-width="1.5"/>'
-            '<svg id="idPhoto" x="7.5" y="31.5" width="29" height="26" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"></svg>'
-            '<text x="22" y="66.5" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="7.5" fill="#1F1B3A">DEE</text>'
-            f'<g stroke="{INK}" stroke-width=".9">' + "".join(f'<path d="M{x} 69.5 v5"/>' for x in (12, 13.5, 16, 17, 19.5, 21, 22, 24.5, 26, 28.5, 29.5, 32)) + '</g>'
-            '<path d="M3 22 L12 76" stroke="#ffffff" stroke-opacity=".5" stroke-width="3"/>')
-add('<g id="pass" class="hot" data-go="me">' + g(mY(1, 566, 300), pass_svg) + '</g>')
 
 # ---------- bookshelf ----------
 bs = [box(30, 0, 0, 260, 80, 470, C["lilT"], C["lilF"], C["lilS"])]
