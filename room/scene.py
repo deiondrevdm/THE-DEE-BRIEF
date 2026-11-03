@@ -57,10 +57,18 @@ add(box(0, 0, 0, 1200, 8, 20, "#F6F1FF", "#E9E2FA", "#DDD4F5", 2.5))
 # ---------- left wall: window, curtains, poster, neon ----------
 win = [rect(0, 0, 360, 250, "url(#skyN)"), '<g id="stars">']
 for _ in range(24): win.append(f'<circle class="twinkle" cx="{f(R.uniform(10,350))}" cy="{f(R.uniform(10,170))}" r="{1.6 if R.random()<.2 else 1}" fill="#FFF6D8" style="animation-delay:{-R.uniform(0,3):.1f}s"/>')
-win.append('</g><circle cx="280" cy="60" r="22" fill="#FFF3D0" stroke="#1F1B3A" stroke-width="2.5"/><circle cx="292" cy="54" r="19" fill="#2A2766"/>')
+win.append('</g><g class="sec" data-sec="moon"><circle cx="280" cy="60" r="22" fill="#FFF3D0" stroke="#1F1B3A" stroke-width="2.5"/><circle cx="292" cy="54" r="19" fill="#2A2766"/></g>')
 win.append('<rect id="skyDay" x="0" y="0" width="360" height="250" fill="url(#skyD)"/>')
 win.append('<g id="sun"><circle cx="90" cy="70" r="30" fill="#FFD36E" stroke="#1F1B3A" stroke-width="2.5"/><path d="M200 90 q10 -22 32 -12 q14 -16 30 0 q20 2 14 20 h-74 q-14 -4 -2 -8Z" fill="#fff" stroke="#1F1B3A" stroke-width="2.5"/></g>')
 win.append('<path d="M0 250 V170 q20 -30 46 -10 q10 -36 44 -22 q26 -24 46 8 q22 -6 26 18 q10 20 -6 36 V250Z" fill="#4FB86A" stroke="#1F1B3A" stroke-width="3"/><path d="M40 210 q14 -10 26 0 M100 196 q12 -8 22 2" stroke="#2F8C4A" stroke-width="3" fill="none"/>')
+win.append('<rect id="skyGold" x="0" y="0" width="360" height="250" fill="url(#skyG)" opacity="0"/>')
+import random as _r
+_rr=_r.Random(5)
+win.append('<clipPath id="wClip"><rect x="0" y="0" width="360" height="250"/></clipPath><g clip-path="url(#wClip)"><g id="wRain" style="display:none">'
+  + "".join(f'<path class="rainl" d="M{_rr.uniform(0,360):.0f} -30 l-6 26" style="animation-delay:{-_rr.uniform(0,.7):.2f}s;animation-duration:{_rr.uniform(.45,.75):.2f}s"/>' for _ in range(46))
+  + '</g><g id="wSnow" style="display:none">'
+  + "".join(f'<circle class="snowf" cx="{_rr.uniform(0,360):.0f}" cy="-10" r="{_rr.uniform(1.6,3.4):.1f}" style="animation-delay:{-_rr.uniform(0,7):.2f}s;animation-duration:{_rr.uniform(5,9):.1f}s"/>' for _ in range(40))
+  + '</g></g>')
 win.append(f'<rect x="0" y="0" width="360" height="250" fill="none" stroke="{INK}" stroke-width="20"/><rect x="0" y="0" width="360" height="250" fill="none" stroke="#FFFDF6" stroke-width="13"/>')
 win.append(f'<path d="M180 0 V250 M0 125 H360" stroke="{INK}" stroke-width="12"/><path d="M180 0 V250 M0 125 H360" stroke="#FFFDF6" stroke-width="6"/>')
 win.append('<path d="M40 20 l40 60 M60 20 l30 44 M220 140 l40 60" stroke="#ffffff88" stroke-width="5" stroke-linecap="round"/>')
@@ -72,7 +80,7 @@ def curtain():
     s = rect(0, 0, 58, 420, C["lilT"])
     s += f'<path d="M14 8 V412 M30 8 V412 M44 8 V412" stroke="{C["lilS"]}" stroke-width="3"/>'
     return s
-window_svg += g(mX(0, 704, 534), curtain()) + g(mX(0, 286, 534), curtain())
+window_svg += g(mX(0, 704, 534), curtain()) + '<g class="sec" data-sec="curtain">' + g(mX(0, 286, 534), curtain()) + '</g>'
 window_svg += g(mX(0, 712, 540), f'<rect x="0" y="-5" width="500" height="10" rx="5" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="0" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/><circle cx="500" cy="0" r="9" fill="{C["yellow"]}" stroke="{INK}" stroke-width="3"/>')
 add(f'<g class="hot" data-toggle="win">{window_svg}</g>')
 
@@ -101,7 +109,7 @@ mix = (rect(0, 0, 70, 90, C["yellow"]) + f'<rect x="10" y="22" width="50" height
 add(g(mX(0, 66, 350), mix))
 for (yy, zz, rot, col) in [(62, 236, -6, C["sky"]), (118, 220, 5, C["mint"])]:
     add(g(mX(0, yy, zz), f'<g transform="rotate({rot} 24 28)">' + rect(0, 0, 48, 56, "#FFFDF6", 2.5) + rect(5, 5, 38, 36, col, 2) + '</g>'))
-add(g(mX(0, 250, 528), '<text class="neon" x="10" y="40">dee\'s room</text>'))
+add(g(mX(0, 250, 528), '<text class="neon sec" data-sec="neon" x="10" y="40">dee\'s room</text>'))
 
 # ---------- string lights on the back wall ----------
 def qbez(p0, p1, p2, t): return ((1-t)**2*p0[0] + 2*(1-t)*t*p1[0] + t*t*p2[0], (1-t)**2*p0[1] + 2*(1-t)*t*p1[1] + t*t*p2[1])
@@ -113,7 +121,7 @@ for s in segs:
     for i in range(1, 12):
         x, y = qbez(*s, i/12); c = cols[k % 5]; k += 1
         bul.append(f'<circle class="twinkle glowb" cx="{f(x)}" cy="{f(y+10)}" r="15" fill="{c}" opacity=".35" style="animation-delay:{-(k*.37)%3:.2f}s"/>')
-        bul.append(f'<ellipse cx="{f(x)}" cy="{f(y+10)}" rx="5" ry="7.5" fill="{c}" stroke="{INK}" stroke-width="2"/>')
+        bul.append(f'<ellipse class="bulb" cx="{f(x)}" cy="{f(y+10)}" rx="5" ry="7.5" fill="{c}" stroke="{INK}" stroke-width="2"/>')
 add(g(mY(2, 0, 548), "".join(bul)))
 
 # ---------- toy car shelf above the bed ----------
@@ -141,11 +149,22 @@ for k, x in [("f40", 680), ("r34", 772), ("e30", 864)]:
 mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" stroke="{INK}" stroke-width="3"/>'
        f'<rect x="12" y="12" width="176" height="116" rx="14" fill="url(#mirG)" stroke="{INK}" stroke-width="2.5"/>'
        '<path d="M24 26 L58 19 M24 40 L82 27" stroke="#ffffffcc" stroke-width="5" stroke-linecap="round"/>'
-       # yellow sticky: horses
-       f'<g transform="rotate(-6 54 82)"><rect x="22" y="52" width="66" height="60" fill="#FFE6A8" stroke="{INK}" stroke-width="2"/>'
-       '<rect x="44" y="47" width="22" height="9" fill="#ffffffaa"/>'
-       '<text font-family="Patrick Hand, cursive" font-size="10.5" fill="#1F1B3A" text-anchor="middle"><tspan x="55" y="68">horses don\'t</tspan><tspan x="55" y="81">stop, they</tspan><tspan x="55" y="94">keep going</tspan></text>'
-       f'<path d="M40 101 q4 -6 8 0 q4 6 8 0" stroke="{INK}" stroke-width="1.4" fill="none"/></g>'
+       # yellow sticky: horses (top left)
+       f'<g transform="rotate(-6 52 44)"><rect x="22" y="18" width="62" height="52" fill="#FFE6A8" stroke="{INK}" stroke-width="2"/>'
+       '<rect x="42" y="13" width="22" height="9" fill="#ffffffaa"/>'
+       '<text font-family="Patrick Hand, cursive" font-size="10" fill="#1F1B3A" text-anchor="middle"><tspan x="53" y="33">horses don\'t</tspan><tspan x="53" y="45">stop, they</tspan><tspan x="53" y="57">keep going</tspan></text>'
+       f'<path d="M40 64 q4 -6 8 0 q4 6 8 0" stroke="{INK}" stroke-width="1.4" fill="none"/></g>'
+       # to-do list, tucked into the bottom-left of the frame
+       f'<g transform="rotate(3 40 112)"><rect x="-8" y="74" width="98" height="76" fill="#FFFDF6" stroke="{INK}" stroke-width="2"/>'
+       '<g stroke="#9FC2F0" stroke-width=".8">' + "".join(f'<path d="M-6 {y} H88"/>' for y in (96, 109, 122, 135)) + '</g>'
+       '<path d="M4 75 V149" stroke="#F49AB5" stroke-width=".9"/>'
+       '<rect x="30" y="69" width="24" height="9" fill="#ffffffaa"/>'
+       '<text x="8" y="89" font-family="Permanent Marker, Patrick Hand, cursive" font-size="10" fill="#1F1B3A">to do:</text>'
+       f'<g fill="none" stroke="{INK}" stroke-width="1.1"><rect x="7" y="99.5" width="5" height="5"/><rect x="7" y="112.5" width="5" height="5"/><rect x="7" y="125.5" width="5" height="5"/></g>'
+       f'<path d="M7.5 114.5 l2 2.5 4 -6" stroke="#E8577E" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+       '<text font-family="Patrick Hand, cursive" font-size="8.2" fill="#1F1B3A"><tspan x="15" y="105">tell Nicole I love her</tspan><tspan x="15" y="118">water plant</tspan><tspan x="15" y="131">punch a bigot in</tspan><tspan x="15" y="143">the guts</tspan></text>'
+       f'<path d="M15 115 H56" stroke="{INK}" stroke-width="1"/>'
+       f'<path d="M78 136 c-3 -4 -8 -1 -4 3 l4 4 4 -4 c4 -4 -1 -7 -4 -3z" fill="#FF6FAE" stroke="{INK}" stroke-width=".9"/></g>'
        # pink note: kyk noord, fok voort
        f'<g transform="rotate(7 132 46)"><rect x="102" y="20" width="60" height="50" fill="#FFC1D3" stroke="{INK}" stroke-width="2"/>'
        '<rect x="122" y="15" width="20" height="8" fill="#ffffffaa"/>'
@@ -157,7 +176,7 @@ mir = (f'<rect x="0" y="0" width="200" height="140" rx="22" fill="#FF8FC2" strok
        '<text font-family="DM Sans, Arial, sans-serif" fill="#1F1B3A"><tspan x="108" y="93" font-size="5" font-weight="700" letter-spacing=".6">ADMIT ONE</tspan><tspan x="108" y="104" font-size="8.5" font-weight="800">WHITE</tspan><tspan x="108" y="113" font-size="8.5" font-weight="800">CHICKS</tspan></text>'
        '<text x="167" y="100" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="5" font-weight="700" fill="#1F1B3A" transform="rotate(-90 167 100)">2004</text></g>'
        # a couple of stickers
-       f'<g stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"><path d="M96 120 l3 -8 3 8 -8 -5 h10Z" fill="#F8D65A"/><path d="M92 24 l2.5 -6 2.5 6 -6 -4 h7Z" fill="#8FD3F5"/></g>')
+       f'<g stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"><path d="M96 124 l3 -8 3 8 -8 -5 h10Z" fill="#F8D65A"/><path d="M92 24 l2.5 -6 2.5 6 -6 -4 h7Z" fill="#8FD3F5"/></g>')
 board_svg = g(mY(1, 330, 486), mir)
 
 # glow-in-the-dark stars above the nightstand
@@ -204,7 +223,7 @@ plant = (f'<path d="M-20 0 l-4 -34 h48 l-4 34Z" fill="{C["coral"]}" stroke="{INK
          f'<path d="M-6 -42 c-30 -10 -40 -40 -30 -60 c20 6 30 30 30 60 M4 -42 c0 -30 10 -54 28 -62 c6 26 -6 46 -28 62 M0 -42 c-4 -30 -2 -56 6 -70 c10 20 6 46 -6 70" fill="{C["mint"]}" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
          f'<path d="M-20 -30 c-10 30 -16 60 -12 100" stroke="{INK}" stroke-width="5" fill="none"/><path d="M-20 -30 c-10 30 -16 60 -12 100" stroke="#4FB86A" stroke-width="2.5" fill="none"/>'
          + "".join(f'<ellipse cx="{x}" cy="{y}" rx="8" ry="5" transform="rotate({r} {x} {y})" fill="{C["mint"]}" stroke="{INK}" stroke-width="2"/>' for x, y, r in [(-28, 0, 50), (-32, 30, 70), (-30, 60, 80)]))
-bs.append(g(at(80, 36, 470), plant))
+bs.append('<g class="sec" data-sec="plant">' + g(at(80, 36, 470), plant) + '</g>')
 add(f'<g class="hot" data-go="books">{"".join(bs)}</g>')
 
 # ---------- record cabinet, record player, wall shelf with sleeves ----------
@@ -343,7 +362,7 @@ add(ch)
 
 # ---------- old-school TV on a cabinet next to the desk ----------
 tv = box(6, 702, 0, 124, 112, 60, C["woodT"], C["woodF"], C["woodS"])
-tv += g(mY(814, 6, 60), rect(10, 8, 104, 44, C["woodT"], 2.5) + f'<rect x="54" y="26" width="16" height="6" rx="3" fill="{INK}"/>')
+tv += '<g class="sec" data-sec="cabinet">' + g(mY(814, 6, 60), rect(10, 8, 104, 44, C["woodT"], 2.5) + f'<rect x="54" y="26" width="16" height="6" rx="3" fill="{INK}"/>') + '</g>'
 tapes = "".join(rect(10 + i * 18, 10, 15, 42, ["#3B3550", "#2A2440", "#3B3550", "#2A2440", "#3B3550"][i], 2) + f'<rect x="{12 + i * 18}" y="16" width="11" height="14" fill="{[C["yellow"], C["pink"], C["sky"], C["mint"], C["coral"]][i]}"/>' for i in range(5))
 tv += g(mX(130, 814, 60), rect(6, 6, 100, 48, "#2A2440", 2.5))
 tv += box(14, 712, 60, 104, 94, 98, "#EAE3D3", "#D9D0BC", "#C7BCA4")
@@ -438,6 +457,28 @@ bed += g(mY(468, 668, 110.5), fq)
 sq = "".join(f'<rect x="{j*53.5}" y="0" width="53.5" height="66" fill="{"#1F1B3A" if (6+j)%2 else "#FFFBF2"}"/>' for j in range(6)) + f'<g stroke="#8E87A3" stroke-width="2" stroke-dasharray="5 4">' + "".join(f'<path d="M{j*53.5} 0 V66"/>' for j in range(1, 6)) + '</g>' + rect(0, 0, 321, 66, "none")
 bed += g(mX(955, 468, 110.5), sq)
 add(bed)
+_c = [P(712, 474, 0), P(756, 474, 0), P(756, 486, 0), P(712, 486, 0)]
+add('<g class="sec" data-sec="bed">' + poly([(712, 470, 0), (752, 470, 0), (752, 488, 0), (712, 488, 0)], "#3B3550", 2.5)
+    + poly([(718, 476, 0.4), (746, 476, 0.4), (746, 482, 0.4), (718, 482, 0.4)], "#FF6FAE", 1.5) + '</g>')
+
+# seasonal props (shown by the page on the right dates)
+_tx, _ty = P(300, 160, 0)
+add(f'<g id="sXmas" style="display:none" transform="translate({f(_tx)} {f(_ty)})">'
+    f'<rect x="-8" y="-14" width="16" height="14" fill="#8C5A33" stroke="{INK}" stroke-width="2.5"/>'
+    f'<path d="M0 -110 L34 -50 H18 L42 -14 H-42 L-18 -50 H-34Z" fill="#2E9C5A" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/>'
+    f'<path d="M0 -122 l4 9 10 1 -8 6 3 10 -9 -6 -9 6 3 -10 -8 -6 10 -1Z" fill="#F8D65A" stroke="{INK}" stroke-width="1.8"/>'
+    + "".join(f'<circle cx="{x}" cy="{y}" r="4" fill="{c}" stroke="{INK}" stroke-width="1.5"/>' for x, y, c in [(-14, -60, "#F2543D"), (10, -78, "#5B9BFF"), (18, -30, "#FF6FAE"), (-22, -26, "#F8D65A"), (4, -44, "#F2543D")])
+    + '</g>')
+_px, _py = P(578, 58, 112)
+add(f'<g id="sHallo" style="display:none" transform="translate({f(_px)} {f(_py)})">'
+    f'<ellipse cx="0" cy="-12" rx="17" ry="13" fill="#FF8A2A" stroke="{INK}" stroke-width="2.5"/><path d="M-6 -24 q-2 12 0 24 M6 -24 q2 12 0 24" stroke="#C25E14" stroke-width="2" fill="none"/>'
+    f'<path d="M0 -25 q1 -7 6 -9" stroke="#2E9C5A" stroke-width="3" fill="none" stroke-linecap="round"/>'
+    f'<path d="M-10 -15 l4 -4 4 4Z M3 -15 l4 -4 4 4Z" fill="#FFE27A"/><path d="M-9 -6 q9 6 18 0 l-3 2 -3 -2 -3 2 -3 -2 -3 2Z" fill="#FFE27A"/></g>')
+_flags = "".join(
+    f'<path d="M{18+i*21} 0 l18 0 -9 22Z" fill="{["#FF6FAE","#F8D65A","#5B9BFF","#7FDBA8","#F2543D"][i%5]}" stroke="{INK}" stroke-width="1.6" stroke-linejoin="round"/>'
+    f'<text x="{27+i*21}" y="12" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="9" fill="#1F1B3A">{ch}</text>'
+    for i, ch in enumerate("HAPPY BDAY DEE") if ch != " " or True)
+add('<g id="sBday" style="display:none">' + g(mY(21, 662, 236), f'<path d="M10 0 Q150 12 296 0" fill="none" stroke="{INK}" stroke-width="2"/>' + _flags) + '</g>')
 
 # y2k scatter cushions
 def cush(x, y, inner):
@@ -538,6 +579,7 @@ add(G)
 
 # ---------- the cats ----------
 ax, ay = P(800, 250, 112)
+add('<g id="miataPos">')
 add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(ax)} {f(ay)}) scale(.74)"><g class="breathe">
 <ellipse cx="0" cy="0" rx="74" ry="36" fill="#F09A3E" stroke="{INK}" stroke-width="3.5"/>
 <g stroke="#B85C1A" stroke-width="5" fill="none" stroke-linecap="round"><path d="M-12 -34 q7 14 0 26"/><path d="M8 -35 q7 14 0 26"/><path d="M28 -31 q7 12 0 22"/><path d="M46 -24 q6 10 0 18"/></g>
@@ -545,6 +587,7 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <g stroke="#B85C1A" stroke-width="4"><path d="M40 30 v10"/><path d="M14 33 v10"/><path d="M-14 31 v10"/></g></g>
 <ellipse cx="-28" cy="30" rx="13" ry="7" fill="#FFF4DE" stroke="{INK}" stroke-width="2.5"/>
 <g class="head">
+<g class="bdayhat"><path d="M-74 -30 L-46 -36 L-64 -70Z" fill="#FF6FAE" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/><path d="M-70 -38 L-52 -42 M-67 -50 L-56 -52" stroke="#F8D65A" stroke-width="3"/><circle cx="-64" cy="-72" r="5" fill="#F8D65A" stroke="{INK}" stroke-width="2"/></g>
 <path d="M-84 -10 L-80 -44 L-58 -24 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-80 -16 L-78 -34 L-66 -24 Z" fill="#F6B7C4"/>
 <path d="M-52 -26 L-42 -36 L-38 -33 L-34 -36 L-30 -14 Z" fill="#F7A54E" stroke="{INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-47 -24 L-41 -31 L-37 -29 L-34 -31 L-33 -18 Z" fill="#F6B7C4"/>
 <circle cx="-58" cy="2" r="29" fill="#F7A54E" stroke="{INK}" stroke-width="3.5"/>
@@ -568,9 +611,10 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 <g class="streaks"><path d="M-96 -42 Q-134 -24 -128 18"/><path d="M-110 -40 Q-146 -18 -138 22"/><path d="M-124 -34 Q-156 -10 -146 26"/></g>
 </g></g></g>""")
 add(f'<text class="zz" x="{f(ax-60)}" y="{f(ay-44)}" font-size="20">z</text><text class="zz" x="{f(ax-48)}" y="{f(ay-54)}" font-size="15">z</text>')
+add('</g>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
-add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
+add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g class="supz"><text class="zz" x="30" y="-70" font-size="18">z</text><text class="zz" x="42" y="-80" font-size="13">z</text></g><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.9)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">
 <g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
@@ -588,7 +632,7 @@ add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" c
 <clipPath id="calHead"><circle cx="54" cy="-58" r="19"/></clipPath>
 <g clip-path="url(#calHead)"><path d="M34 -80 L52 -78 L48 -62 C42 -60 36 -64 34 -70Z" fill="{B}"/><path d="M58 -80 C60 -66 66 -60 76 -62 L76 -80Z" fill="{O}"/></g>
 <circle cx="54" cy="-58" r="19" fill="none" stroke="{INK}" stroke-width="3.5"/>
-<circle cx="50" cy="-61" r="3" fill="{INK}"/><circle cx="64" cy="-61" r="3" fill="{INK}"/><circle cx="51" cy="-62" r="1" fill="#fff"/><circle cx="65" cy="-62" r="1" fill="#fff"/>
+<g class="eyeo"><circle cx="50" cy="-61" r="3" fill="{INK}"/><circle cx="64" cy="-61" r="3" fill="{INK}"/><circle cx="51" cy="-62" r="1" fill="#fff"/><circle cx="65" cy="-62" r="1" fill="#fff"/></g><g class="eyec" stroke="{INK}" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M46 -61 q4 3 8 0 M60 -61 q4 3 8 0"/></g>
 <path d="M54 -54 h6 l-3 4Z" fill="#E8577E" stroke="{INK}" stroke-width="1.2"/>
 <path d="M57 -50 q-3 4 -7 2 M57 -50 q3 4 7 2" stroke="{INK}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
 <g stroke="{INK}" stroke-width="1.3"><path d="M46 -52 l-16 -2 M46 -50 l-16 3 M68 -52 l16 -2 M68 -50 l16 3"/></g>
@@ -598,6 +642,7 @@ add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" c
 gx, gy = lamp_x, lamp_y - 90
 lvx, lvy = P(512, 50, 175)
 lpx, lpy = P(30, 444, 225)
+add('<rect id="goldTint" x="-50" y="-50" width="1700" height="1100" fill="#FF9F4A" style="mix-blend-mode:soft-light;pointer-events:none" opacity="0"/>')
 add('<rect id="nightTint" x="-50" y="-50" width="1700" height="1100" fill="#1B1442" style="mix-blend-mode:multiply;pointer-events:none" opacity=".16"/>')
 add(f'<g style="pointer-events:none"><circle id="lampGlow" class="glow" cx="{f(gx)}" cy="{f(gy)}" r="320" fill="url(#warm)"/>'
     f'<circle id="lavaGlow" class="glow" cx="{f(lvx)}" cy="{f(lvy)}" r="80" fill="url(#lavaGlowG)" opacity=".8"/><circle class="glow" cx="{f(lpx)}" cy="{f(lpy)}" r="110" fill="url(#blueG)" opacity=".7"/>'
@@ -612,6 +657,7 @@ DEFS = f'''<defs>
 <linearGradient id="mirG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEBFA"/><stop offset=".5" stop-color="#B9CDF0"/><stop offset="1" stop-color="#E6D7F7"/></linearGradient>
 <linearGradient id="lavaG" x1="0" y1="0" x2="0" y2="1"><stop id="lava0" offset="0" stop-color="#FFB36E"/><stop id="lava1" offset="1" stop-color="#FF5C8A"/></linearGradient>
 <linearGradient id="beamG" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFF6D8" stop-opacity=".6"/><stop offset="1" stop-color="#FFF6D8" stop-opacity=".06"/></linearGradient>
+<linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9F6E"/><stop offset=".6" stop-color="#FFC878"/><stop offset="1" stop-color="#FFE2A8"/></linearGradient>
 <radialGradient id="warm"><stop offset="0" stop-color="#FFC870" stop-opacity=".75"/><stop offset=".45" stop-color="#FF9F4A" stop-opacity=".25"/><stop offset="1" stop-color="#FF9F4A" stop-opacity="0"/></radialGradient>
 <radialGradient id="lavaGlowG"><stop id="lavaGlowStop" offset="0" stop-color="#FF7A8A" stop-opacity=".75"/><stop offset="1" stop-color="#FF7A8A" stop-opacity="0"/></radialGradient>
 <radialGradient id="pinkG"><stop offset="0" stop-color="#FF7A8A" stop-opacity=".7"/><stop offset="1" stop-color="#FF7A8A" stop-opacity="0"/></radialGradient>
