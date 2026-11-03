@@ -87,20 +87,12 @@ add(f'<g transform="translate({f(ash_x)} {f(ash_y)})">'
     f'<g class="smoke" transform="translate(21 -12)"><path d="M0 0 q-6 -10 2 -20 q7 -10 -1 -22"/><path d="M0 0 q6 -12 -2 -22 q-6 -9 2 -20"/><path d="M0 0 q-4 -9 3 -18 q5 -8 -2 -18"/></g>'
     '</g>')
 
-poster = (rect(0, 0, 150, 200, "#1F1B3A")
-          + '<path d="M0 200 L0 150 q10 -26 18 -4 q8 -34 20 -6 q10 -30 22 -2 q8 -28 20 0 q10 -36 22 -4 q8 -24 18 2 q10 -28 18 -6 L150 200Z" fill="#F2543D"/>'
-          + '<path d="M0 200 L0 166 q12 -16 20 0 q10 -22 22 0 q10 -18 22 2 q10 -20 22 0 q10 -22 22 0 q10 -16 20 2 q8 -14 14 -4 L150 200Z" fill="#FF9F1C"/>'
-          + f'<g stroke="{INK}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">'
-          + '<path d="M62 120 l-22 18 l10 14 M88 120 l20 10 l-6 18" fill="none" stroke="#C9C1D6" stroke-width="9"/>'
-          + '<path d="M60 84 h32 l6 40 h-44Z" fill="#7FDBA8"/>'
-          + '<path d="M62 90 l-26 -22 M90 90 l20 -26" fill="none" stroke="#F4C4A1" stroke-width="7"/>'
-          + '<circle cx="112" cy="60" r="5" fill="#9C97AA"/><path d="M112 65 l-6 10" stroke-width="2"/>'
-          + '<circle cx="76" cy="70" r="13" fill="#F4C4A1"/><path d="M63 66 q13 -20 26 0 v-6 q-13 -12 -26 0Z" fill="#2B2733"/>'
-          + '<path d="M70 76 q6 4 12 0" fill="none"/></g>'
-          + '<text x="75" y="30" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="25" fill="#E6E3DE" stroke="#1F1B3A" stroke-width="1" letter-spacing="1" transform="skewX(-8)">DRYWALL</text>'
-          + '<text x="75" y="52" text-anchor="middle" font-family="Oswald, Impact, sans-serif" font-weight="700" font-size="20" fill="#F2543D" letter-spacing="4" transform="skewX(-8)">PUNCH</text>'
-          + '<text x="75" y="192" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="9" fill="#1F1B3A">LIVE · SUMMER 1999</text>'
-          '<rect x="-8" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(-20)"/><rect x="128" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(20 143 0)"/>')
+import base64
+POSTER_IMG = base64.b64encode((pathlib.Path(__file__).parent / "poster.jpg").read_bytes()).decode()
+poster = (rect(0, 0, 150, 200, "#FFFDF6")
+          + f'<image href="data:image/jpeg;base64,{POSTER_IMG}" x="5" y="5" width="140" height="190" preserveAspectRatio="xMidYMid slice"/>'
+          + rect(0, 0, 150, 200, "none")
+          + '<rect x="-8" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(-20)"/><rect x="128" y="-6" width="30" height="12" fill="#ffffffaa" transform="rotate(20 143 0)"/>')
 add(g(mX(0, 236, 430), poster))
 mix = (rect(0, 0, 70, 90, C["yellow"]) + f'<rect x="10" y="22" width="50" height="32" rx="4" fill="{C["cream"]}" stroke="{INK}" stroke-width="2.5"/><circle cx="25" cy="38" r="7" fill="{INK}"/><circle cx="45" cy="38" r="7" fill="{INK}"/>'
        f'<text x="35" y="78" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="12" fill="{INK}">MIX VOL.2</text>')
@@ -455,7 +447,7 @@ add(f"""<g id="catA" class="hot cat" data-cat="catA"><g transform="translate({f(
 add(f'<text class="zz" x="{f(ax-50)}" y="{f(ay-36)}" font-size="18">z</text><text class="zz" x="{f(ax-40)}" y="{f(ay-44)}" font-size="13">z</text>')
 cx_, cy_ = P(280, 560, 0)
 O, B, W = "#F0923A", "#2B2733", "#FFFBF2"
-add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.62)">
+add(f"""<g id="supraPos" transform="translate({f(cx_)} {f(cy_)})"><g id="catB" class="hot cat" data-cat="catB"><g class="flip"><g transform="scale(.82)">
 <ellipse cx="0" cy="2" rx="52" ry="8" fill="#1F1B3A" opacity=".18"/>
 <g class="walker"><g class="breathe">
 <g class="tail"><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 -40 C-62 -46 -70 -70 -58 -90" stroke="{O}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M-62 -76 C-64 -84 -61 -88 -58 -90" stroke="{B}" stroke-width="8" fill="none" stroke-linecap="round"/></g>
