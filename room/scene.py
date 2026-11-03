@@ -277,11 +277,21 @@ dk = box(0, 262, 0, 140, 14, 162, C["woodT"], C["woodF"], C["woodS"])
 dk += box(0, 600, 0, 140, 80, 162, C["woodT"], C["woodF"], C["woodS"])
 dk += g(mX(140, 680, 150), rect(8, 8, 64, 60, C["woodT"], 2.5) + rect(8, 76, 64, 64, C["woodT"], 2.5) + f'<rect x="30" y="34" width="20" height="6" rx="3" fill="{INK}"/><rect x="30" y="104" width="20" height="6" rx="3" fill="{INK}"/>')
 dk += box(0, 250, 162, 156, 440, 14, C["woodT"], C["woodF"], C["woodS"])
-dk += box(30, 560, 176, 70, 50, 8, C["pink"], "#E96BA2", "#D2558C", 2.5) + box(34, 564, 184, 62, 44, 8, C["cream"], "#EFE2C8", "#DCCCAE", 2.5)
 mug = (f'<path d="M-12 0 v-28 h24 v28 q0 4 -4 4 h-16 q-4 0 -4 -4Z" fill="{C["teal"]}" stroke="{INK}" stroke-width="3"/><path d="M12 -22 q12 0 10 10 q-2 8 -10 6" stroke="{INK}" stroke-width="3" fill="none"/>'
        f'<g class="steam" stroke="#FFFDF6" stroke-width="3" fill="none" stroke-linecap="round"><path d="M-4 -34 q-6 -10 2 -18 q6 -8 0 -16"/><path d="M6 -34 q6 -10 -2 -18 q-6 -8 0 -16"/></g>')
 dk += g(at(70, 320, 176), mug)
 add(dk)
+
+# open notebook on the desk (click to read it)
+nb = (f'<rect x="-4" y="-3" width="104" height="106" rx="4" fill="#F2543D" stroke="{INK}" stroke-width="2.5"/>'
+      f'<rect x="0" y="0" width="96" height="48" fill="#FFFBF2" stroke="{INK}" stroke-width="2"/>'
+      f'<rect x="0" y="52" width="96" height="48" fill="#FFFBF2" stroke="{INK}" stroke-width="2"/>'
+      + "".join(f'<path d="M6 {y} H90" stroke="#9DB4F0" stroke-width=".9"/>' for y in list(range(10, 48, 7)) + list(range(60, 100, 7)))
+      + '<path d="M14 2 V46 M14 54 V98" stroke="#F2A0A0" stroke-width=".9"/>'
+      + "".join(f'<circle cx="{x}" cy="50" r="2.4" fill="none" stroke="{INK}" stroke-width="1.6"/>' for x in range(8, 96, 8))
+      + '<path d="M20 15 q8 -3 16 0 t16 0 M20 22 q10 -2 24 0 M20 29 q6 -3 12 0" stroke="#5B5470" stroke-width="1.1" fill="none" stroke-linecap="round"/>'
+      + '<g class="nbtext"><text font-family="Permanent Marker, Marker Felt, Comic Sans MS, cursive" font-size="11.5" fill="#141118"><tspan x="6" y="68">nosy little fucker,</tspan><tspan x="6" y="82">aren\'t you?</tspan></text></g>')
+add('<g id="notebook" class="hot" data-toggle="notebook">' + g(mZ(176.5, 12, 514), nb) + '</g>')
 
 # three candles on the desk (click to light / blow out)
 def candle(x, y, h, w, col, top):
@@ -297,9 +307,9 @@ def candle(x, y, h, w, col, top):
             f'<path d="M{-w*.5} {-h+3} q2 {h*.3} 0 {h*.45}" stroke="{top}" stroke-width="3" fill="none" stroke-linecap="round"/>'
             f'<path d="M0 {-h} v-6" stroke="{INK}" stroke-width="2" stroke-linecap="round"/>{fl}</g>')
 add('<g id="candles" class="hot" data-toggle="candles">'
-    + candle(60, 642, 46, 10, "#FF8FC2", "#FFC1D9")
-    + candle(96, 668, 30, 12, "#B39BFF", "#D6C9FF")
-    + candle(48, 690, 20, 9, "#FFF4DE", "#FFFFFF") + '</g>')
+    + candle(118, 692, 46, 10, "#FF8FC2", "#FFC1D9")
+    + candle(146, 672, 30, 12, "#B39BFF", "#D6C9FF")
+    + candle(138, 650, 20, 9, "#FFF4DE", "#FFFFFF") + '</g>')
 TAN, TANF, TANS = "#FF9A3A", "#FF8A2A", "#E8761C"
 lt = box(30, 384, 176, 82, 124, 12, "#F7F2EA", TANF, TANS, 2.5)
 lt += g(mZ(188, 40, 396), rect(0, 0, 30, 100, "#E9E3D8", 2) + "".join(f'<path d="M{x} 3 V97" stroke="#BDB5A6" stroke-width="1.2"/>' for x in (8, 15, 22)) + "".join(f'<path d="M3 {y} H27" stroke="#BDB5A6" stroke-width="1.2"/>' for y in range(12, 100, 11)))
