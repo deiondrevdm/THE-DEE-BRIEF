@@ -270,6 +270,8 @@ button{font:inherit;color:inherit}
 .panel.full #v-laptop{flex:1;min-height:0;display:flex;flex-direction:column}
 .panel.full .os{flex:1;min-height:0;display:flex;flex-direction:column}
 .panel.full .desk{flex:1;height:auto}
+.panel.bare .phead{position:absolute;right:4px;top:4px;padding:0;z-index:5}.panel.bare .phead>div{display:none}
+.panel.bare .pbody{padding-top:16px}
 .panel.full #v-screen{flex:1;min-height:0;display:flex}
 .panel.full .tvset{flex:1;min-height:0;grid-template-columns:minmax(0,1fr) 190px;align-items:center}
 .panel.full .tvscr{aspect-ratio:auto;height:100%;max-height:100%}
@@ -332,7 +334,7 @@ button{font:inherit;color:inherit}
 .tags{display:flex;gap:6px;margin-bottom:8px}.tags span{font-family:var(--type);font-size:11px;border:1px solid var(--ink);padding:1px 7px;border-radius:999px}
 .wk-top{font-family:"IM Fell English",Georgia,serif;font-style:italic;font-size:18px;margin:0 0 12px;max-width:62ch}
 .wk{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.wk li{display:grid;grid-template-columns:86px minmax(0,1fr);gap:12px}
+.wk li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px}
 .wk .ty{font-family:var(--pixel);font-size:18px;background:var(--c);border:3px solid var(--ink);text-align:center;align-self:start;padding:0 4px}
 .wk b{font-weight:600}.wk .by{font-family:var(--type);font-size:12px;color:var(--muted)}
 .wk p{margin:2px 0 0;font-size:15px}
@@ -476,7 +478,7 @@ const ROOMS={
   records:{t:"Records",s:"Pick a sleeve, drop the needle. It keeps playing while you walk around the room."},
   screen:{t:"The TV",s:"What I've been watching."},
   games:{t:"What I've been playing",s:"Pick a game for my take and some gameplay."},
-  laptop:{t:"The old Mac",s:"Still boots. My writing lives in the folder."}
+  laptop:{t:"",s:""}
 };
 const TIPS={books:["the bookshelf","what I've been reading"],records:["the record player","playlists"],screen:["the TV","what I've been watching"],lava:["the lava lamp","click to change colour"],mirror:["the mirror","read the notes"],girl:["don't bother her","she's listening to Phil Collins"],ash:["the ashtray","say hi"],f40:["Ferrari F40","1:18, do not touch"],r34:["Nissan Skyline GT-R R34","1:18, do not touch"],e30:["BMW E30","1:18, do not touch"],laptop:["the old Mac","writing & notes"],games:["the controller","what I've been playing"],lamp:["the lamp","on / off"],win:["the window","day / night"]};
 
@@ -717,7 +719,7 @@ function open(id){
   const bb=(document.querySelector(`#room [data-zoom="${id}"]`)||document.querySelector(`#room [data-go="${id}"]`)).getBBox();tween(fit({x:bb.x,y:bb.y,w:bb.width,h:bb.height}),900,()=>{
     $("#pTitle").textContent=R.t;$("#pSub").textContent=R.s;
     document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="v-"+id);
-    const p=$("#panel");p.classList.toggle("full",id==="laptop"||id==="screen");p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
+    const p=$("#panel");p.classList.toggle("full",id==="laptop"||id==="screen");p.classList.toggle("bare",!R.t);p.hidden=false;requestAnimationFrame(()=>p.classList.add("on"));$("#back").focus();
     ENTER[id]&&ENTER[id]();
   });
   if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
